@@ -67,8 +67,11 @@ export default {
       openeds:["0"],//当前打开的导航组
     }
   },
-  mounted() {
+  created() {
     this.init()
+  },
+  mounted() {
+
   },
   methods:{
     //初始化导航栏
