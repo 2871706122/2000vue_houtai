@@ -20,7 +20,7 @@ const routes = [
     path: '/mainPage',
     name: '内容区',
     component: ()=> import('@/views/MainPage.vue'),
-    redirect: '/gaiLan',
+    redirect: '/gaiLan/shuJuTongJi',
     children: [
       //概览
       {
