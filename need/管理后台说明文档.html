@@ -1,0 +1,230 @@
+<!doctype html>
+<html>
+<head>
+<meta charset='UTF-8'><meta name='viewport' content='width=device-width initial-scale=1'>
+<title>管理后台说明文档</title><style type='text/css'>html {overflow-x: initial !important;}:root { --bg-color:#ffffff; --text-color:#333333; --select-text-bg-color:#B5D6FC; --select-text-font-color:auto; --monospace:"Lucida Console",Consolas,"Courier",monospace; }
+html { font-size: 14px; background-color: var(--bg-color); color: var(--text-color); font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+body { margin: 0px; padding: 0px; height: auto; bottom: 0px; top: 0px; left: 0px; right: 0px; font-size: 1rem; line-height: 1.42857; overflow-x: hidden; background: inherit; tab-size: 4; }
+iframe { margin: auto; }
+a.url { word-break: break-all; }
+a:active, a:hover { outline: 0px; }
+.in-text-selection, ::selection { text-shadow: none; background: var(--select-text-bg-color); color: var(--select-text-font-color); }
+#write { margin: 0px auto; height: auto; width: inherit; word-break: normal; overflow-wrap: break-word; position: relative; white-space: normal; overflow-x: visible; padding-top: 40px; }
+#write.first-line-indent p { text-indent: 2em; }
+#write.first-line-indent li p, #write.first-line-indent p * { text-indent: 0px; }
+#write.first-line-indent li { margin-left: 2em; }
+.for-image #write { padding-left: 8px; padding-right: 8px; }
+body.typora-export { padding-left: 30px; padding-right: 30px; }
+.typora-export .footnote-line, .typora-export li, .typora-export p { white-space: pre-wrap; }
+@media screen and (max-width: 500px) {
+  body.typora-export { padding-left: 0px; padding-right: 0px; }
+  #write { padding-left: 20px; padding-right: 20px; }
+  .CodeMirror-sizer { margin-left: 0px !important; }
+  .CodeMirror-gutters { display: none !important; }
+}
+#write li > figure:last-child { margin-bottom: 0.5rem; }
+#write ol, #write ul { position: relative; }
+img { max-width: 100%; vertical-align: middle; }
+button, input, select, textarea { color: inherit; font: inherit; }
+input[type="checkbox"], input[type="radio"] { line-height: normal; padding: 0px; }
+*, ::after, ::before { box-sizing: border-box; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p, #write pre { width: inherit; }
+#write h1, #write h2, #write h3, #write h4, #write h5, #write h6, #write p { position: relative; }
+p { line-height: inherit; }
+h1, h2, h3, h4, h5, h6 { break-after: avoid-page; break-inside: avoid; orphans: 2; }
+p { orphans: 4; }
+h1 { font-size: 2rem; }
+h2 { font-size: 1.8rem; }
+h3 { font-size: 1.6rem; }
+h4 { font-size: 1.4rem; }
+h5 { font-size: 1.2rem; }
+h6 { font-size: 1rem; }
+.md-math-block, .md-rawblock, h1, h2, h3, h4, h5, h6, p { margin-top: 1rem; margin-bottom: 1rem; }
+.hidden { display: none; }
+.md-blockmeta { color: rgb(204, 204, 204); font-weight: 700; font-style: italic; }
+a { cursor: pointer; }
+sup.md-footnote { padding: 2px 4px; background-color: rgba(238, 238, 238, 0.7); color: rgb(85, 85, 85); border-radius: 4px; cursor: pointer; }
+sup.md-footnote a, sup.md-footnote a:hover { color: inherit; text-transform: inherit; text-decoration: inherit; }
+#write input[type="checkbox"] { cursor: pointer; width: inherit; height: inherit; }
+figure { overflow-x: auto; margin: 1.2em 0px; max-width: calc(100% + 16px); padding: 0px; }
+figure > table { margin: 0px !important; }
+tr { break-inside: avoid; break-after: auto; }
+thead { display: table-header-group; }
+table { border-collapse: collapse; border-spacing: 0px; width: 100%; overflow: auto; break-inside: auto; text-align: left; }
+table.md-table td { min-width: 32px; }
+.CodeMirror-gutters { border-right: 0px; background-color: inherit; }
+.CodeMirror-linenumber { user-select: none; }
+.CodeMirror { text-align: left; }
+.CodeMirror-placeholder { opacity: 0.3; }
+.CodeMirror pre { padding: 0px 4px; }
+.CodeMirror-lines { padding: 0px; }
+div.hr:focus { cursor: none; }
+#write pre { white-space: pre-wrap; }
+#write.fences-no-line-wrapping pre { white-space: pre; }
+#write pre.ty-contain-cm { white-space: normal; }
+.CodeMirror-gutters { margin-right: 4px; }
+.md-fences { font-size: 0.9rem; display: block; break-inside: avoid; text-align: left; overflow: visible; white-space: pre; background: inherit; position: relative !important; }
+.md-diagram-panel { width: 100%; margin-top: 10px; text-align: center; padding-top: 0px; padding-bottom: 8px; overflow-x: auto; }
+#write .md-fences.mock-cm { white-space: pre-wrap; }
+.md-fences.md-fences-with-lineno { padding-left: 0px; }
+#write.fences-no-line-wrapping .md-fences.mock-cm { white-space: pre; overflow-x: auto; }
+.md-fences.mock-cm.md-fences-with-lineno { padding-left: 8px; }
+.CodeMirror-line, twitterwidget { break-inside: avoid; }
+.footnotes { opacity: 0.8; font-size: 0.9rem; margin-top: 1em; margin-bottom: 1em; }
+.footnotes + .footnotes { margin-top: 0px; }
+.md-reset { margin: 0px; padding: 0px; border: 0px; outline: 0px; vertical-align: top; background: 0px 0px; text-decoration: none; text-shadow: none; float: none; position: static; width: auto; height: auto; white-space: nowrap; cursor: inherit; -webkit-tap-highlight-color: transparent; line-height: normal; font-weight: 400; text-align: left; box-sizing: content-box; direction: ltr; }
+li div { padding-top: 0px; }
+blockquote { margin: 1rem 0px; }
+li .mathjax-block, li p { margin: 0.5rem 0px; }
+li { margin: 0px; position: relative; }
+blockquote > :last-child { margin-bottom: 0px; }
+blockquote > :first-child, li > :first-child { margin-top: 0px; }
+.footnotes-area { color: rgb(136, 136, 136); margin-top: 0.714rem; padding-bottom: 0.143rem; white-space: normal; }
+#write .footnote-line { white-space: pre-wrap; }
+@media print {
+  body, html { border: 1px solid transparent; height: 99%; break-after: avoid; break-before: avoid; }
+  #write { margin-top: 0px; padding-top: 0px; border-color: transparent !important; }
+  .typora-export * { -webkit-print-color-adjust: exact; }
+  html.blink-to-pdf { font-size: 13px; }
+  .typora-export #write { padding-left: 32px; padding-right: 32px; padding-bottom: 0px; break-after: avoid; }
+  .typora-export #write::after { height: 0px; }
+}
+.footnote-line { margin-top: 0.714em; font-size: 0.7em; }
+a img, img a { cursor: pointer; }
+pre.md-meta-block { font-size: 0.8rem; min-height: 0.8rem; white-space: pre-wrap; background: rgb(204, 204, 204); display: block; overflow-x: hidden; }
+p > .md-image:only-child:not(.md-img-error) img, p > img:only-child { display: block; margin: auto; }
+p > .md-image:only-child { display: inline-block; width: 100%; }
+#write .MathJax_Display { margin: 0.8em 0px 0px; }
+.md-math-block { width: 100%; }
+.md-math-block:not(:empty)::after { display: none; }
+[contenteditable="true"]:active, [contenteditable="true"]:focus { outline: 0px; box-shadow: none; }
+.md-task-list-item { position: relative; list-style-type: none; }
+.task-list-item.md-task-list-item { padding-left: 0px; }
+.md-task-list-item > input { position: absolute; top: 0px; left: 0px; margin-left: -1.2em; margin-top: calc(1em - 10px); border: none; }
+.math { font-size: 1rem; }
+.md-toc { min-height: 3.58rem; position: relative; font-size: 0.9rem; border-radius: 10px; }
+.md-toc-content { position: relative; margin-left: 0px; }
+.md-toc-content::after, .md-toc::after { display: none; }
+.md-toc-item { display: block; color: rgb(65, 131, 196); }
+.md-toc-item a { text-decoration: none; }
+.md-toc-inner:hover { text-decoration: underline; }
+.md-toc-inner { display: inline-block; cursor: pointer; }
+.md-toc-h1 .md-toc-inner { margin-left: 0px; font-weight: 700; }
+.md-toc-h2 .md-toc-inner { margin-left: 2em; }
+.md-toc-h3 .md-toc-inner { margin-left: 4em; }
+.md-toc-h4 .md-toc-inner { margin-left: 6em; }
+.md-toc-h5 .md-toc-inner { margin-left: 8em; }
+.md-toc-h6 .md-toc-inner { margin-left: 10em; }
+@media screen and (max-width: 48em) {
+  .md-toc-h3 .md-toc-inner { margin-left: 3.5em; }
+  .md-toc-h4 .md-toc-inner { margin-left: 5em; }
+  .md-toc-h5 .md-toc-inner { margin-left: 6.5em; }
+  .md-toc-h6 .md-toc-inner { margin-left: 8em; }
+}
+a.md-toc-inner { font-size: inherit; font-style: inherit; font-weight: inherit; line-height: inherit; }
+.footnote-line a:not(.reversefootnote) { color: inherit; }
+.md-attr { display: none; }
+.md-fn-count::after { content: "."; }
+code, pre, samp, tt { font-family: var(--monospace); }
+kbd { margin: 0px 0.1em; padding: 0.1em 0.6em; font-size: 0.8em; color: rgb(36, 39, 41); background: rgb(255, 255, 255); border: 1px solid rgb(173, 179, 185); border-radius: 3px; box-shadow: rgba(12, 13, 14, 0.2) 0px 1px 0px, rgb(255, 255, 255) 0px 0px 0px 2px inset; white-space: nowrap; vertical-align: middle; }
+.md-comment { color: rgb(162, 127, 3); opacity: 0.8; font-family: var(--monospace); }
+code { text-align: left; vertical-align: initial; }
+a.md-print-anchor { white-space: pre !important; border-width: initial !important; border-style: none !important; border-color: initial !important; display: inline-block !important; position: absolute !important; width: 1px !important; right: 0px !important; outline: 0px !important; background: 0px 0px !important; text-decoration: initial !important; text-shadow: initial !important; }
+.md-inline-math .MathJax_SVG .noError { display: none !important; }
+.html-for-mac .inline-math-svg .MathJax_SVG { vertical-align: 0.2px; }
+.md-math-block .MathJax_SVG_Display { text-align: center; margin: 0px; position: relative; text-indent: 0px; max-width: none; max-height: none; min-height: 0px; min-width: 100%; width: auto; overflow-y: hidden; display: block !important; }
+.MathJax_SVG_Display, .md-inline-math .MathJax_SVG_Display { width: auto; margin: inherit; display: inline-block !important; }
+.MathJax_SVG .MJX-monospace { font-family: var(--monospace); }
+.MathJax_SVG .MJX-sans-serif { font-family: sans-serif; }
+.MathJax_SVG { display: inline; font-style: normal; font-weight: 400; line-height: normal; zoom: 90%; text-indent: 0px; text-align: left; text-transform: none; letter-spacing: normal; word-spacing: normal; overflow-wrap: normal; white-space: nowrap; float: none; direction: ltr; max-width: none; max-height: none; min-width: 0px; min-height: 0px; border: 0px; padding: 0px; margin: 0px; }
+.MathJax_SVG * { transition: none 0s ease 0s; }
+.MathJax_SVG_Display svg { vertical-align: middle !important; margin-bottom: 0px !important; margin-top: 0px !important; }
+.os-windows.monocolor-emoji .md-emoji { font-family: "Segoe UI Symbol", sans-serif; }
+.md-diagram-panel > svg { max-width: 100%; }
+[lang="mermaid"] svg, [lang="flow"] svg { max-width: 100%; height: auto; }
+[lang="mermaid"] .node text { font-size: 1rem; }
+table tr th { border-bottom: 0px; }
+video { max-width: 100%; display: block; margin: 0px auto; }
+iframe { max-width: 100%; width: 100%; border: none; }
+.highlight td, .highlight tr { border: 0px; }
+
+
+:root { --side-bar-bg-color: #fafafa; --control-text-color: #777; }
+html { font-size: 16px; }
+body { font-family: "Open Sans", "Clear Sans", "Helvetica Neue", Helvetica, Arial, sans-serif; color: rgb(51, 51, 51); line-height: 1.6; }
+#write { max-width: 860px; margin: 0px auto; padding: 30px 30px 100px; }
+#write > ul:first-child, #write > ol:first-child { margin-top: 30px; }
+a { color: rgb(65, 131, 196); }
+h1, h2, h3, h4, h5, h6 { position: relative; margin-top: 1rem; margin-bottom: 1rem; font-weight: bold; line-height: 1.4; cursor: text; }
+h1:hover a.anchor, h2:hover a.anchor, h3:hover a.anchor, h4:hover a.anchor, h5:hover a.anchor, h6:hover a.anchor { text-decoration: none; }
+h1 tt, h1 code { font-size: inherit; }
+h2 tt, h2 code { font-size: inherit; }
+h3 tt, h3 code { font-size: inherit; }
+h4 tt, h4 code { font-size: inherit; }
+h5 tt, h5 code { font-size: inherit; }
+h6 tt, h6 code { font-size: inherit; }
+h1 { padding-bottom: 0.3em; font-size: 2.25em; line-height: 1.2; border-bottom: 1px solid rgb(238, 238, 238); }
+h2 { padding-bottom: 0.3em; font-size: 1.75em; line-height: 1.225; border-bottom: 1px solid rgb(238, 238, 238); }
+h3 { font-size: 1.5em; line-height: 1.43; }
+h4 { font-size: 1.25em; }
+h5 { font-size: 1em; }
+h6 { font-size: 1em; color: rgb(119, 119, 119); }
+p, blockquote, ul, ol, dl, table { margin: 0.8em 0px; }
+li > ol, li > ul { margin: 0px; }
+hr { height: 2px; padding: 0px; margin: 16px 0px; background-color: rgb(231, 231, 231); border: 0px none; overflow: hidden; box-sizing: content-box; }
+li p.first { display: inline-block; }
+ul, ol { padding-left: 30px; }
+ul:first-child, ol:first-child { margin-top: 0px; }
+ul:last-child, ol:last-child { margin-bottom: 0px; }
+blockquote { border-left: 4px solid rgb(223, 226, 229); padding: 0px 15px; color: rgb(119, 119, 119); }
+blockquote blockquote { padding-right: 0px; }
+table { padding: 0px; word-break: initial; }
+table tr { border-top: 1px solid rgb(223, 226, 229); margin: 0px; padding: 0px; }
+table tr:nth-child(2n), thead { background-color: rgb(248, 248, 248); }
+table tr th { font-weight: bold; border-width: 1px 1px 0px; border-top-style: solid; border-right-style: solid; border-left-style: solid; border-top-color: rgb(223, 226, 229); border-right-color: rgb(223, 226, 229); border-left-color: rgb(223, 226, 229); border-image: initial; border-bottom-style: initial; border-bottom-color: initial; margin: 0px; padding: 6px 13px; }
+table tr td { border: 1px solid rgb(223, 226, 229); margin: 0px; padding: 6px 13px; }
+table tr th:first-child, table tr td:first-child { margin-top: 0px; }
+table tr th:last-child, table tr td:last-child { margin-bottom: 0px; }
+.CodeMirror-lines { padding-left: 4px; }
+.code-tooltip { box-shadow: rgba(0, 28, 36, 0.3) 0px 1px 1px 0px; border-top: 1px solid rgb(238, 242, 242); }
+.md-fences, code, tt { border: 1px solid rgb(231, 234, 237); background-color: rgb(248, 248, 248); border-radius: 3px; padding: 2px 4px 0px; font-size: 0.9em; }
+code { background-color: rgb(243, 244, 244); padding: 0px 2px; }
+.md-fences { margin-bottom: 15px; margin-top: 15px; padding-top: 8px; padding-bottom: 6px; }
+.md-task-list-item > input { margin-left: -1.3em; }
+@media print {
+  html { font-size: 13px; }
+  table, pre { break-inside: avoid; }
+  pre { overflow-wrap: break-word; }
+}
+.md-fences { background-color: rgb(248, 248, 248); }
+#write pre.md-meta-block { padding: 1rem; font-size: 85%; line-height: 1.45; background-color: rgb(247, 247, 247); border: 0px; border-radius: 3px; color: rgb(119, 119, 119); margin-top: 0px !important; }
+.mathjax-block > .code-tooltip { bottom: 0.375rem; }
+.md-mathjax-midline { background: rgb(250, 250, 250); }
+#write > h3.md-focus::before { left: -1.5625rem; top: 0.375rem; }
+#write > h4.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
+#write > h5.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
+#write > h6.md-focus::before { left: -1.5625rem; top: 0.285714rem; }
+.md-image > .md-meta { border-radius: 3px; padding: 2px 0px 0px 4px; font-size: 0.9em; color: inherit; }
+.md-tag { color: rgb(167, 167, 167); opacity: 1; }
+.md-toc { margin-top: 20px; padding-bottom: 20px; }
+.sidebar-tabs { border-bottom: none; }
+#typora-quick-open { border: 1px solid rgb(221, 221, 221); background-color: rgb(248, 248, 248); }
+#typora-quick-open-item { background-color: rgb(250, 250, 250); border-color: rgb(254, 254, 254) rgb(229, 229, 229) rgb(229, 229, 229) rgb(238, 238, 238); border-style: solid; border-width: 1px; }
+.on-focus-mode blockquote { border-left-color: rgba(85, 85, 85, 0.12); }
+header, .context-menu, .megamenu-content, footer { font-family: "Segoe UI", Arial, sans-serif; }
+.file-node-content:hover .file-node-icon, .file-node-content:hover .file-node-open-state { visibility: visible; }
+.mac-seamless-mode #typora-sidebar { background-color: var(--side-bar-bg-color); }
+.md-lang { color: rgb(180, 101, 77); }
+.html-for-mac .context-menu { --item-hover-bg-color: #E6F0FE; }
+#md-notification .btn { border: 0px; }
+.dropdown-menu .divider { border-color: rgb(229, 229, 229); }
+.ty-preferences .window-content { background-color: rgb(250, 250, 250); }
+.ty-preferences .nav-group-item.active { color: white; background: rgb(153, 153, 153); }
+
+
+</style>
+</head>
+<body class='typora-export os-windows' >
+<div  id='write'  class = 'is-node'><h1><a name="管理后台说明文档" class="md-header-anchor"></a><span>管理后台说明文档</span></h1><p><span> </span></p><h2><a name="登陆页" class="md-header-anchor"></a><span>登陆页</span></h2><p><img src='https://s1.ax1x.com/2020/10/13/0WoYfU.png' alt='0WoYfU.png' referrerPolicy='no-referrer' /></p><ul><li><span>输入账号、密码进行登录；</span></li><li><span>管理后台供系统管理员和审核员使用；</span></li><li><span>系统管理员账号、密码由服务端编码创建；</span></li><li><span>审核员账号、密码由系统管理员通过管理后台创建；</span></li></ul><p><span> </span></p><h2><a name="概览" class="md-header-anchor"></a><span>概览</span></h2><p><span>       </span><img src='https://s1.ax1x.com/2020/10/13/0WodX9.png' alt='0WodX9.png' referrerPolicy='no-referrer' /></p><p><span>这是登陆后的首页</span></p><p><span>指向数据图中每个节点，以标签形式展示具体数据（如图）</span></p><ul><li><span>今日充值：充值付款时间为本日的数据</span></li><li><span>今日消耗：审核时间为今天，且审核通过的任务，按对商户计费的单价求和</span></li><li><span>今日利润：今日消耗×平台分佣比例</span></li><li><span>昨日执行：昨天提交的任务数量</span></li><li><span>昨日审核：昨日审核的任务数量</span></li><li><span>昨日合格：昨天审核合格的任务数量</span></li><li><span>粉丝统计：① 粉丝总数：到昨天为止的粉丝总数；② 活跃粉丝：昨天参与做任务的粉丝总数</span></li><li><span>昨日订单数：昨日创建的订单数量</span></li><li><span>昨日订单量：昨日创建的订单，求和的任务量；例如：A订单有2000个任务，B订单有3000个任务，昨日订单量则为5000</span></li></ul><p><span> </span></p><h2><a name="伙伴" class="md-header-anchor"></a><span>伙伴</span></h2><h3><a name="团长管理" class="md-header-anchor"></a><span>团长管理</span></h3><h4><a name="审核申请页签" class="md-header-anchor"></a><span>审核申请页签</span></h4><p><img src='https://s1.ax1x.com/2020/10/13/0WoNpF.png' alt='0WoNpF.png' referrerPolicy='no-referrer' /></p><ul><li><p><span>团长从手机端提交的申请，点批准后，该条数据从表格中消失</span></p><h4><a name="业绩查看页签" class="md-header-anchor"></a><span>业绩查看页签</span></h4><p><img src='https://s1.ax1x.com/2020/10/13/0Woa6J.png' alt='0Woa6J.png' referrerPolicy='no-referrer' /></p></li><li><p><span>批准团长申请后，为团长发放工号，工号编码规则为：TA0001，TA9999之后，为TB0001，依此类推，T始终不变</span></p></li><li><p><span>本月收益计算到昨日，团长总数统计到昨日</span></p></li></ul><p>&nbsp;</p><h3><a name="业务管理" class="md-header-anchor"></a><span>业务管理</span></h3><h4><a name="申请审核页签" class="md-header-anchor"></a><span>申请审核页签</span></h4><p><img src='https://s1.ax1x.com/2020/10/13/0WoUl4.png' alt='0WoUl4.png' referrerPolicy='no-referrer' /></p><ul><li><span>业务从手机端提交的申请，点批准后，该条数据从表格中消失</span></li></ul><h4><a name="业绩查看页签" class="md-header-anchor"></a><span>业绩查看页签</span></h4><p><img src='https://s1.ax1x.com/2020/10/13/0Wo0mR.png' alt='0Wo0mR.png' referrerPolicy='no-referrer' /></p><ul><li><span>批准业务员申请后，为业务员发放工号，工号编码规则为：YA0001，YA9999之后，为YB0001，依此类推，Y始终不变</span></li><li><span>业务员申请通过后，为其勾稽默认价格表，如果为业务员勾稽其他价格表，则在业绩查看页签中进行修改；修改业务员勾稽的价格表，仅对修改后商户创建的订单生效，修改前商户创建的订单，几个不变</span></li><li><span>业务员总数统计到昨日</span></li></ul><h3><a name="" class="md-header-anchor"></a><span> </span></h3><h3><a name="客户管理" class="md-header-anchor"></a><span>客户管理</span></h3><p><img src='https://s1.ax1x.com/2020/10/13/0WoB01.png' alt='0WoB01.png' referrerPolicy='no-referrer' /></p><ul><li><span>客户指商家</span></li><li><span>商家注册后，即为其生成客户编号；客户编号的编码规则为SA0001，SA9999  之后，为SB0001，依此类推，S是种不变</span></li><li><span>累积充值、累积消耗、订单笔数、客户总数，均统计到昨日</span></li><li><span>订单笔数为订单数，不是订单下面的任务量</span></li></ul><p><span>       </span></p><h3><a name="粉丝管理" class="md-header-anchor"></a><span>粉丝管理</span></h3><p><img src='https://s1.ax1x.com/2020/10/13/0WoDTx.png' alt='0WoDTx.png' referrerPolicy='no-referrer' /></p><ul><li><span>粉丝总数、下级人数、本月收益、统计到昨日</span></li><li><span>注册时间：拿到openid的时间</span></li></ul><p><span>       </span></p><h3><a name="订单管理" class="md-header-anchor"></a><span>订单管理</span></h3><p><img src='https://s1.ax1x.com/2020/10/13/0Wosk6.png' alt='0Wosk6.png' referrerPolicy='no-referrer' /></p><h4><a name="订单的三个状态字段" class="md-header-anchor"></a><span>订单的三个状态字段</span></h4><p><span>订单进行状态、订单审核状态、订单结算状态</span></p><h4><a name="订单进行状态" class="md-header-anchor"></a><span>订单进行状态</span></h4><p><span>	</span><span>订单进行状态字段：未开始、进行中、已结束</span></p><p><span>	</span><span>根据客户创建订单时，输入的订单任务开始和任务结束时间——</span></p><p><span>	</span><span>当前时间＜任务开始时间，则进行状态=未开始</span></p><p><span>	</span><span>任务开始时间≤当前时间＜结束时间，则进行状态=进行中</span></p><p><span>	</span><span>结束时间≤当前时间，进行状态=已结束</span></p><ul><li><span>PS：任务需求量被100%提交后，如果时间没到结束时间，订单状态仍为进行中，只有当前时间≥结束时间，订单状态才为【已结束】</span></li></ul><p><span>       </span></p><h4><a name="订单结算状态" class="md-header-anchor"></a><span>订单结算状态</span></h4><p><span>	</span><span>订单结算状态字段：未结算、已结算</span></p><ul><li><span>触发结算：每小时一次定时任务，对 （进行状态=【已结束】and 审核状态=【无待审】）的订单进行结算</span></li><li><span>结算动作：计算退回金额，并将退回金额退回至客户余额，同时将订单结算状态变更为【已结算】</span></li></ul><p><span> </span></p><h4><a name="订单审核状态" class="md-header-anchor"></a><span>订单审核状态      </span></h4><p><span>	</span><span>订单审核状态字段：无待审、有待审、审核中</span></p><ul><li><span>订单下存在未审核的任务，订单审核状态=有待审</span></li><li><span>订单下不存在未审核的任务，订单审核状态=无待审</span></li><li><span>当订单审核状态=【有待审】时，审核员可以点击【领取审核】按钮，对订单开始审核；此时订单审核状态变为【审核中】</span></li></ul><p>&nbsp;</p><h3><a name="订单卡" class="md-header-anchor"></a><span>订单卡 </span></h3><h4><a name="订单编号" class="md-header-anchor"></a><span>订单编号</span></h4><ul><li><p><span>订单编号编码规则：客户编号+YYYYMMDD+5位顺序码</span></p><h4><a name="复制链接按钮" class="md-header-anchor"></a><span>复制链接按钮</span></h4></li><li><p><span>复制链接：复制直播间或短视频的口令链接</span></p><h4><a name="订单商务信息" class="md-header-anchor"></a><span>订单商务信息</span></h4></li><li><p><span>订单数量：订单中包含的任务数量</span></p></li><li><p><span>订单金额：任务数量×任务单价</span></p></li><li><p><span>订单消耗：审核合格的任务数×任务单价</span></p></li><li><p><span>预扣退回：预扣金额-消耗金额，结算后生成退回金额，并退回至客户的余额；结算前用---占位</span></p></li></ul><h4><a name="订单执行信息" class="md-header-anchor"></a><span>订单执行信息</span></h4><ul><li><p><span>执行进度：提交的任务数量/订单总任务量</span></p></li><li><p><span>审核进度：已经审核的任务数量/提交的任务数量</span></p></li><li><p><span>合格率：审核合格的任务数量/已经审核的任务数量</span></p><h4><a name="订单时间信息" class="md-header-anchor"></a><span>订单时间信息</span></h4></li><li><p><span>创建时间：客户创建订单的时间</span></p></li><li><p><span>开始时间：订单中任务计划开始的时间</span></p></li><li><p><span>结束时间：订单中任务计划结束的时间</span></p></li><li><p><span>结算时间：订单状态变更为【已结算】的时间，未结算时，用---占位</span></p></li></ul><h4><a name="审核操作按钮" class="md-header-anchor"></a><span>审核操作按钮</span></h4><p><span>订单卡中，最右侧的两个按钮为审核操作按钮</span></p><ul><li><span>上键有三种状态：领取审核、审核员工号、无待审</span></li><li><span>下键有两种状态：激活状态的全部通过、灰色状态的全部通过</span></li></ul><p><span>上键的状态变化规则，见以下流程图</span></p><p><img src='https://s1.ax1x.com/2020/10/13/0WogpD.png' alt='0WogpD.png' referrerPolicy='no-referrer' /></p><p>&nbsp;</p><p><span>上键处于不同状态时，下键（全部审核）也随之呈现不同状态，规则如下：</span></p><p><img src='https://s1.ax1x.com/2020/10/13/0WohnA.png' alt='0WohnA.png' referrerPolicy='no-referrer' /></p><p>&nbsp;</p><p><span>上键处于不同状态时，这条订单对系统管理员和审核员等不同角色的展示与操作权限也不同，规则如下：</span></p><p><img src='https://s1.ax1x.com/2020/10/13/0Wo40I.png' alt='0Wo40I.png' referrerPolicy='no-referrer' /></p><p>&nbsp;</p><h3><a name="任务审核" class="md-header-anchor"></a><span>任务审核</span></h3><blockquote><p><span>任务审核的交互概念为，将页面中不合格的任务判不合格，然后全选页面内其他未审核的任务，批量的判合格，以此种方式实现人工操作的效率最大化</span></p></blockquote><blockquote><p><span>任务审核分为普通模式和聚焦模式，默认页面为普通模式</span></p></blockquote><h4><a name="进入规则" class="md-header-anchor"></a><span>进入规则</span></h4><ul><li><span>管理员进入《任务审核》页面的规则：无论审核操作按钮的上键为何种状态，管理员通过点击上键，均可进入《任务审核》页面</span></li><li><span>审核员进入《任务审核》页面的规则：当上键为【领取任务】和【工号状态】时，审核员通过点击上键，可进入《任务审核》页面</span></li></ul><p>&nbsp;</p><h4><a name="普通模式" class="md-header-anchor"></a><span>普通模式</span></h4><p><img src='https://s1.ax1x.com/2020/10/13/0Wo57t.png' alt='0Wo57t.png' referrerPolicy='no-referrer' /></p><ul><li><span>单审：可以通过任务窗体上的【合格/不合格】按钮，对任务进行单审；两个按钮的可以反复切换点击</span></li><li><span>大图：点击缩略图可以看大图，大图中也有合格/不合格按钮</span></li><li><span>多选：点击上方的【本页全选】，可选中页内全部的待审任务；或者单独勾选任务窗体上的复选框</span></li><li><span>批审：一个或多个业内的任务窗体被勾选是，上方【审核通过】按钮亮起，点击后可对已选中的任务进行审核合格操作</span></li><li><span>其他：已经被审核的任务窗体，复选框不可被勾选</span></li><li><span>释放：点击【释放】按钮，页面返回【订单管理】页面，订单审核状态变化及订单审核操作按钮状态的变化，详见上面的流程图</span></li></ul><p><span> </span></p><h4><a name="聚焦模式" class="md-header-anchor"></a><span>聚焦模式</span></h4><blockquote><p><span>点击上方的【聚焦模式】按钮，进入聚焦模式聚&gt;焦模式中，对当前页的全部任务进行聚焦样式的展示，通过上下按钮或pageup/pagedown进行任务切换</span></p></blockquote><blockquote><p><span>交互的概念是，通过【聚焦模式】，可以方便的浏览大图，对不合格的进行标记；当一页内所有任务都浏览完成后，点一下【本页全合格】，即对未标记的任务进行合格处理</span></p></blockquote><p><span> </span><img src='https://s1.ax1x.com/2020/10/13/0Wob9S.png' alt='0Wob9S.png' referrerPolicy='no-referrer' /></p><p>&nbsp;</p><h4><a name="审核权限" class="md-header-anchor"></a><span>审核权限</span></h4><p><span>	</span><span>只有审核员有权限审核，管理员无权审核（管理员想审核，需要给自己开一个审核员的子账号）</span></p><p><span>管理员无权审核，具体表现为管理员进入《任务审核》页面：【合格/不合格】按钮不可选；任务窗体复选框不可被勾选；【本页全选】按钮为灰色；【审核通过】按钮为灰色；【释放】按钮为灰色</span></p><p>&nbsp;</p><h2><a name="系统" class="md-header-anchor"></a><span>系统</span></h2><h3><a name="资金管理" class="md-header-anchor"></a><span>资金管理</span></h3><h4><a name="资金流转页签" class="md-header-anchor"></a><span>资金流转页签</span></h4><blockquote><p><span>当日可见当日数据</span></p></blockquote><p><img src='https://s1.ax1x.com/2020/10/13/0WooAP.png' alt='0WooAP.png' referrerPolicy='no-referrer' /></p><ul><li><span>充值金额：商户充值，触发充值金额的增加</span></li><li><span>消耗金额：任务审核，触发消耗金额的增加</span></li><li><span> 待发金额：昨日待发+今日消耗-今日发放</span></li><li><span>发放金额：点发放按钮后，返回状态为【转账成功】的金额</span></li><li><span>平台余额：昨日平台余额+今日充值-今日发放</span></li></ul><p><span> </span></p><p><span>【发放】按钮说明</span></p><p><span>       点击发放后，任何审核只可以判不合格，不可以判合格，涉及到的点击报错的按钮有：</span></p><ul><li><span>订单管理页面：领取审核、全部通过</span></li><li><span> 任务审核页面：常规模式任务卡中的【合格】，大图中的【合格】，页面上方的【审核通过】，缩略图模式中【本页全合格】</span></li><li><span>报错内容为：当前系统正在发放资金，请稍候再进行审核通过</span></li></ul><p><span> </span></p><h4><a name="充值明细页签" class="md-header-anchor"></a><span>充值明细页签</span></h4><p><img src='https://s1.ax1x.com/2020/10/13/0WoTtf.png' alt='0WoTtf.png' referrerPolicy='no-referrer' /></p><ul><li><span> 商户的每一笔充值，生成一条数据</span></li></ul><p><span> </span></p><h4><a name="发放明细页签" class="md-header-anchor"></a><span>发放明细页签</span></h4><p><img src='https://s1.ax1x.com/2020/10/13/0Wo7h8.png' alt='0Wo7h8.png' referrerPolicy='no-referrer' /></p><p><span>在微信商户的每一笔转出，生成一条数据，平台运营方收款人员，身份标识统一为：平台，有服务端将这些人维护进系统</span></p><p><span> </span></p><h3><a name="价格管理" class="md-header-anchor"></a><span>价格管理</span></h3><p><span>没有需要额外说明的内容，略</span></p><p>&nbsp;</p><h3><a name="账号管理" class="md-header-anchor"></a><span>账号管理</span></h3><p><span>没有需要额外说明的内容，略</span></p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p><p>&nbsp;</p></div>
+</body>
+</html>
