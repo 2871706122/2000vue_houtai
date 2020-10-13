@@ -170,11 +170,13 @@ export default {
 
 <style scoped lang="scss">
   .main-pages {
+    height: 100%;
     .content {
       display: flex;
-
+      height: calc(100% - 45px);
       .left {
         width: 220px;
+        height: 100%;
       }
 
       .right {
