@@ -15,7 +15,7 @@
         <el-button type="primary" @click="query">查询</el-button>
       </div>
       <div class="yjck-header-right">
-        <span>团长总数：123</span>
+        <span>业务员总数：123</span>
       </div>
     </header>
     <div class="yjck-table">
@@ -26,17 +26,39 @@
           </template>
         </el-table-column>
         <el-table-column prop="name" label="昵称"></el-table-column>
-        <el-table-column prop="phone" label="手机号"></el-table-column>
-        <el-table-column prop="workNumber" label="工号"></el-table-column>
+        <el-table-column label="手机号/工号">
+          <template slot-scope="scope">
+            <p>{{scope.row.phone}}</p>
+            <p>{{scope.row.workNumber}}</p>
+          </template>
+        </el-table-column>
+        <el-table-column prop="price" label="价格表">
+          <template slot-scope="scope">
+            <el-dropdown trigger="click" @command="a => handleCommand(a,scope.row.id)">
+              <span style="cursor: pointer;" class="el-dropdown-link">
+                {{getPriceLabel(scope.row.price)}}
+                <i class="el-icon-arrow-down el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item
+                  :command="item.value"
+                  v-for="(item,index) in priceList"
+                  :key="index"
+                >{{item.label}}</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
+          </template>
+        </el-table-column>
+
         <el-table-column label="时间" width="200">
           <template slot-scope="scope">
             <p>注册时间: {{scope.row.time.start}}</p>
             <p>审核时间: {{scope.row.time.end}}</p>
           </template>
         </el-table-column>
-        <el-table-column prop="people" sortable label="下级人数"></el-table-column>
-        <el-table-column prop="thisMonthGet" sortable label="本月收益"></el-table-column>
-        <el-table-column prop="lastMonthGet" sortable label="上月收益"></el-table-column>
+        <el-table-column sortable prop="people" label="客户数量"></el-table-column>
+        <el-table-column sortable prop="thisMonthGet" label="本月收益"></el-table-column>
+        <el-table-column sortable prop="lastMonthGet" label="上月收益"></el-table-column>
       </el-table>
       <div class="c-pagination">
         <el-pagination
@@ -83,10 +105,25 @@ export default {
           value: 3,
           label: '手机号'
         }
+      ],
+      priceList: [
+        {
+          value: 0,
+          label: '默认'
+        }
       ]
     }
   },
   methods: {
+    getPriceLabel(val) {
+      let label
+      this.priceList.forEach(item => {
+        if (item.value === val) {
+          label = item.label
+        }
+      })
+      return label
+    },
     handleSizeChange(val) {
       console.log(val)
       this.pageSize = val
@@ -103,6 +140,11 @@ export default {
       }
       this.updateTable()
     },
+    handleCommand(val, id) {
+      console.log(val)
+      console.log(id)
+      //  根据id去修改这个用户的价格表,修改成功之后 更新table
+    },
     updateTable() {
       this.$bus.$emit('yjcjTableUpdate', {
         pageSize: this.pageSize,
@@ -112,7 +154,22 @@ export default {
       })
     },
   },
-
+  created() {
+    // 请求价格表
+    this.priceList = [
+      {
+        value: 0,
+        label: '默认'
+      },
+      {
+        value: 1,
+        label: '小明专用'
+      }, {
+        value: 2,
+        label: '价格表2'
+      }
+    ]
+  },
 }
 </script>
 <style lang="scss" scoped>

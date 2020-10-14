@@ -58,6 +58,34 @@ export default {
           thisMonthGet: 900.89,
           lastMonthGet: 2001.22
         },
+        {
+          id: 1,
+          userImg: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602608266924&di=dad8d168566413442b66826961ae5100&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F18%2F56%2F14300000958002128488569856508.jpg',
+          name: '王小虎',
+          phone: '13912341234',
+          workNumber: 'a0001',
+          time: {
+            start: '2020.9.27 8:01',
+            end: '2020.9.27 8:01'
+          },
+          people: 100,
+          thisMonthGet: 100.89,
+          lastMonthGet: 100.22
+        },
+        {
+          id: 1,
+          userImg: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602608266924&di=dad8d168566413442b66826961ae5100&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F18%2F56%2F14300000958002128488569856508.jpg',
+          name: '王小虎',
+          phone: '13912341234',
+          workNumber: 'a0001',
+          time: {
+            start: '2020.9.27 8:01',
+            end: '2020.9.27 8:01'
+          },
+          people: 500,
+          thisMonthGet: 500.89,
+          lastMonthGet: 500.22
+        },
       ],
       currentPage1: 1
     }
