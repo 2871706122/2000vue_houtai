@@ -175,7 +175,7 @@ export default {
       display: flex;
       height: calc(100% - 45px);
       .left {
-        width: 220px;
+        width: 280px;
         height: 100%;
       }
 

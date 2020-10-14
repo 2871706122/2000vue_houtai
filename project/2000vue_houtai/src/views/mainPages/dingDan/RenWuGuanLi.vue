@@ -1,7 +1,10 @@
 <template>
   <!-- 任务管理 -->
   <div class="ren-wu-guan-li">
-    任务管理
+    <div class="top-title">任务管理</div>
+    <div class="content">
+
+    </div>
   </div>
 </template>
 
@@ -38,7 +41,22 @@
 </script>
 
 <style scoped lang="scss">
-  .login {
+.ren-wu-guan-li {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
+  .top-title {
+    padding-left: 20px;
+    line-height: 40px;
+    font-size: 14px;
   }
+
+  .content {
+    flex: 1;
+    padding: 30px;
+    box-sizing: border-box;
+    border: 5px solid rgb(245, 247, 250);
+  }
+}
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="login" ref="login">
+  <div class="login">
     <div class="top">
       <div class="logo"></div>
     </div>
@@ -25,14 +25,12 @@
       }
     },
     mounted() {
-      this.init()
+
     },
     methods: {
       //初始化界面
       init() {
-        this.$nextTick(() => {
-          this.$refs.login.style.height = document.body.clientHeight + "px"
-        })
+
       },
 
       //登录
