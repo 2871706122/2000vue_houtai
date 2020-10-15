@@ -11,7 +11,7 @@
               <el-option label="粉丝openid" :value="2"></el-option>
             </el-select>
             <el-input
-              style="width:200px;margin:0 16px 0 0px"
+              style="width: 200px; margin: 0 16px 0 0px"
               placeholder="请输入内容"
               v-model="searchValue_fans"
             ></el-input>
@@ -20,45 +20,64 @@
               <el-option label="不合格" :value="2"></el-option>
               <el-option label="未审核" :value="3"></el-option>
             </el-select>
-            <el-button type="primary" style="margin:0 8px 0 16px" @click="search">查询</el-button>
+            <el-button
+              type="primary"
+              style="margin: 0 8px 0 16px"
+              @click="search"
+              >查询</el-button
+            >
             <el-button @click="reset">重置</el-button>
           </div>
           <div class="right">
-            <el-button type="primary" style="marginRight: 8px">聚焦模式</el-button>
             <el-button
               type="primary"
-              style="marginRight: 8px"
+              style="marginright: 8px"
+              @click="focusMode"
+              >聚焦模式</el-button
+            >
+            <el-button
+              type="primary"
+              style="marginright: 8px"
               @click="selectAll"
               v-show="btnVisible"
-            >本页全选</el-button>
+              >本页全选</el-button
+            >
             <el-button
               type="danger"
-              style="marginRight: 8px"
+              style="marginright: 8px"
               @click="cancelSelectAll"
               v-show="!btnVisible"
-            >取消全选</el-button>
-            <el-button type="primary" style="marginRight: 8px">审核通过</el-button>
+              >取消全选</el-button
+            >
+            <el-button type="primary" style="marginright: 8px"
+              >审核通过</el-button
+            >
             <el-button type="primary">释放</el-button>
           </div>
         </div>
         <ul class="task-ui">
-          <li class="task-li" v-for="(item,index) in listData" :key="index">
-            <div class="task-li-top" style="marginBottom:10px">
+          <li class="task-li" v-for="(item, index) in listData" :key="index">
+            <div class="task-li-top" style="marginbottom: 10px">
               <el-checkbox
-                @change="(a)=> checkboxChange(a,index)"
+                @change="(a) => checkboxChange(a, index)"
                 v-model="checkboxValueList[index]"
               ></el-checkbox>
               <img :src="item.t_img" />
               <div class="task-li-top-right">
-                <p>{{item.name}}</p>
-                <el-button type="primary" size="small" @click="copy(item.openid)">复制openid</el-button>
+                <p>{{ item.name }}</p>
+                <el-button
+                  type="primary"
+                  size="small"
+                  @click="copy(item.openid)"
+                  >复制openid</el-button
+                >
               </div>
             </div>
-            <div class="task-li-mid" style="marginBottom:10px">
-              <p>提交：{{item.time.start}}</p>
-              <p>审核：{{item.time.end}}</p>
+            <div class="task-li-mid" style="marginbottom: 10px">
+              <p>提交：{{ item.time.start }}</p>
+              <p>审核：{{ item.time.end }}</p>
             </div>
-            <div class="task-li-btm" style="marginBottom:10px">
+            <div class="task-li-btm" style="marginbottom: 10px">
               <el-button-group>
                 <el-button size="small" round>合格</el-button>
                 <el-button size="small" round>不合格</el-button>
@@ -82,10 +101,57 @@
         </div>
       </div>
     </div>
+    <div class="modalPage" v-show="modalVisible">
+      <img class="close-img" @click='modalVisible=false' src="../../../assets/imgs/close.png" alt="" />
+      <div class="c-display">
+        <img class="display-img" src="../../../assets/imgs/a.jpg" alt="" />
+        <div class="info-and-operate">
+          <div class="info">
+            <div class="info-top">
+              <img src="../../../assets/imgs/a.jpg" alt="" />
+              <div class="info-top-right">
+                <p>我的名字叫小七</p>
+                <el-button size="small">复制openid</el-button>
+              </div>
+            </div>
+            <div class="info-btm">
+              <p>提交时间：2020-10-10 20:30:17</p>
+              <p>审核时间：--</p>
+              <p>审核状态：合格/不合格/--</p>
+            </div>
+          </div>
+          <div class="operate">
+            <h2>第15个/本页共50个</h2>
+            <el-button type="success">本页全合格</el-button>
+            <div class="operate-btm">
+              <div class="operate-btm-left">
+                <div>
+                  <span class="span1">Page UP</span>
+                  <img src="../../../assets/imgs/arrow.png" alt="" />
+                </div>
+                <div>
+                  <img
+                    class="wow"
+                    src="../../../assets/imgs/arrow.png"
+                    alt=""
+                  />
+                  <!-- <span class="span2"></span> -->
+                  <p class="down">Page Down</p>
+                </div>
+              </div>
+              <div class="operate-btm-right">
+                <el-button size="big" type="danger">不合格</el-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
+import { remove, cloneDeep } from 'lodash'
 export default {
   name: "renWuGuanLi",
   data() {
@@ -175,6 +241,7 @@ export default {
       selectedListData: [],
       // ui
       btnVisible: true,
+      modalVisible: false
     }
   },
   methods: {
@@ -202,17 +269,23 @@ export default {
       this.selectedListData = []
       this.btnVisible = true
     },
+    // 开启聚焦模式
+    focusMode() {
+      this.modalVisible = true
+    },
     checkboxChange(val, index) {
       console.log(val, index)
       if (val) {
         this.selectedListData.push(this.listData[index])
       } else {
         let id = this.listData[index].id
-        let index = this.selectedListData.findIndex(item => {
+        console.log(id)
+        // 取消的元素在选中数组中的index
+        let sameIndex = this.selectedListData.findIndex(item => {
           return item.id === id
         })
         this.selectedListData = remove(this.selectedListData, (item, idx) => {
-          return idx === indx
+          return idx !== sameIndex
         })
       }
       console.log(this.selectedListData)
@@ -251,7 +324,10 @@ export default {
 
       // 页面滚动到之前位置
       window.scrollTo(0, scrollY);
-
+      console.log(res)
+      if (res) {
+        this.$message.success('复制成功')
+      }
       return res;// 返回操作结果
     }
   },
@@ -268,6 +344,7 @@ export default {
 <style scoped lang="scss">
 .ren-wu-guan-li {
   height: 100%;
+  position: relative;
   .rwgl-header {
     height: 40px;
     line-height: 40px;
@@ -347,6 +424,92 @@ export default {
       margin-top: 30px;
       display: flex;
       justify-content: flex-end;
+    }
+  }
+  .modalPage {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.8);
+    .close-img {
+      position: absolute;
+      right: 30px;
+      top: 30px;
+      cursor: pointer;
+    }
+    .c-display {
+      width: 289px;
+      height: 600px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      .display-img {
+        width: 100%;
+        height: 100%;
+      }
+      .info-and-operate {
+        position: absolute;
+        top: 60px;
+        left: 340px;
+        color: #fff;
+        width: 200px;
+        .info {
+          .info-top {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+            img {
+              width: 35px;
+              height: 35px;
+              border-radius: 4px;
+              margin-right: 16px;
+            }
+            .info-top-right {
+              p {
+                margin-bottom: 8px;
+              }
+            }
+          }
+          .info-btm {
+            margin-bottom: 24px;
+            p {
+              margin-bottom: 8px;
+            }
+          }
+        }
+        .operate {
+          h2 {
+            margin-bottom: 8px;
+          }
+          .operate-btm {
+            margin-top: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .operate-btm-left {
+              img {
+                width: 60px;
+                height: 60px;
+                cursor: pointer;
+              }
+              .wow {
+                transform: rotateZ(180deg);
+                position: relative;
+                top: -20px;
+              }
+              .down {
+                position: relative;
+                top:-22px;
+                left: -5px;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
