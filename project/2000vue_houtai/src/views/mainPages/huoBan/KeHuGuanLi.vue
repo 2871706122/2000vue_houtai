@@ -5,30 +5,45 @@
     <div class="content">
       <div class="row1">
         <div class="left">
-          <span>用户搜索：</span>
-          <div class="select-box">
-            <el-select v-model="selectVlaue" placeholder="请选择">
-              <el-option
-                  v-for="item in selectOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-              </el-option>
-            </el-select>
+          <div class="item">
+            <span class="key">昵称：</span>
+            <div class="input-box">
+              <el-input
+                  placeholder="请输入昵称"
+                  v-model="num1"
+                  clearable>
+              </el-input>
+            </div>
           </div>
-          <div class="input-box">
-            <el-input
-                placeholder="请输入内容"
-                v-model="inputValue"
-                clearable>
-            </el-input>
+
+          <div class="item">
+            <span class="key">编号：</span>
+            <div class="input-box">
+              <el-input
+                  placeholder="请输入编号"
+                  v-model="num2"
+                  clearable>
+              </el-input>
+            </div>
           </div>
+
+          <div class="item">
+            <span class="key">手机号：</span>
+            <div class="input-box">
+              <el-input
+                  placeholder="请输入手机号"
+                  v-model="num3"
+                  clearable>
+              </el-input>
+            </div>
+          </div>
+
           <div class="btn-box">
             <el-button @click="search" type="primary">查询</el-button>
           </div>
         </div>
         <div class="right">
-          客户总数：<span class="num">{{ num }}</span>
+          客户总数：<span class="num">{{ total }}</span>
         </div>
       </div>
 
@@ -39,38 +54,34 @@
             :data="tableData"
             style="width: 100%">
           <el-table-column
+              prop="nickname"
               label="昵称"
           >
-            <template slot-scope="scope">
-              <img src="@/assets/imgs/u107.svg" alt="">
-              <span>{{scope.row.name}}</span>
-              <el-button
-                  size="mini"
-                  @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-            </template>
           </el-table-column>
           <el-table-column
-              prop="date"
+              prop="createTime"
               label="注册时间">
           </el-table-column>
           <el-table-column
-              prop="name2"
               label="客户电话/编号">
+            <template slot-scope="scope">
+              <span>{{scope.row.mobile}}</span>/<span>{{scope.row.merchantCode}}</span>
+            </template>
           </el-table-column>
           <el-table-column
-              prop="address"
+              prop="transacterCode"
               label="业务员">
           </el-table-column>
           <el-table-column
-              prop="address2"
+              prop="balance"
               label="累计充值">
           </el-table-column>
           <el-table-column
-              prop="address6"
+              prop="historicalCost"
               label="累计消耗">
           </el-table-column>
           <el-table-column
-              prop="address8"
+              prop="freezeFund"
               label="订单笔数">
           </el-table-column>
         </el-table>
@@ -79,11 +90,11 @@
         <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[100, 200, 300, 400]"
-            :page-size="100"
+            :current-page="pageNum"
+            :page-sizes="[8,10,15,20]"
+            :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="400">
+            :total="total">
         </el-pagination>
       </div>
     </div>
@@ -99,24 +110,9 @@ export default {
   watch: {},
   data() {
     return {
-      selectVlaue: "1",
-      selectOptions: [
-        {
-          value: '1',
-          label: '昵称'
-        }, {
-          value: '2',
-          label: '编号'
-        }, {
-          value: '3',
-          label: '手机号'
-        }, {
-          value: '4',
-          label: '业务员昵称/手机号'
-        }
-      ],
-      inputValue: "",//
-      num: 152,
+      num1:"",
+      num2:"",
+      num3:"",
       tableData: [
         {
           date: '2016-05-02',
@@ -136,7 +132,9 @@ export default {
           address: '上海市普陀区金沙江路 1516 弄'
         }
       ],
-      currentPage: 5,
+      pageNum: 1,
+      pageSize:10,
+      total:10,
     }
   },
   created() {
@@ -156,19 +154,38 @@ export default {
 
     //获取数据
     getData() {
-
+      this.search()
     },
 
     //查询
     search() {
-
+      let url = "/merchant/list?nickname="+this.num1+"&merchantCode="+this.num2+"&mobile="+this.num3+"&pageNum="+this.pageNum+"&pageSize="+this.pageSize
+      this.$axios.get(url).then(res => {
+        //console.log(res);
+        if(res.data.status == 200 && res.data.message == "成功"){
+          this.total = res.data.data.count
+          this.tableData = res.data.data.resultList
+        }else {
+          alert(res.data.message)
+        }
+      }).catch((err)=>{
+        console.log(err);
+        alert("请求错误")
+      })
     },
 
+    //改变每一页的条数
     handleSizeChange(val) {
       console.log(`每页 ${val} 条`);
+      this.pageSize = val
+      this.getData()
     },
+
+    //改变页码
     handleCurrentChange(val) {
       console.log(`当前页: ${val}`);
+      this.pageNum = val
+      this.getData()
     }
   },
   beforeDestroy() {
@@ -202,6 +219,12 @@ export default {
       .left {
         display: flex;
         align-items: center;
+
+        .item {
+          margin-right: 15px;
+          display: flex;
+          align-items: center;
+        }
 
         .btn-box {
           margin-left: 20px;

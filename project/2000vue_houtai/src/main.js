@@ -7,6 +7,16 @@ var echarts = require('echarts');
 import axios from 'axios'
 axios.defaults.baseURL = "http://red.zudo.pw:8080/redpoint/"
 
+// 首先对拦截器的请求进行设置，并在方法中return config，此处为固定格式
+axios.interceptors.request.use(config => {
+  // 表示在配置中的设置头消息的字段Authorization为从本地获取的token值
+  let code = localStorage.getItem("code")
+  if(code && window.location.href.indexOf("/login") < 0){
+    config.headers.Authorization = code
+  }
+  return config
+})
+
 Vue.prototype.$axios = axios
 Vue.prototype.$echarts = echarts
 

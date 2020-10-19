@@ -5,24 +5,39 @@
     <div class="content">
       <div class="row1">
         <div class="left">
-          <span>用户搜索：</span>
-          <div class="select-box">
-            <el-select v-model="selectVlaue" placeholder="请选择">
-              <el-option
-                  v-for="item in selectOptions"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-              </el-option>
-            </el-select>
+          <div class="item">
+            <span class="key">昵称：</span>
+            <div class="input-box">
+              <el-input
+                  placeholder="请输入昵称"
+                  v-model="num1"
+                  clearable>
+              </el-input>
+            </div>
           </div>
-          <div class="input-box">
-            <el-input
-                placeholder="请输入内容"
-                v-model="inputValue"
-                clearable>
-            </el-input>
+
+          <div class="item">
+            <span class="key">openid：</span>
+            <div class="input-box">
+              <el-input
+                  placeholder="请输入openid"
+                  v-model="num2"
+                  clearable>
+              </el-input>
+            </div>
           </div>
+
+          <div class="item">
+            <span class="key">团长姓名：</span>
+            <div class="input-box">
+              <el-input
+                  placeholder="请输入团长姓名"
+                  v-model="num3"
+                  clearable>
+              </el-input>
+            </div>
+          </div>
+
           <div class="btn-box">
             <el-button @click="search" type="primary">查询</el-button>
           </div>
@@ -36,6 +51,7 @@
 
       <div class="table-box">
         <el-table
+            @sort-change="sortChange"
             :data="tableData"
             style="width: 100%">
           <el-table-column
@@ -71,22 +87,17 @@
               sortable
               label="本月收益">
           </el-table-column>
-          <el-table-column
-              prop="address8"
-              sortable
-              label="上月收益">
-          </el-table-column>
         </el-table>
       </div>
       <div class="fen-ye-qi-box">
         <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[100, 200, 300, 400]"
-            :page-size="100"
+            :current-page="pageNum"
+            :page-sizes="[8,10,15,20]"
+            :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="400">
+            :total="total">
         </el-pagination>
       </div>
     </div>
@@ -102,20 +113,9 @@
     watch: {},
     data() {
       return {
-        selectVlaue: "1",
-        selectOptions: [
-          {
-            value: '1',
-            label: '昵称'
-          }, {
-            value: '2',
-            label: 'openid'
-          }, {
-            value: '3',
-            label: '团长工号'
-          }
-        ],
-        inputValue: "",//
+        num1:"",
+        num2:"",
+        num3:"",
         num: 152,
         tableData: [
           {
@@ -136,7 +136,9 @@
             address: '上海市普陀区金沙江路 1516 弄'
           }
         ],
-        currentPage: 5,
+        pageNum: 1,
+        pageSize:10,
+        total:10,
       }
     },
     created() {
@@ -164,14 +166,35 @@
 
       //查询
       search() {
+        let url = "/fs/list?nickname="+this.num1+"&merchantCode="+this.num2+"&mobile="+this.num3+"&pageNum="+this.pageNum+"&pageSize="+this.pageSize
+        this.$axios.get(url).then(res => {
+          console.log(res);
+          if(res.data.status == 200 && res.data.message == "成功"){
 
+          }else {
+            alert(res.data.message)
+          }
+        }).catch((err)=>{
+          console.log(err);
+        })
       },
 
+      //改变每一页的条数
       handleSizeChange(val) {
         console.log(`每页 ${val} 条`);
+        this.pageSize = val
+        this.getData()
       },
+
+      //改变页码
       handleCurrentChange(val) {
         console.log(`当前页: ${val}`);
+        this.pageNum = val
+        this.getData()
+      },
+      //
+      sortChange(column, prop, order) {
+        console.log(column, prop, order);
       }
     },
     beforeDestroy() {
@@ -205,6 +228,12 @@
       .left {
         display: flex;
         align-items: center;
+
+        .item {
+          margin-right: 15px;
+          display: flex;
+          align-items: center;
+        }
 
         .btn-box {
           margin-left: 20px;

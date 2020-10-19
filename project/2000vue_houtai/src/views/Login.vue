@@ -43,6 +43,7 @@
         this.$axios.post(url, data).then(res => {
           console.log(res);
           if(res.data.status == 200 && res.data.message == "成功"){
+            localStorage.setItem("code",res.data.data)
             this.$router.push("/mainPage")
           }else {
             alert(res.data.message)
