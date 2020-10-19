@@ -35,7 +35,21 @@
 
       //登录
       login() {
-        this.$router.push("/mainPage")
+        let data = {
+          username:this.phone,
+          password:this.pwd
+        }
+        let url = "/user/login?username="+this.phone+"&password="+this.pwd
+        this.$axios.post(url, data).then(res => {
+          console.log(res);
+          if(res.data.status == 200 && res.data.message == "成功"){
+            this.$router.push("/mainPage")
+          }else {
+            alert(res.data.message)
+          }
+        }).catch((err)=>{
+          console.log(err);
+        })
       }
     },
   }

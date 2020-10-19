@@ -4,6 +4,10 @@ import router from './router'
 import store from './store'
 
 var echarts = require('echarts');
+import axios from 'axios'
+axios.defaults.baseURL = "http://red.zudo.pw:8080/redpoint/"
+
+Vue.prototype.$axios = axios
 Vue.prototype.$echarts = echarts
 
 Vue.prototype.$bus = new Vue();
