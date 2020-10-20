@@ -126,8 +126,8 @@ export default {
         businessType: 2,
         pageSize: this.pageSize,
         pageNum: this.pageNum,
-        startTime: '',
-        endTime: ''
+        startTime: this.time[0].getTime(),
+        endTime: this.time[1].getTime()
       })
     },
   },
