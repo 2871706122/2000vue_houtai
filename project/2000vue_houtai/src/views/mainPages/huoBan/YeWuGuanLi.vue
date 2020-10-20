@@ -4,12 +4,12 @@
     <header class="ywgl-header">业务管理</header>
     <div class="table-outer">
       <div class="c-table">
-        <el-tabs v-model="activeName" @tab-click="handleClick">
+        <el-tabs v-model="activeName">
           <el-tab-pane label="申请审核" name="first">
-            <SqshTable :tableData="sqshTableData" />
+            <SqshTable :tableData="sqshTableData" :total="total1" />
           </el-tab-pane>
           <el-tab-pane label="业绩查看" name="second">
-            <YjckTale :tableData="yjckTableData" />
+            <YjckTale :tableData="yjckTableData" :total="total2" />
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -20,6 +20,7 @@
 <script>
 import SqshTable from '@/components/mainPages/huoBan/ywgl/sqsh_table'
 import YjckTale from '@/components/mainPages/huoBan/ywgl/yjck_table'
+import getReq from '@/utils/getReq.js'
 export default {
   name: "yeWuGuanLi",
   props: [],
@@ -34,84 +35,67 @@ export default {
       // 变量
       activeName: 'first',
       // data
-      sqshTableData: [{
-        id: 1,
-        userImg: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602608266924&di=dad8d168566413442b66826961ae5100&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F18%2F56%2F14300000958002128488569856508.jpg',
-        name: '王小虎',
-        phone: '13912341234',
-        workNumber: 'a0001',
-        status: '1',
-        timeOfApplication: '2020.9.27 8:01',
-      },
-      ],
-      yjckTableData: [
-        {
-          id: 1,
-          userImg: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602608266924&di=dad8d168566413442b66826961ae5100&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F18%2F56%2F14300000958002128488569856508.jpg',
-          name: '王小虎',
-          phone: '13912341234',
-          price: 2,
-          workNumber: 'a0001',
-          time: {
-            start: '2020.9.27 8:01',
-            end: '2020.9.27 8:01'
-          },
-          people: 12,
-          thisMonthGet: 100.89,
-          lastMonthGet: 5001.22
-        },
-        {
-          id: 1,
-          userImg: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602608266924&di=dad8d168566413442b66826961ae5100&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F18%2F56%2F14300000958002128488569856508.jpg',
-          name: '王小虎',
-          phone: '13912341234',
-          price: 0,
-          workNumber: 'a0001',
-          time: {
-            start: '2020.9.27 8:01',
-            end: '2020.9.27 8:01'
-          },
-          people: 276,
-          thisMonthGet: 900.89,
-          lastMonthGet: 2001.22
-        },
-      ],
-      currentPage1: 1
+      sqshTableData: [],
+      yjckTableData: [],
+      total1: 1,
+      total2: 1
+    }
+  },
+  watch: {
+    activeName: {
+      handler(val) {
+        console.log(val)
+        if (val === 'first') {
+          this.getsqshTableData({
+            businessType: 2,
+            pageNum: 1,
+            pageSize: 5
+          })
+        } else if (val === 'second') {
+          this.getyjcxTableData({
+            businessType: 2,
+            pageNum: 1,
+            pageSize: 5
+          })
+        }
+      }
     }
   },
   methods: {
-    handleClick() {
-      console.log(this.activeName)
-      if (this.activeName === 'second' && !this.yjckTableData.length) {
-        this.getyjcxTableData({
-          currentPage: 1,
-          pageSize: 5,
-          searchCondition: 1,
-          searchValue: '查询条件'
-        })
-      }
+    async getsqshTableData(val) {
+      let url = '/business/list?'
+      url += getReq(val)
+      console.log(url)
+      let res = await this.$axios.get(url)
+      console.log(res)
+      this.sqshTableData = res.data.data.resultList
+      this.total1 = res.data.data.count
     },
-    getsqshTableData(val) {
+    async getyjcxTableData(val) {
       console.log('>>>>', val)
-    },
-    getyjcxTableData(val) {
-      console.log('>>>>', val)
+      let url = '/business/perfor/list?'
+      url += getReq(val)
+      let res = await this.$axios.post(url)
+      this.yjckTableData = res.data.data.resultList
+      this.total2 = res.data.data.count
+      console.log(res)
     },
   },
   created() {
     // 获取申请审核的数据
     this.getsqshTableData({
-      currentPage: 1,
+      businessType: 2,
+      pageNum: 1,
       pageSize: 5
     })
   },
   mounted() {
-    this.$bus.$on('sqshTableUpdate', this.getsqshTableData)
-    this.$bus.$on('yjcjTableUpdate', this.getyjcxTableData)
+    this.$bus.$on('yw_sqshTableUpdate', this.getsqshTableData)
+    this.$bus.$on('yw_yjckTableUpdate', this.getyjcxTableData)
   },
   beforeDestroy() {
-    this.$bus.$off('sqshTableUpdate')
-    this.$bus.$on('yjcjTableUpdate')
+    this.$bus.$off('yw_sqshTableUpdate')
+    this.$bus.$on('yw_yjckTableUpdate')
   }
 }
 </script>
