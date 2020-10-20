@@ -33,8 +33,8 @@
           <el-table-column
               label="操作">
             <template slot-scope="scope">
-              <span @click="handleEdit(scope.$index, scope.row)">编辑</span>
-              <span @click="handleEdit(scope.$index, scope.row)">删除</span>
+              <span @click="handleEdit(scope.$index, scope.row)" class="table-btn table-btn1">编辑</span>
+              <span @click="handleEdit(scope.$index, scope.row)" class="table-btn">删除</span>
             </template>
           </el-table-column>
         </el-table>
@@ -44,7 +44,7 @@
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
             :current-page="currentPage"
-            :page-sizes="[100, 200, 300, 400]"
+            :page-sizes="[8,10,15,20]"
             :page-size="100"
             layout="total, sizes, prev, pager, next, jumper"
             :total="400">
@@ -155,6 +155,17 @@
 
     .table-box {
       margin-top: 20px;
+
+      /deep/ .table-btn {
+        color: rgba(22,155,213,1);
+        cursor: pointer;
+      }
+
+      /deep/ .table-btn1 {
+        margin: 0 20px 0 0;
+        color: rgba(22,155,213,1);
+        cursor: pointer;
+      }
     }
 
 

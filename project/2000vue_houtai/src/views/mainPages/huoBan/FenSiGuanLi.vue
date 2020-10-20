@@ -28,22 +28,37 @@
           </div>
 
           <div class="item">
-            <span class="key">团长姓名：</span>
+            <span class="key">团长工号：</span>
             <div class="input-box">
               <el-input
-                  placeholder="请输入团长姓名"
+                  placeholder="请输入团长工号"
                   v-model="num3"
                   clearable>
               </el-input>
             </div>
           </div>
+        </div>
+        <div class="right">
+          客户总数：<span class="num">{{ total }}</span>
+        </div>
+      </div>
+
+      <div class="row1" style="margin-top: 20px;">
+        <div class="left">
+          <div class="item">
+            <span class="key">注册时间段：</span>
+            <el-date-picker
+                v-model="time"
+                type="datetimerange"
+                range-separator="至"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期">
+            </el-date-picker>
+          </div>
 
           <div class="btn-box">
             <el-button @click="search" type="primary">查询</el-button>
           </div>
-        </div>
-        <div class="right">
-          客户总数：<span class="num">{{ num }}</span>
         </div>
       </div>
 
@@ -58,32 +73,31 @@
               label="昵称"
           >
             <template slot-scope="scope">
-              <img src="@/assets/imgs/u107.svg" alt="">
-              <span>{{scope.row.name}}</span>
-              <el-button
-                  size="mini"
-                  @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+              <div style="display: flex;align-items: center;">
+                <img :src="scope.row.wxPictureUrl" alt="" style="display: inline-block;width: 30px;height: 30px;margin-right: 20px;">
+                <span>{{scope.row.wxNickname}}</span>
+              </div>
             </template>
           </el-table-column>
           <el-table-column
-              prop="date"
+              prop="openid"
               label="openid">
           </el-table-column>
           <el-table-column
-              prop="name2"
+              prop="createTime"
               label="注册时间">
           </el-table-column>
           <el-table-column
-              prop="address"
+              prop="captain"
               label="所属团长">
           </el-table-column>
           <el-table-column
-              prop="address2"
+              prop="fansCount"
               sortable
               label="下级人数">
           </el-table-column>
           <el-table-column
-              prop="address6"
+              prop="caAmount"
               sortable
               label="本月收益">
           </el-table-column>
@@ -116,29 +130,13 @@
         num1:"",
         num2:"",
         num3:"",
-        num: 152,
-        tableData: [
-          {
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-          }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          }, {
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
-          }
-        ],
+        time:"",
+        tableData: [],
         pageNum: 1,
         pageSize:10,
-        total:10,
+        total:0,
+        orderBy:0,//以什么排序
+        desc:-1,//-1代表默认，true代表升序，false代表降序
       }
     },
     created() {
@@ -161,16 +159,41 @@
 
       //获取数据
       getData() {
-
+        this.search()
       },
 
       //查询
       search() {
-        let url = "/fs/list?nickname="+this.num1+"&merchantCode="+this.num2+"&mobile="+this.num3+"&pageNum="+this.pageNum+"&pageSize="+this.pageSize
+        let url = "/fs/perfor/list?pageNum="+this.pageNum+"&pageSize="+this.pageSize
+        if(this.num1){
+          url += ("&nickname=" + this.num1)
+        }
+
+        if(this.num2){
+          url += ("&merchantCode=" + this.num2)
+        }
+
+        if(this.num3){
+          url += ("&mobile=" + this.num3)
+        }
+
+        if(this.time && this.time.length == 2){
+          let startTime = this.time[0].getTime()
+          let endTime = this.time[1].getTime()
+          url += ("&startTime=" + startTime)
+          url += ("&endTime=" + endTime)
+        }
+
+        if(this.desc != -1) {
+          url += ("&desc=" + this.desc)
+          url += ("&orderBy=" + this.orderBy)
+        }
+        //console.log(url);
         this.$axios.get(url).then(res => {
           console.log(res);
           if(res.data.status == 200 && res.data.message == "成功"){
-
+            this.total = res.data.data.count
+            this.tableData = res.data.data.resultList
           }else {
             alert(res.data.message)
           }
@@ -181,20 +204,35 @@
 
       //改变每一页的条数
       handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        //console.log(`每页 ${val} 条`);
         this.pageSize = val
         this.getData()
       },
 
       //改变页码
       handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+        //console.log(`当前页: ${val}`);
         this.pageNum = val
         this.getData()
       },
-      //
+      //进行排序
       sortChange(column, prop, order) {
-        console.log(column, prop, order);
+        //console.log(column, prop, order);
+        if(column.order == "ascending"){//升序
+          this.desc = true
+        }else if(column.order == "descending"){//降序
+          this.desc = false
+        }else {//默认
+          this.desc = -1
+        }
+
+        if(column.prop == "fansCount"){
+          this.orderBy = "count"
+        }else if(column.prop == "caAmount"){
+          this.orderBy = "amount"
+        }
+
+        this.getData()
       }
     },
     beforeDestroy() {
@@ -224,6 +262,10 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      * {
+        white-space:nowrap;
+      }
 
       .left {
         display: flex;

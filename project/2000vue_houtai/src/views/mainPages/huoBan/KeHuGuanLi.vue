@@ -65,7 +65,7 @@
           <el-table-column
               label="客户电话/编号">
             <template slot-scope="scope">
-              <span>{{scope.row.mobile}}</span>/<span>{{scope.row.merchantCode}}</span>
+              <span>{{scope.row.mobile}}</span>{{scope.row.mobile?'/':""}}<span>{{scope.row.merchantCode}}</span>
             </template>
           </el-table-column>
           <el-table-column
@@ -73,15 +73,15 @@
               label="业务员">
           </el-table-column>
           <el-table-column
-              prop="balance"
+              prop="rechargeAmount"
               label="累计充值">
           </el-table-column>
           <el-table-column
-              prop="historicalCost"
+              prop="consumeAmount"
               label="累计消耗">
           </el-table-column>
           <el-table-column
-              prop="freezeFund"
+              prop="orderCount"
               label="订单笔数">
           </el-table-column>
         </el-table>
@@ -113,28 +113,10 @@ export default {
       num1:"",
       num2:"",
       num3:"",
-      tableData: [
-        {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
-      ],
+      tableData: [],
       pageNum: 1,
       pageSize:10,
-      total:10,
+      total:0,
     }
   },
   created() {
@@ -159,7 +141,19 @@ export default {
 
     //查询
     search() {
-      let url = "/merchant/list?nickname="+this.num1+"&merchantCode="+this.num2+"&mobile="+this.num3+"&pageNum="+this.pageNum+"&pageSize="+this.pageSize
+      let url = "/merchant/list?pageNum="+this.pageNum+"&pageSize="+this.pageSize
+      if(this.num1){
+        url += ("&nickname=" + this.num1)
+      }
+
+      if(this.num2){
+        url += ("&merchantCode=" + this.num2)
+      }
+
+      if(this.num3){
+        url += ("&mobile=" + this.num3)
+      }
+
       this.$axios.get(url).then(res => {
         //console.log(res);
         if(res.data.status == 200 && res.data.message == "成功"){
@@ -170,20 +164,20 @@ export default {
         }
       }).catch((err)=>{
         console.log(err);
-        alert("请求错误")
+        alert("请求失败")
       })
     },
 
     //改变每一页的条数
     handleSizeChange(val) {
-      console.log(`每页 ${val} 条`);
+      //console.log(`每页 ${val} 条`);
       this.pageSize = val
       this.getData()
     },
 
     //改变页码
     handleCurrentChange(val) {
-      console.log(`当前页: ${val}`);
+      //console.log(`当前页: ${val}`);
       this.pageNum = val
       this.getData()
     }
@@ -215,6 +209,10 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-between;
+
+      * {
+        white-space:nowrap;
+      }
 
       .left {
         display: flex;
