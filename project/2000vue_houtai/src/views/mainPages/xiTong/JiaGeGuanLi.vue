@@ -15,22 +15,22 @@
             :data="tableData"
             style="width: 100%">
           <el-table-column
-              prop="name2"
+              prop="createTime"
               label="创建日期">
           </el-table-column>
           <el-table-column
-              prop="name2"
+              prop="platformName"
               label="名称">
           </el-table-column>
           <el-table-column
-              prop="address"
+              prop="designation"
               label="备注">
           </el-table-column>
           <el-table-column
               label="操作">
             <template slot-scope="scope">
-              <span @click="handleEdit(scope.$index, scope.row)">编辑</span>
-              <span @click="handleEdit(scope.$index, scope.row)">删除</span>
+              <span @click="handleEdit(scope.$index, scope.row)" class="table-btn table-btn1">编辑</span>
+              <span @click="handleEdit(scope.$index, scope.row)" class="table-btn">删除</span>
             </template>
           </el-table-column>
         </el-table>
@@ -39,11 +39,11 @@
         <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page="currentPage"
-            :page-sizes="[100, 200, 300, 400]"
-            :page-size="100"
+            :current-page="pageNum"
+            :page-sizes="[8,10,15,20]"
+            :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="400">
+            :total="total">
         </el-pagination>
       </div>
     </div>
@@ -59,26 +59,10 @@
     watch: {},
     data() {
       return {
-        tableData: [
-          {
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-          }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          }, {
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
-          }
-        ],
-        currentPage: 5,
+        tableData: [],
+        pageNum: 1,
+        pageSize:10,
+        total:0,
       }
     },
     created() {
@@ -106,7 +90,19 @@
 
       //获取数据
       getData() {
-
+        let url = "/price/list?pageNum="+this.pageNum+"&pageSize="+this.pageSize
+        this.$axios.post(url).then(res => {
+          //console.log(res);
+          if(res.data.status == 200 && res.data.message == "成功"){
+            this.total = res.data.data.count
+            this.tableData = res.data.data.resultList
+          }else {
+            alert(res.data.message)
+          }
+        }).catch((err)=>{
+          console.log(err);
+          alert("请求失败")
+        })
       },
 
       //查询
@@ -151,6 +147,17 @@
 
     .table-box {
       margin-top: 20px;
+
+      /deep/ .table-btn {
+        color: rgba(22,155,213,1);
+        cursor: pointer;
+      }
+
+      /deep/ .table-btn1 {
+        margin: 0 20px 0 0;
+        color: rgba(22,155,213,1);
+        cursor: pointer;
+      }
     }
 
     .fen-ye-qi-box {

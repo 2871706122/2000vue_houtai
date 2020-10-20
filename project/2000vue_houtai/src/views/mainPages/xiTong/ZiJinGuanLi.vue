@@ -51,11 +51,11 @@
           <el-pagination
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-sizes="[100, 200, 300, 400]"
-              :page-size="100"
+              :current-page="pageNum"
+              :page-sizes="[8,10,15,20]"
+              :page-size="pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="400">
+              :total="total">
           </el-pagination>
         </div>
       </div>
@@ -63,24 +63,39 @@
       <div class="part part2" v-show="showTab==1">
         <div class="row1">
           <div class="left">
-            <span>用户搜索：</span>
-            <div class="select-box">
-              <el-select v-model="selectVlaue" placeholder="请选择">
-                <el-option
-                    v-for="item in selectOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                </el-option>
-              </el-select>
+            <div class="item">
+              <span class="key">昵称：</span>
+              <div class="input-box">
+                <el-input
+                    placeholder="请输入昵称"
+                    v-model="num1"
+                    clearable>
+                </el-input>
+              </div>
             </div>
-            <div class="input-box">
-              <el-input
-                  placeholder="请输入内容"
-                  v-model="inputValue"
-                  clearable>
-              </el-input>
+
+            <div class="item">
+              <span class="key">编号：</span>
+              <div class="input-box">
+                <el-input
+                    placeholder="请输入编号"
+                    v-model="num2"
+                    clearable>
+                </el-input>
+              </div>
             </div>
+
+            <div class="item">
+              <span class="key">手机号：</span>
+              <div class="input-box">
+                <el-input
+                    placeholder="请输入手机号"
+                    v-model="num3"
+                    clearable>
+                </el-input>
+              </div>
+            </div>
+
             <div class="btn-box">
               <el-button @click="search" type="primary">查询</el-button>
             </div>
@@ -91,23 +106,30 @@
               :data="tableData"
               style="width: 100%">
             <el-table-column
-                prop="name2"
                 label="昵称">
+              <template slot-scope="scope">
+                <div style="display: flex;align-items: center;">
+                  <img :src="scope.row.wxPictureUrl" alt="" style="display: inline-block;width: 30px;height: 30px;margin-right: 20px;">
+                  <span>{{scope.row.nickname}}</span>
+                </div>
+              </template>
             </el-table-column>
             <el-table-column
-                prop="name2"
                 label="客户电话/编号">
+              <template slot-scope="scope">
+                <span>{{scope.row.merchantMobile}}</span>{{scope.row.merchantMobile?'/':""}}<span>{{scope.row.merchantCode}}</span>
+              </template>
             </el-table-column>
             <el-table-column
-                prop="address"
+                prop="channelCode"
                 label="业务员">
             </el-table-column>
             <el-table-column
-                prop="address2"
+                prop="amount"
                 label="充值金额">
             </el-table-column>
             <el-table-column
-                prop="address6"
+                prop="createTime"
                 label="充值时间">
             </el-table-column>
           </el-table>
@@ -116,11 +138,11 @@
           <el-pagination
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-sizes="[100, 200, 300, 400]"
-              :page-size="100"
+              :current-page="pageNum"
+              :page-sizes="[8,10,15,20]"
+              :page-size="pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="400">
+              :total="total">
           </el-pagination>
         </div>
       </div>
@@ -128,24 +150,39 @@
       <div class="part part2" v-show="showTab==2">
         <div class="row1">
           <div class="left">
-            <span>用户搜索：</span>
-            <div class="select-box">
-              <el-select v-model="selectVlaue" placeholder="请选择">
-                <el-option
-                    v-for="item in selectOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                </el-option>
-              </el-select>
+            <div class="item">
+              <span class="key">昵称：</span>
+              <div class="input-box">
+                <el-input
+                    placeholder="请输入昵称"
+                    v-model="num1"
+                    clearable>
+                </el-input>
+              </div>
             </div>
-            <div class="input-box">
-              <el-input
-                  placeholder="请输入内容"
-                  v-model="inputValue"
-                  clearable>
-              </el-input>
+
+            <div class="item">
+              <span class="key">编号：</span>
+              <div class="input-box">
+                <el-input
+                    placeholder="请输入编号"
+                    v-model="num2"
+                    clearable>
+                </el-input>
+              </div>
             </div>
+
+            <div class="item">
+              <span class="key">手机号：</span>
+              <div class="input-box">
+                <el-input
+                    placeholder="请输入手机号"
+                    v-model="num3"
+                    clearable>
+                </el-input>
+              </div>
+            </div>
+
             <div class="btn-box">
               <el-button @click="search" type="primary">查询</el-button>
             </div>
@@ -185,11 +222,11 @@
           <el-pagination
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
-              :current-page="currentPage"
-              :page-sizes="[100, 200, 300, 400]"
-              :page-size="100"
+              :current-page="pageNum"
+              :page-sizes="[8,10,15,20]"
+              :page-size="pageSize"
               layout="total, sizes, prev, pager, next, jumper"
-              :total="400">
+              :total="total">
           </el-pagination>
         </div>
       </div>
@@ -199,180 +236,232 @@
 </template>
 
 <script>
-  export default {
-    name: "ZiJinGuanLi",
-    props: [],
-    components: {},
-    computed: {},
-    watch: {},
-    data() {
-      return {
-        showTab:0,//当前显示哪个
-        tableData: [
-          {
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-          }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          }, {
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
-          }
-        ],
-        currentPage: 5,
+export default {
+  name: "ZiJinGuanLi",
+  props: [],
+  components: {},
+  computed: {},
+  watch: {},
+  data() {
+    return {
+      num1: "",
+      num2: "",
+      num3: "",
+      showTab: 0,//当前显示哪个
+      tableData: [],
+      pageNum: 1,
+      pageSize: 10,
+      total: 0,
+    }
+  },
+  created() {
+  },
+  mounted() {
+    this.init()
+    this.getData(0)
+  },
+  methods: {
+    //改变导航
+    changeTab(index) {
+      this.num1 = ""
+      this.num2 = ""
+      this.num3 = ""
 
-        selectVlaue: "1",
-        selectOptions: [
-          {
-            value: '1',
-            label: '昵称'
-          }, {
-            value: '2',
-            label: '编号'
-          }, {
-            value: '3',
-            label: '手机号'
-          }, {
-            value: '4',
-            label: '业务员昵称/手机号'
-          }
-        ],
-        inputValue: "",
-      }
-    },
-    created() {
-    },
-    mounted() {
-      this.init()
+      this.pageNum = 1
+      this.pageSize = 10
+      this.total = 0
+
+      this.showTab = index
       this.getData()
     },
-    methods: {
-      //改变导航
-      changeTab(index){
-        this.showTab = index
-      },
-      //点击table中的按钮
-      handleEdit(a,b) {
-        console.log(a,b);
-      },
+    //点击table中的按钮
+    handleEdit(a, b) {
+      console.log(a, b);
+    },
 
 
-      //初始化界面
-      init() {
+    //初始化界面
+    init() {
 
-      },
+    },
 
-      //获取数据
-      getData() {
+    //获取数据
+    getData() {
+      let index = this.showTab
+      this.tableData = []
+      if (index == 0) {
+        let url = "/trade/list"
+      } else if (index == 1) {
+        let url = "/trade/list?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize
+        if (this.num1) {
+          url += ("&nickname=" + this.num1)
+        }
 
-      },
+        if (this.num2) {
+          url += ("&merchantCode=" + this.num2)
+        }
 
-      //查询
-      search() {
+        if (this.num3) {
+          url += ("&mobile=" + this.num3)
+        }
 
-      },
+        this.$axios.get(url).then(res => {
+          //console.log(res);
+          if (res.data.status == 200 && res.data.message == "成功") {
+            this.total = res.data.data.count
+            this.tableData = res.data.data.resultList
+          } else {
+            alert(res.data.message)
+          }
+        }).catch((err) => {
+          console.log(err);
+          alert("请求失败")
+        })
+      } else if (index == 2) {
+        let url = "/repay/list?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize
+        if (this.num1) {
+          url += ("&nickname=" + this.num1)
+        }
 
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+        if (this.num2) {
+          url += ("&merchantCode=" + this.num2)
+        }
+
+        if (this.num3) {
+          url += ("&mobile=" + this.num3)
+        }
+
+        this.$axios.get(url).then(res => {
+          //console.log(res);
+          if (res.data.status == 200 && res.data.message == "成功") {
+            this.total = res.data.data.count
+            this.tableData = res.data.data.resultList
+          } else {
+            alert(res.data.message)
+          }
+        }).catch((err) => {
+          console.log(err);
+          alert("请求失败")
+        })
       }
     },
-    beforeDestroy() {
+
+    //查询
+    search() {
+      this.getData()
+    },
+
+    //改变每一页的条数
+    handleSizeChange(val) {
+      //console.log(`每页 ${val} 条`);
+      this.pageSize = val
+      this.getData()
+    },
+
+    //改变页码
+    handleCurrentChange(val) {
+      //console.log(`当前页: ${val}`);
+      this.pageNum = val
+      this.getData()
     }
+  },
+  beforeDestroy() {
   }
+}
 </script>
 
 <style scoped lang="scss">
-  .ZiJinGuanLi {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+.ZiJinGuanLi {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 
-    .top-title {
-      padding-left: 20px;
-      line-height: 40px;
-      font-size: 14px;
+  .top-title {
+    padding-left: 20px;
+    line-height: 40px;
+    font-size: 14px;
+  }
+
+  .content {
+    flex: 1;
+    padding: 30px;
+    box-sizing: border-box;
+    border: 5px solid rgb(245, 247, 250);
+
+    .top-tabs {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+
+      .tab {
+        font-size: 14px;
+        margin: 0 30px 0 0;
+        padding-bottom: 5px;
+        cursor: pointer;
+        position: relative;
+      }
+
+      .tab-checked {
+        color: rgb(64, 158, 255);
+      }
+
+      .tab-checked:before {
+        content: " ";
+        position: absolute;
+        top: 23px;
+        left: 0;
+        display: inline-block;
+        width: 100%;
+        height: 2px;
+        background-color: rgb(64, 158, 255);
+      }
     }
 
-    .content {
-      flex: 1;
-      padding: 30px;
-      box-sizing: border-box;
-      border: 5px solid rgb(245, 247, 250);
+    .part {
+      margin-top: 15px;
 
-      .top-tabs {
+      .table-box {
+        margin-top: 20px;
+      }
+    }
+
+    .part2 {
+      .row1 {
         display: flex;
         align-items: center;
-        border-bottom: 1px solid #ccc;
+        justify-content: space-between;
 
-        .tab {
-          font-size: 14px;
-          margin: 0 30px 0 0;
-          padding-bottom: 5px;
-          cursor: pointer;
-          position: relative;
+        * {
+          white-space: nowrap;
         }
 
-        .tab-checked {
-          color: rgb(64,158,255);
-        }
-
-        .tab-checked:before {
-          content: " ";
-          position: absolute;
-          top: 23px;
-          left: 0;
-          display: inline-block;
-          width: 100%;
-          height: 2px;
-          background-color: rgb(64,158,255);
-        }
-      }
-
-      .part {
-        margin-top: 15px;
-        .table-box {
-          margin-top: 20px;
-        }
-      }
-
-      .part2 {
-        .row1 {
+        .left {
           display: flex;
           align-items: center;
-          justify-content: space-between;
 
-          .left {
+          .item {
+            margin-right: 15px;
             display: flex;
             align-items: center;
-
-            .btn-box {
-              margin-left: 20px;
-            }
           }
 
-          .right {
-            .num {
-              font-size: 16px;
-            }
+          .btn-box {
+            margin-left: 20px;
+          }
+        }
+
+        .right {
+          .num {
+            font-size: 16px;
           }
         }
       }
+    }
 
-      .fen-ye-qi-box {
-        margin-top: 20px;
-        text-align: right;
-      }
+    .fen-ye-qi-box {
+      margin-top: 20px;
+      text-align: right;
     }
   }
+}
 </style>
