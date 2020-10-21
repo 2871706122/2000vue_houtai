@@ -3,17 +3,30 @@
     <el-table :data="tableData" style="width: 100%">
       <el-table-column label width="50">
         <template slot-scope="scope">
-           <el-avatar :src="scope.row.userImg"></el-avatar>
+          <el-avatar :src="scope.row.wxPictureUrl"></el-avatar>
         </template>
       </el-table-column>
-      <el-table-column prop="name" label="昵称"></el-table-column>
-      <el-table-column prop="phone" label="手机号"></el-table-column>
-      <el-table-column prop="workNumber" label="工号"></el-table-column>
+      <el-table-column prop="wxNickname" label="昵称"></el-table-column>
+      <el-table-column prop="mobile" label="手机号"></el-table-column>
+      <el-table-column prop="channelCode" label="工号"></el-table-column>
       <el-table-column prop="status" label="状态"></el-table-column>
-      <el-table-column prop="timeOfApplication" label="申请时间"></el-table-column>
+      <el-table-column label="状态">
+        <template slot-scope="scope">
+          <span v-if="scope.row.status === 0">初始化</span>
+          <span v-if="scope.row.status === 1">未审核</span>
+          <span v-if="scope.row.status === 2">审核通过</span>
+          <span v-if="scope.row.status === 9">审核不通过</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="applyTime" label="申请时间"></el-table-column>
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button type="text" size="small">编辑</el-button>
+          <el-button
+            type="text"
+            size="small"
+            @click="approval({ id: scope.row.openid, type: 2 })"
+            >批准</el-button
+          >
         </template>
       </el-table-column>
     </el-table>
@@ -21,7 +34,7 @@
       <el-pagination
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
-        :current-page.sync="currentPage"
+        :current-page.sync="pageNum"
         :page-sizes="[5, 10, 20]"
         :page-size="pageSize"
         layout="sizes, prev, pager, next,jumper"
@@ -31,6 +44,7 @@
   </div>
 </template>
 <script>
+import getReq from '@/utils/getReq.js'
 export default {
   name: 'SqshTable',
   props: {
@@ -39,33 +53,43 @@ export default {
         return []
       }
     },
+    total: {
+      default: 1
+    }
   },
   data() {
     return {
-      currentPage: 1,
+      pageNum: 1,
       pageSize: 5,
-      total: 10
     }
   },
   methods: {
     handleSizeChange(val) {
       console.log(val)
       this.pageSize = val
-      this.$bus.$emit('yjcjTableUpdate', {
+      this.$bus.$emit('tz_sqshTableUpdate', {
+        businessType: 1,
         pageSize: this.pageSize,
-        currentPage: this.currentPage,
-        searchCondition: this.searchCondition,
-        searchValue: this.searchValue
+        pageNum: this.pageNum
       })
     },
     handleCurrentChange(val) {
       console.log(val)
-      console.log(this.currentPage)
-      this.$bus.$emit('sqshTableUpdate', {
+      console.log(this.pageNum)
+      this.$bus.$emit('tz_sqshTableUpdate', {
+        businessType: 1,
         pageSize: this.pageSize,
-        currentPage: this.currentPage
+        pageNum: this.pageNum
       })
     },
+    async approval(val) {
+      let url = '/business/pass?'
+      url += getReq(val)
+      console.log(url)
+      let res = await this.$axios.post(url)
+      console.log(res)
+
+    }
   },
 }
 </script>
