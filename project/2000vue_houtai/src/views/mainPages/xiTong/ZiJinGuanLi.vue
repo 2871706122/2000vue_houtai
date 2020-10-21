@@ -290,7 +290,19 @@ export default {
       let index = this.showTab
       this.tableData = []
       if (index == 0) {
-        let url = "/trade/list"
+        let url = "/fund/list?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize
+        this.$axios.get(url).then(res => {
+          //console.log(res);
+          if (res.data.status == 200 && res.data.message == "成功") {
+            this.total = res.data.data.count
+            this.tableData = res.data.data.resultList
+          } else {
+            alert(res.data.message)
+          }
+        }).catch((err) => {
+          console.log(err);
+          alert("请求失败")
+        })
       } else if (index == 1) {
         let url = "/trade/list?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize
         if (this.num1) {

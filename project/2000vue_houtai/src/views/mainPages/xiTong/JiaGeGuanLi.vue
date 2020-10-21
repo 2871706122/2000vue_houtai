@@ -82,7 +82,7 @@
         </div>
 
         <div class="item item2">
-          <span class="key">点赞：</span>
+          <span class="key">点赞20：</span>
           <div class="input-box">
             <el-input
                 placeholder="请输入金额"
