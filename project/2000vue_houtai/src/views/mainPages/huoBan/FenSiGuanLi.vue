@@ -115,6 +115,8 @@
         </el-pagination>
       </div>
     </div>
+
+
   </div>
 </template>
 
@@ -137,13 +139,13 @@
         total:0,
         orderBy:0,//以什么排序
         desc:-1,//-1代表默认，true代表升序，false代表降序
+
       }
     },
     created() {
     },
     mounted() {
       this.init()
-      this.getData()
     },
     methods: {
       //点击table中的按钮
@@ -151,10 +153,33 @@
         console.log(a,b);
       },
 
-
       //初始化界面
       init() {
+        this.time = []
+        //获取月初和当前的日期
+        let day = new Date();
+        let y = day.getFullYear()
+        let m = day.getMonth() + 1
+        m = (m<=9?("0"+m):m)
+        let d = day.getDate()
+        d = (d<=9?("0"+d):d)
 
+        let time1 = y + "-" + m + "-01" + " 00:00:00"
+        time1 = new Date(time1)
+        this.time.push(time1)
+
+        let h = day.getHours()
+        h = (h<=9?("0"+h):h)
+        let m2 = day.getMinutes()
+        m2 = (m2<=9?("0"+m2):m2)
+        let s = day.getSeconds()
+        s = (s<=9?("0"+s):s)
+
+        let time2 = y + "-" + m + "-" + d + " " + h + ":" + m2 + ":" + s
+        time2 = new Date(time2)
+        this.time.push(time2)
+
+        this.getData()
       },
 
       //获取数据

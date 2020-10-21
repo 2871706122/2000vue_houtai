@@ -8,13 +8,13 @@
         <div class="item">
           <div class="msg-box">
             <div class="left">
-              <span class="tip">进入充值</span>
-              <span class="num">{{num1}}</span>
+              <span class="tip">今日充值</span>
+              <span class="num">{{ num1 }}</span>
             </div>
             <div class="right">
               <span class="tip">10日环比</span>
               <img class="img" src="@/assets/imgs/u107.svg" alt="">
-              <span class="num">{{per1}}</span>
+              <span class="num">{{ per1 }}</span>
             </div>
           </div>
           <div class="echart" id="echart1"></div>
@@ -24,12 +24,12 @@
           <div class="msg-box">
             <div class="left">
               <span class="tip">今日消耗</span>
-              <span class="num">{{num2}}</span>
+              <span class="num">{{ num2 }}</span>
             </div>
             <div class="right">
               <span class="tip">10日环比</span>
               <img class="img" src="@/assets/imgs/u107.svg" alt="">
-              <span class="num">{{per2}}</span>
+              <span class="num">{{ per2 }}</span>
             </div>
           </div>
           <div class="echart" id="echart2"></div>
@@ -39,12 +39,12 @@
           <div class="msg-box">
             <div class="left">
               <span class="tip">今日利润</span>
-              <span class="num">{{num3}}</span>
+              <span class="num">{{ num3 }}</span>
             </div>
             <div class="right">
               <span class="tip">10日环比</span>
               <img class="img" src="@/assets/imgs/u107.svg" alt="">
-              <span class="num">{{per3}}</span>
+              <span class="num">{{ per3 }}</span>
             </div>
           </div>
           <div class="echart" id="echart3"></div>
@@ -58,12 +58,12 @@
           <div class="msg-box">
             <div class="left">
               <span class="tip">昨日执行</span>
-              <span class="num">{{num4}}</span>
+              <span class="num">{{ num4 }}</span>
             </div>
             <div class="right">
               <span class="tip">10日环比</span>
               <img class="img" src="@/assets/imgs/u107.svg" alt="">
-              <span class="num">{{per4}}</span>
+              <span class="num">{{ per4 }}</span>
             </div>
           </div>
           <div class="echart" id="echart4"></div>
@@ -73,12 +73,12 @@
           <div class="msg-box">
             <div class="left">
               <span class="tip">昨日审核</span>
-              <span class="num">{{num5}}</span>
+              <span class="num">{{ num5 }}</span>
             </div>
             <div class="right">
               <span class="tip">10日环比</span>
               <img class="img" src="@/assets/imgs/u107.svg" alt="">
-              <span class="num">{{per5}}</span>
+              <span class="num">{{ per5 }}</span>
             </div>
           </div>
           <div class="echart" id="echart5"></div>
@@ -88,12 +88,12 @@
           <div class="msg-box">
             <div class="left">
               <span class="tip">昨日合格</span>
-              <span class="num">{{num6}}</span>
+              <span class="num">{{ num6 }}</span>
             </div>
             <div class="right">
               <span class="tip">10日环比</span>
               <img class="img" src="@/assets/imgs/u107.svg" alt="">
-              <span class="num">{{per6}}</span>
+              <span class="num">{{ per6 }}</span>
             </div>
           </div>
           <div class="echart" id="echart6"></div>
@@ -109,7 +109,7 @@
             </div>
             <div class="right">
               <img class="img2" src="@/assets/imgs/u210.svg" alt="">
-              <span>活跃粉丝: {{huoYueFenSi}}</span>
+              <span>活跃粉丝: {{ huoYueFenSi }}</span>
             </div>
           </div>
           <div class="echart" id="echart7"></div>
@@ -119,12 +119,12 @@
             <div class="msg-box">
               <div class="left">
                 <span class="tip">昨日订单数</span>
-                <span class="num">{{num8}}</span>
+                <span class="num">{{ num8 }}</span>
               </div>
               <div class="right">
                 <span class="tip">10日环比</span>
                 <img class="img" src="@/assets/imgs/u107.svg" alt="">
-                <span class="num">{{per8}}</span>
+                <span class="num">{{ per8 }}</span>
               </div>
             </div>
             <div class="echart" id="echart8"></div>
@@ -133,12 +133,12 @@
             <div class="msg-box">
               <div class="left">
                 <span class="tip">昨日订单量</span>
-                <span class="num">{{num9}}</span>
+                <span class="num">{{ num9 }}</span>
               </div>
               <div class="right">
                 <span class="tip">10日环比</span>
                 <img class="img" src="@/assets/imgs/u107.svg" alt="">
-                <span class="num">{{per9}}</span>
+                <span class="num">{{ per9 }}</span>
               </div>
             </div>
             <div class="echart" id="echart9"></div>
@@ -150,69 +150,145 @@
 </template>
 
 <script>
-  export default {
-    name: "ShuJuTongJi",
-    props: [],
-    components: {},
-    computed: {},
-    watch: {},
-    data() {
-      return {
-        num1:"30,200",
-        num2:"30,200",
-        num3:"30,200",
-        num4:"30,200",
-        num5:"30,200",
-        num6:"30,200",
-        num7:"30,200",
-        num8:"30,200",
-        num9:"30,200",
+export default {
+  name: "ShuJuTongJi",
+  props: [],
+  components: {},
+  computed: {},
+  watch: {},
+  data() {
+    return {
+      days: [],
+      days2:[],
 
-        per1:"5%",
-        per2:"5%",
-        per3:"5%",
-        per4:"5%",
-        per5:"5%",
-        per6:"5%",
-        per7:"5%",
-        per8:"5%",
-        per9:"5%",
+      num1: "30,200",
+      num2: "30,200",
+      num3: "30,200",
+      num4: "30,200",
+      num5: "30,200",
+      num6: "30,200",
+      num7: "30,200",
+      num8: "30,200",
+      num9: "30,200",
 
-        huoYueFenSi:"阿木"
+      per1: "5%",
+      per2: "5%",
+      per3: "5%",
+      per4: "5%",
+      per5: "5%",
+      per6: "5%",
+      per7: "5%",
+      per8: "5%",
+      per9: "5%",
+
+      huoYueFenSi: "阿木"
+    }
+  },
+  created() {
+  },
+  mounted() {
+    this.init()
+    this.getData()
+  },
+  methods: {
+    //初始化界面
+    init() {
+      //获取最近10天的日期
+      let day = new Date();
+      for (let i = 0; i < 10; i++) {
+        let day2 = new Date(day);
+        day2.setDate(day.getDate() - i);
+        let y = day2.getFullYear()
+        let m = day2.getMonth() + 1
+        m = (m<=9?("0"+m):m)
+        let d = day2.getDate()
+        d = (d<=9?("0"+d):d)
+        day2 = y + "-" + m + "-" + d
+        this.days.unshift(day2)
+      }
+
+      //获取过去15天的日期
+      for (let i = 0; i < 15; i++) {
+        let day2 = new Date(day);
+        day2.setDate(day.getDate() - i - 1);
+        let y = day2.getFullYear()
+        let m = day2.getMonth() + 1
+        m = (m<=9?("0"+m):m)
+        let d = day2.getDate()
+        d = (d<=9?("0"+d):d)
+        day2 = y + "-" + m + "-" + d
+        this.days2.unshift(day2)
       }
     },
-    created() {
-    },
-    mounted() {
-      this.init()
-      this.getData()
-      this.renderEcharts()
-    },
-    methods: {
-      //初始化界面
-      init() {
 
-      },
+    //获取数据
+    getData() {
+      //今日的
+      let url = "/stat/amount"
+      this.$axios.get(url).then(res => {
+        //console.log(res);
+        if (res.data.status == 200 && res.data.message == "成功") {
+          this.num1 = res.data.data.充值.today
+          this.per1 = res.data.data.充值.percent
+          let list = res.data.data.充值.list
+          this.renderEcharts(0, list)
 
-      //获取数据
-      getData() {
-        let url = "/stat/amount"
-        this.$axios.get(url).then(res => {
-          console.log(res);
-          if(res.data.status == 200 && res.data.message == "成功"){
-            // this.total = res.data.data.count
-            // this.tableData = res.data.data.resultList
-          }else {
-            alert(res.data.message)
+          this.num2 = res.data.data.消耗.today
+          this.per2 = res.data.data.消耗.percent
+          let list2 = res.data.data.消耗.list
+          this.renderEcharts(1, list2)
+
+          this.num3 = res.data.data.利润.today
+          this.per3 = res.data.data.利润.percent
+          let list3 = res.data.data.利润.list
+          this.renderEcharts(2, list3)
+        } else {
+          alert(res.data.message)
+        }
+      }).catch((err) => {
+        console.log(err);
+        alert("请求失败")
+      })
+
+      //粉丝统计
+      let url2 = "/stat/fans"
+      this.$axios.get(url2).then(res => {
+        console.log(res);
+        if (res.data.status == 200 && res.data.message == "成功") {
+          // this.num1 = res.data.data.充值.today
+          let aliveFsCount = res.data.data.aliveFsCount
+          let allFsCount = res.data.data.allFsCount
+          let days2 = this.days2
+          let list1 = []
+          let list2 = []
+          for(let i=0;i<days2.length;i++){
+            for(let j=0;j<allFsCount.length;j++){
+              if(days2[i] == allFsCount[j].dayTime){
+                list1.push(allFsCount[j].count)
+                break
+              }
+            }
+
+            for(let j=0;j<aliveFsCount.length;j++){
+              if(days2[i] == aliveFsCount[j].dayTime){
+                list2.push(aliveFsCount[j].count)
+                break
+              }
+            }
           }
-        }).catch((err)=>{
-          console.log(err);
-          alert("请求失败")
-        })
-      },
+          this.renderEcharts(6,list1,list2)
+        } else {
+          alert(res.data.message)
+        }
+      }).catch((err) => {
+        console.log(err);
+        alert("请求失败")
+      })
+    },
 
-      renderEcharts(){
-        let option = {
+    renderEcharts(index,data1,data2) {
+      if (index == 0) {
+        let option0 = {
           color: ['#3398DB'],
           tooltip: {
             trigger: 'axis',
@@ -229,8 +305,9 @@
           },
           xAxis: [
             {
+              show: false,
               type: 'category',
-              data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+              data: this.days,
               axisTick: {
                 alignWithLabel: true
               }
@@ -238,12 +315,13 @@
           ],
           yAxis: [
             {
+              show: false,
               type: 'value'
             }
           ],
           series: [
             {
-              name: '直接访问',
+              name: '今日充值',
               type: 'bar',
               barWidth: '60%',
               data: [10, 52, 200, 334, 390, 330, 220]
@@ -251,267 +329,579 @@
           ]
         }
         var myChart1 = this.$echarts.init(document.getElementById('echart1'));
-        myChart1.setOption(option);
+        myChart1.setOption(option0);
+      }
 
-        var myChart2 = this.$echarts.init(document.getElementById('echart2'));
-        myChart2.setOption(option);
-
-        var myChart3 = this.$echarts.init(document.getElementById('echart3'));
-        myChart3.setOption(option);
-
-        var myChart4 = this.$echarts.init(document.getElementById('echart4'));
-        myChart4.setOption(option);
-
-        var myChart5 = this.$echarts.init(document.getElementById('echart5'));
-        myChart5.setOption(option);
-
-        var myChart6 = this.$echarts.init(document.getElementById('echart6'));
-        myChart6.setOption(option);
-
-
-        let option7 = {
+      if (index == 1) {
+        let option1 = {
+          color: ['#3398DB'],
           tooltip: {
             trigger: 'axis',
-            axisPointer: {
-              type: 'cross',
-              label: {
-                backgroundColor: '#6a7985'
-              }
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+              type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
             }
           },
           grid: {
-            left: '3%',
-            right: '4%',
-            bottom: '3%',
-            top:20,
+            left: '0%',
+            right: '0%',
+            bottom: '0%',
+            top: '20',
             containLabel: true
           },
           xAxis: [
             {
+              show: false,
               type: 'category',
-              boundaryGap: false,
-              data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+              data: this.days,
+              axisTick: {
+                alignWithLabel: true
+              }
             }
           ],
           yAxis: [
             {
+              show: false,
               type: 'value'
             }
           ],
           series: [
             {
-              name: '邮件营销',
+              name: '今日消耗',
+              type: 'bar',
+              barWidth: '60%',
+              data: [10, 52, 200, 334, 390, 330, 220]
+            }
+          ]
+        }
+        var myChart2 = this.$echarts.init(document.getElementById('echart2'));
+        myChart2.setOption(option1);
+      }
+
+      if (index == 2) {
+        let option2 = {
+          color: ['#3398DB'],
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+              type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+          },
+          grid: {
+            left: '0%',
+            right: '0%',
+            bottom: '0%',
+            top: '20',
+            containLabel: true
+          },
+          xAxis: [
+            {
+              show: false,
+              type: 'category',
+              data: this.days,
+              axisTick: {
+                alignWithLabel: true
+              }
+            }
+          ],
+          yAxis: [
+            {
+              show: false,
+              type: 'value'
+            }
+          ],
+          series: [
+            {
+              name: '今日利润',
+              type: 'bar',
+              barWidth: '60%',
+              data: [10, 52, 200, 334, 390, 330, 220]
+            }
+          ]
+        }
+        var myChart3 = this.$echarts.init(document.getElementById('echart3'));
+        myChart3.setOption(option2);
+      }
+
+      if (index == 3) {
+        let option3 = {
+          color: ['#3398DB'],
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+              type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+          },
+          grid: {
+            left: '0%',
+            right: '0%',
+            bottom: '0%',
+            top: '20',
+            containLabel: true
+          },
+          xAxis: [
+            {
+              show: false,
+              type: 'category',
+              data: this.days,
+              axisTick: {
+                alignWithLabel: true
+              }
+            }
+          ],
+          yAxis: [
+            {
+              show: false,
+              type: 'value'
+            }
+          ],
+          series: [
+            {
+              name: '昨日执行',
+              type: 'bar',
+              barWidth: '60%',
+              data: [10, 52, 200, 334, 390, 330, 220]
+            }
+          ]
+        }
+        var myChart4 = this.$echarts.init(document.getElementById('echart4'));
+        myChart4.setOption(option3);
+      }
+
+      if (index == 4) {
+        let option4 = {
+          color: ['#3398DB'],
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+              type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+          },
+          grid: {
+            left: '0%',
+            right: '0%',
+            bottom: '0%',
+            top: '20',
+            containLabel: true
+          },
+          xAxis: [
+            {
+              show: false,
+              type: 'category',
+              data: this.days,
+              axisTick: {
+                alignWithLabel: true
+              }
+            }
+          ],
+          yAxis: [
+            {
+              show: false,
+              type: 'value'
+            }
+          ],
+          series: [
+            {
+              name: '昨日审核',
+              type: 'bar',
+              barWidth: '60%',
+              data: [10, 52, 200, 334, 390, 330, 220]
+            }
+          ]
+        }
+        var myChart5 = this.$echarts.init(document.getElementById('echart5'));
+        myChart5.setOption(option4);
+      }
+
+      if (index == 5) {
+        let option5 = {
+          color: ['#3398DB'],
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+              type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+          },
+          grid: {
+            left: '0%',
+            right: '0%',
+            bottom: '0%',
+            top: '20',
+            containLabel: true
+          },
+          xAxis: [
+            {
+              show: false,
+              type: 'category',
+              data: this.days,
+              axisTick: {
+                alignWithLabel: true
+              }
+            }
+          ],
+          yAxis: [
+            {
+              show: false,
+              type: 'value'
+            }
+          ],
+          series: [
+            {
+              name: '昨日合格',
+              type: 'bar',
+              barWidth: '60%',
+              data: [10, 52, 200, 334, 390, 330, 220]
+            }
+          ]
+        }
+        var myChart6 = this.$echarts.init(document.getElementById('echart6'));
+        myChart6.setOption(option5);
+      }
+
+      if (index == 6) {
+        let option7 = {
+          tooltip: {
+            trigger: 'axis',
+            backgroundColor:"#fff",
+            textStyle:{color:"#000"}
+          },
+          grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            top: 20,
+            containLabel: true
+          },
+          xAxis: [
+            {
+              show:false,
+              type: 'category',
+              boundaryGap: false,
+              data: this.days2
+            }
+          ],
+          yAxis: [
+            {
+              show:false,
+              type: 'value'
+            }
+          ],
+          series: [
+            {
+              name: '活跃粉丝数量',
               type: 'line',
               stack: '总量',
-              areaStyle: {},
-              data: [120, 132, 101, 134, 90, 230, 210]
+              itemStyle:{
+                color:"rgb(47,194,91)",
+              },
+              areaStyle: {
+                color:"rgb(192,237,205)"
+              },
+              data: data2
             },
             {
-              name: '联盟广告',
+              name: '粉丝总数',
               type: 'line',
               stack: '总量',
-              areaStyle: {},
-              data: [220, 182, 191, 234, 290, 330, 310]
+              itemStyle:{
+                normal:{
+                  color:"rgb(27,145,254)"
+                }
+              },
+              areaStyle: {
+                color:"rgb(185,221,255)"
+              },
+              data: data1
             },
           ]
         };
         var myChart7 = this.$echarts.init(document.getElementById('echart7'));
         myChart7.setOption(option7);
-
-        var myChart8 = this.$echarts.init(document.getElementById('echart8'));
-        myChart8.setOption(option);
-
-        var myChart9 = this.$echarts.init(document.getElementById('echart9'));
-        myChart9.setOption(option);
       }
-    },
-    beforeDestroy() {
+
+      if (index == 7) {
+        let option7 = {
+          color: ['#3398DB'],
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+              type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+          },
+          grid: {
+            left: '0%',
+            right: '0%',
+            bottom: '0%',
+            top: '20',
+            containLabel: true
+          },
+          xAxis: [
+            {
+              show: false,
+              type: 'category',
+              data: this.days,
+              axisTick: {
+                alignWithLabel: true
+              }
+            }
+          ],
+          yAxis: [
+            {
+              show: false,
+              type: 'value'
+            }
+          ],
+          series: [
+            {
+              name: '昨日订单数',
+              type: 'bar',
+              barWidth: '60%',
+              data: [10, 52, 200, 334, 390, 330, 220]
+            }
+          ]
+        }
+        var myChart8 = this.$echarts.init(document.getElementById('echart8'));
+        myChart8.setOption(option7);
+      }
+
+      if (index == 8) {
+        let option8 = {
+          color: ['#3398DB'],
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {            // 坐标轴指示器，坐标轴触发有效
+              type: 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+            }
+          },
+          grid: {
+            left: '0%',
+            right: '0%',
+            bottom: '0%',
+            top: '20',
+            containLabel: true
+          },
+          xAxis: [
+            {
+              show: false,
+              type: 'category',
+              data: this.days,
+              axisTick: {
+                alignWithLabel: true
+              }
+            }
+          ],
+          yAxis: [
+            {
+              show: false,
+              type: 'value'
+            }
+          ],
+          series: [
+            {
+              name: '昨日订单量',
+              type: 'bar',
+              barWidth: '60%',
+              data: [10, 52, 200, 334, 390, 330, 220]
+            }
+          ]
+        }
+        var myChart9 = this.$echarts.init(document.getElementById('echart9'));
+        myChart9.setOption(option8);
+      }
     }
   }
+  ,
+  beforeDestroy() {
+  }
+}
 </script>
 
 <style scoped lang="scss">
-  .ShuJuTongJi {
-    height: 100%;
+.ShuJuTongJi {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  .top-title {
+    padding-left: 20px;
+    line-height: 40px;
+    font-size: 14px;
+  }
+
+  .content {
+    flex: 1;
+    box-sizing: border-box;
+    border: 5px solid rgb(245, 247, 250);
     display: flex;
     flex-direction: column;
-    .top-title {
-      padding-left: 20px;
-      line-height: 40px;
-      font-size: 14px;
-    }
 
-    .content {
+    .row1 {
+      margin-top: 5px;
+      margin-bottom: 5px;
       flex: 1;
-      box-sizing: border-box;
-      border: 5px solid rgb(245,247,250);
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 5px 1fr 15px 1fr 15px 1fr 5px;
 
-      .row1 {
-        margin-top: 5px;
-        margin-bottom: 5px;
-        flex: 1;
-        display: grid;
-        grid-template-columns: 5px 1fr 15px 1fr 15px 1fr 5px;
+      .item {
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-shadow: 2px 2px 1px #ccc;
+        display: flex;
+        flex-direction: column;
 
-        .item {
-          padding: 15px;
-          border: 1px solid #ccc;
-          border-radius: 6px;
-          box-shadow: 2px 2px 1px #ccc;
+        .msg-box {
           display: flex;
-          flex-direction: column;
+          align-items: center;
+          justify-content: space-between;
 
-          .msg-box {
+          .left {
             display: flex;
             align-items: center;
-            justify-content: space-between;
 
-            .left {
-              display: flex;
-              align-items: center;
-              .tip {
-                font-size: 14px;
-              }
-
-              .num {
-                font-size: 18px;
-                margin-left: 20px;
-                font-weight: 500;
-              }
+            .tip {
+              font-size: 14px;
             }
 
-            .right {
-              display: flex;
-              align-items: center;
-              .tip {
-                font-size: 14px;
-                color: #ccc;
-              }
-
-              .img {
-                margin-left: 10px;
-                display: inline-block;
-                width: 6px;
-                height: 8px;
-              }
-
-              .num {
-                font-size: 16px;
-                font-weight: 500;
-                margin-left: 10px;
-                color: aquamarine;
-              }
+            .num {
+              font-size: 18px;
+              margin-left: 20px;
+              font-weight: 500;
             }
           }
 
-          .echart {
-            flex: 1;
+          .right {
+            display: flex;
+            align-items: center;
+
+            .tip {
+              font-size: 14px;
+              color: #ccc;
+            }
+
+            .img {
+              margin-left: 10px;
+              display: inline-block;
+              width: 6px;
+              height: 8px;
+            }
+
+            .num {
+              font-size: 16px;
+              font-weight: 500;
+              margin-left: 10px;
+              color: aquamarine;
+            }
           }
+        }
+
+        .echart {
+          flex: 1;
+        }
+      }
+    }
+
+    .row2 {
+      margin: 5px;
+      flex: 2;
+      display: flex;
+
+
+      .item {
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        box-shadow: 2px 2px 1px #ccc;
+        display: flex;
+        flex-direction: column;
+
+        .msg-box {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+
+          .left {
+            display: flex;
+            align-items: center;
+
+            .tip {
+              font-size: 14px;
+            }
+
+            .num {
+              font-size: 18px;
+              margin-left: 20px;
+              font-weight: 500;
+            }
+          }
+
+          .right {
+            display: flex;
+            align-items: center;
+            flex-direction: row;
+            justify-content: flex-end;
+
+            .tip {
+              font-size: 14px;
+              color: #ccc;
+            }
+
+            .img {
+              margin-left: 10px;
+              display: inline-block;
+              width: 6px;
+              height: 8px;
+            }
+
+            .img2 {
+              margin-right: 2px;
+              display: inline-block;
+              width: 12px;
+              height: 12px;
+            }
+
+            .num {
+              font-size: 16px;
+              font-weight: 500;
+              margin-left: 10px;
+              color: aquamarine;
+            }
+          }
+        }
+
+        .echart {
+          flex: 1;
         }
       }
 
-      .row2 {
-        margin: 5px;
-        flex: 2;
-        display: flex;
+      .item2 {
+        width: calc(65% - 10px);
+      }
 
+      .right {
+        margin-left: 15px;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
 
         .item {
           padding: 15px;
+          flex: 1;
           border: 1px solid #ccc;
           border-radius: 6px;
           box-shadow: 2px 2px 1px #ccc;
           display: flex;
           flex-direction: column;
 
-          .msg-box {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-
-            .left {
-              display: flex;
-              align-items: center;
-              .tip {
-                font-size: 14px;
-              }
-
-              .num {
-                font-size: 18px;
-                margin-left: 20px;
-                font-weight: 500;
-              }
-            }
-
-            .right {
-              display: flex;
-              align-items: center;
-              flex-direction: row;
-              justify-content: flex-end;
-              .tip {
-                font-size: 14px;
-                color: #ccc;
-              }
-
-              .img {
-                margin-left: 10px;
-                display: inline-block;
-                width: 6px;
-                height: 8px;
-              }
-
-              .img2 {
-                margin-right: 2px;
-                display: inline-block;
-                width: 12px;
-                height: 12px;
-              }
-
-              .num {
-                font-size: 16px;
-                font-weight: 500;
-                margin-left: 10px;
-                color: aquamarine;
-              }
-            }
-          }
-
           .echart {
             flex: 1;
           }
         }
 
-        .item2 {
-          width: calc(65% - 10px);
-        }
-
-        .right {
-          margin-left: 15px;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-
-          .item {
-            padding: 15px;
-            flex: 1;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            box-shadow: 2px 2px 1px #ccc;
-            display: flex;
-            flex-direction: column;
-
-            .echart {
-              flex: 1;
-            }
-          }
-
-          .item3 {
-            margin-top: 15px;
-          }
+        .item3 {
+          margin-top: 15px;
         }
       }
     }
   }
+}
 </style>
