@@ -9,7 +9,7 @@
       <el-table-column prop="wxNickname" label="昵称"></el-table-column>
       <el-table-column prop="mobile" label="手机号"></el-table-column>
       <el-table-column prop="channelCode" label="工号"></el-table-column>
-      <el-table-column label="状态">  
+      <el-table-column label="状态">
         <template slot-scope="scope">
           <span v-if="scope.row.status === 0">初始化</span>
           <span v-if="scope.row.status === 1">未审核</span>
@@ -20,29 +20,17 @@
       <el-table-column prop="applyTime" label="申请时间"></el-table-column>
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="small"
-            @click="approval({ id: scope.row.openid, type: 1 })"
-            >批准</el-button
-          >
+          <el-button type="text" size="small" @click="approval({ id: scope.row.id, type: 1 })">批准</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="c-pagination">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="pageNum"
-        :page-sizes="[5, 10, 20]"
-        :page-size="pageSize"
-        layout="sizes, prev, pager, next,jumper"
-        :total="total"
-      ></el-pagination>
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-sizes="[5, 10, 20]" :page-size="pageSize" layout="sizes, prev, pager, next,jumper" :total="total"></el-pagination>
     </div>
   </div>
 </template>
 <script>
+import getReq from '@/utils/getReq.js'
 export default {
   name: 'SqshTable',
   props: {
@@ -66,7 +54,7 @@ export default {
       console.log(val)
       this.pageSize = val
       this.$bus.$emit('yw_sqshTableUpdate', {
-        businessType: 2,
+        businessType: 1,
         pageSize: this.pageSize,
         pageNum: this.pageNum
       })
@@ -75,12 +63,12 @@ export default {
       console.log(val)
       console.log(this.pageNum)
       this.$bus.$emit('yw_sqshTableUpdate', {
-        businessType: 2,
+        businessType: 1,
         pageSize: this.pageSize,
         pageNum: this.pageNum
       })
     },
-        async approval(val) {
+    async approval(val) {
       let url = '/business/pass?'
       url += getReq(val)
       console.log(url)

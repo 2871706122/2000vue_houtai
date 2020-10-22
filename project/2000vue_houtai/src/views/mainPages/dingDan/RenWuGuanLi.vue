@@ -6,71 +6,35 @@
       <div class="c-ul">
         <div class="c-rwgl-header-btns">
           <div class="left">
-            <el-select v-model="selectValue_fans" placeholder="请选择">
-              <el-option label="粉丝昵称" :value="1"></el-option>
-              <el-option label="粉丝openid" :value="2"></el-option>
-            </el-select>
-            <el-input
-              style="width: 200px; margin: 0 16px 0 0px"
-              placeholder="请输入内容"
-              v-model="searchValue_fans"
-            ></el-input>
-            <el-select v-model="selectValue_status" placeholder="请选择">
-              <el-option label="合格" :value="1"></el-option>
-              <el-option label="不合格" :value="2"></el-option>
-              <el-option label="未审核" :value="3"></el-option>
-            </el-select>
-            <el-button
-              type="primary"
-              style="margin: 0 8px 0 16px"
-              @click="search"
-              >查询</el-button
-            >
-            <el-button @click="reset">重置</el-button>
+            <span style='margin:0 10px 0 0'>粉丝昵称:</span>
+            <el-input v-model='searchValue_fans' style='width:200px'></el-input>
+            <span style='margin:0 10px 0 10px'>粉丝openid:</span>
+            <el-input v-model='searchValue_openid' style='width:200px'></el-input>
+            <span style='margin:0 0px 0 10px'>
+              <el-radio v-model="status" :label="0">合格</el-radio>
+              <el-radio v-model="status" :label="1">不合格</el-radio>
+              <el-radio v-model="status" :label="2">未审核</el-radio>
+            </span>
+            <el-button v-show='!inQuery' type="primary" style="margin: 0px 0 0 40px" @click="search">查询</el-button>
+            <el-button v-show='inQuery' type="primary" style="margin: 0px 0 0 40px" @click="cancelSearch">取消查询</el-button>
+            <el-button @click="reset" type="primary">重置</el-button>
           </div>
           <div class="right">
-            <el-button
-              type="primary"
-              style="marginright: 8px"
-              @click="focusMode"
-              >聚焦模式</el-button
-            >
-            <el-button
-              type="primary"
-              style="marginright: 8px"
-              @click="selectAll"
-              v-show="btnVisible"
-              >本页全选</el-button
-            >
-            <el-button
-              type="danger"
-              style="marginright: 8px"
-              @click="cancelSelectAll"
-              v-show="!btnVisible"
-              >取消全选</el-button
-            >
-            <el-button type="primary" style="marginright: 8px"
-              >审核通过</el-button
-            >
+            <el-button type="primary" @click="focusMode">聚焦模式</el-button>
+            <el-button type="primary" @click="selectAll" v-show="btnVisible">本页全选</el-button>
+            <el-button type="danger" @click="cancelSelectAll" v-show="!btnVisible">取消全选</el-button>
+            <el-button type="primary" @click='approvalSelectedListData'>审核通过</el-button>
             <el-button type="primary">释放</el-button>
           </div>
         </div>
         <ul class="task-ui">
           <li class="task-li" v-for="(item, index) in listData" :key="index">
             <div class="task-li-top" style="marginbottom: 10px">
-              <el-checkbox
-                @change="(a) => checkboxChange(a, index)"
-                v-model="checkboxValueList[index]"
-              ></el-checkbox>
-              <img :src="item.t_img" />
+              <el-checkbox :disabled="item.status===1?true:false" @change="(a) => checkboxChange(a, index)" v-model="checkboxValueList[index]"></el-checkbox>
+              <img @click='focusMode(index)' :src="item.t_img" />
               <div class="task-li-top-right">
                 <p>{{ item.name }}</p>
-                <el-button
-                  type="primary"
-                  size="small"
-                  @click="copy(item.openid)"
-                  >复制openid</el-button
-                >
+                <el-button type="primary" size="small" @click="copy(item.openid)">复制openid</el-button>
               </div>
             </div>
             <div class="task-li-mid" style="marginbottom: 10px">
@@ -79,8 +43,8 @@
             </div>
             <div class="task-li-btm" style="marginbottom: 10px">
               <el-button-group>
-                <el-button size="small" round>合格</el-button>
-                <el-button size="small" round>不合格</el-button>
+                <el-button size="small" round @click='approval(2,item)'>合格</el-button>
+                <el-button size="small" round @click='approval(1,item)'>不合格</el-button>
               </el-button-group>
             </div>
             <div class="task-li-img">
@@ -89,15 +53,7 @@
           </li>
         </ul>
         <div class="c-pagination">
-          <el-pagination
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page.sync="currentPage"
-            :page-sizes="[5, 10, 20]"
-            :page-size="pageSize"
-            layout="sizes, prev, pager, next,jumper"
-            :total="total"
-          ></el-pagination>
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-sizes="[5, 10, 20]" :page-size="pageSize" layout="sizes, prev, pager, next,jumper" :total="total"></el-pagination>
         </div>
       </div>
     </div>
@@ -110,33 +66,29 @@
             <div class="info-top">
               <img src="../../../assets/imgs/a.jpg" alt="" />
               <div class="info-top-right">
-                <p>我的名字叫小七</p>
+                <p>{{listData[focusModeDisplayIndex].name}}</p>
                 <el-button size="small">复制openid</el-button>
               </div>
             </div>
             <div class="info-btm">
-              <p>提交时间：2020-10-10 20:30:17</p>
-              <p>审核时间：--</p>
+              <p>提交时间：{{listData[focusModeDisplayIndex].time.start}}</p>
+              <p>审核时间：{{listData[focusModeDisplayIndex].time.end}}</p>
               <p>审核状态：合格/不合格/--</p>
             </div>
           </div>
           <div class="operate">
-            <h2>第15个/本页共50个</h2>
+            <h2>第{{focusModeDisplayIndex+1}}个/本页共{{listData.length}}个</h2>
             <el-button type="success">本页全合格</el-button>
             <div class="operate-btm">
               <div class="operate-btm-left">
                 <div>
-                  <span class="span1">Page UP</span>
-                  <img src="../../../assets/imgs/arrow.png" alt="" />
+                  <span class="span1" @click='PageUp'>Page UP</span>
+                  <img @click='PageUp' src="../../../assets/imgs/arrow.png" alt="" />
                 </div>
                 <div>
-                  <img
-                    class="wow"
-                    src="../../../assets/imgs/arrow.png"
-                    alt=""
-                  />
+                  <img @click='PageDown' class="wow" src="../../../assets/imgs/arrow.png" alt="" />
                   <!-- <span class="span2"></span> -->
-                  <p class="down">Page Down</p>
+                  <p @click='PageDown' class="down">Page Down</p>
                 </div>
               </div>
               <div class="operate-btm-right">
@@ -152,15 +104,21 @@
 
 <script>
 import { remove, cloneDeep } from 'lodash'
+import getReq from '@/utils/getReq.js'
 export default {
   name: "renWuGuanLi",
   data() {
     return {
-      selectValue_fans: 1,
-      searchValue_fans: '',
-      selectValue_status: 1,
+      checkCode: 123,
+      taskOrderNo: 456,
+      // 
+      inQuery: false,
 
-      currentPage: 1,
+      status: 0,
+      searchValue_fans: '',
+      searchValue_openid: '',
+
+      pageNum: 1,
       pageSize: 5,
       total: 10,
 
@@ -168,77 +126,85 @@ export default {
         {
           id: 1,
           t_img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602608266924&di=dad8d168566413442b66826961ae5100&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F18%2F56%2F14300000958002128488569856508.jpg',
-          name: '跃然我心',
+          name: '跃然我心1',
           openid: 111,
           time: {
             start: '2020-10-10 20:03:04',
             end: '2020-10-10 20:03:04'
           },
+          status: 1,
         },
         {
           id: 2,
           t_img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602608266924&di=dad8d168566413442b66826961ae5100&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F18%2F56%2F14300000958002128488569856508.jpg',
-          name: '跃然我心',
+          name: '跃然我心2',
           openid: 1,
           time: {
             start: '2020-10-10 20:03:04',
             end: '2020-10-10 20:03:04'
           },
+          status: 1,
         },
         {
           id: 3,
           t_img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602608266924&di=dad8d168566413442b66826961ae5100&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F18%2F56%2F14300000958002128488569856508.jpg',
-          name: '跃然我心',
+          name: '跃然我心3',
           openid: 1,
           time: {
             start: '2020-10-10 20:03:04',
             end: '2020-10-10 20:03:04'
           },
+          status: 1,
         },
         {
           id: 4,
           t_img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602608266924&di=dad8d168566413442b66826961ae5100&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F18%2F56%2F14300000958002128488569856508.jpg',
-          name: '跃然我心',
+          name: '跃然我心4',
           openid: 1,
           time: {
             start: '2020-10-10 20:03:04',
             end: '2020-10-10 20:03:04'
           },
+          status: 1,
         },
         {
           id: 5,
           t_img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602608266924&di=dad8d168566413442b66826961ae5100&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F18%2F56%2F14300000958002128488569856508.jpg',
-          name: '跃然我心',
+          name: '跃然我心5',
           openid: 1,
           time: {
             start: '2020-10-10 20:03:04',
             end: '2020-10-10 20:03:04'
           },
+          status: 2,
         },
         {
           id: 6,
           t_img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602608266924&di=dad8d168566413442b66826961ae5100&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F18%2F56%2F14300000958002128488569856508.jpg',
-          name: '跃然我心',
+          name: '跃然我心6',
           openid: 1,
           time: {
             start: '2020-10-10 20:03:04',
             end: '2020-10-10 20:03:04'
           },
+          status: 1,
         },
         {
           id: 7,
           t_img: 'https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1602608266924&di=dad8d168566413442b66826961ae5100&imgtype=0&src=http%3A%2F%2Fa0.att.hudong.com%2F18%2F56%2F14300000958002128488569856508.jpg',
-          name: '跃然我心',
+          name: '跃然我心7',
           openid: 1,
           time: {
             start: '2020-10-10 20:03:04',
             end: '2020-10-10 20:03:04'
           },
+          status: 2,
         }
       ],
       checkboxValueList: [],
       // 选中的数据
       selectedListData: [],
+      focusModeDisplayIndex: 0, // 聚焦模式展示的数据
       // ui
       btnVisible: true,
       modalVisible: false
@@ -247,18 +213,29 @@ export default {
   methods: {
     // 查询
     search() {
+      this.inQuery = true
+      this.getListData()
+    },
+    cancelSearch() {
+      this.inQuery = false
+      this.getListData()
     },
     reset() {
-      this.selectValue_fans = 1
       this.searchValue_fans = ''
-      this.selectValue_status = 1
+      this.searchValue_openid = ''
+      this.radio = 0
     },
     // 全选
     selectAll() {
-      this.checkboxValueList.forEach((item, index) => {
-        this.$set(this.checkboxValueList, index, true)
+      this.selectedListData = []
+      this.listData.forEach((item, index) => {
+        if (item.status === 1) {  // 暂时认为审核通过
+
+        } else {
+          this.$set(this.checkboxValueList, index, true)
+          this.selectedListData.push(item)
+        }
       })
-      // this.selectedListData = cloneDeep(this.listData)
       this.btnVisible = false
     },
     // 取消全选
@@ -269,9 +246,38 @@ export default {
       this.selectedListData = []
       this.btnVisible = true
     },
+    // 批量审核通过
+    approvalSelectedListData() {
+
+    },
+    // 审核任务
+    async approval(type, item) {
+      let val = {}
+      val.checkCode = this.checkCode
+      val.taskNo = item.taskNo
+      val.type = type
+      let url = '/task/task/check?'
+      url += getReq(val)
+      let res = await this.$axios.post(url)
+      console.log(res)
+    },
     // 开启聚焦模式
-    focusMode() {
+    focusMode(num) {
+      if(num) {
+        this.focusModeDisplayIndex = num
+      }
       this.modalVisible = true
+    },
+    PageUp() {
+      if (this.focusModeDisplayIndex < this.listData.length-1) {
+        this.focusModeDisplayIndex += 1
+      }
+    },
+    PageDown() {
+      console.log(666)
+      if (this.focusModeDisplayIndex > 1) {
+        this.focusModeDisplayIndex -= 1
+      }
     },
     checkboxChange(val, index) {
       console.log(val, index)
@@ -294,14 +300,40 @@ export default {
       console.log(val)
       this.pageSize = val
       // 查询数据
+      this.getListData()
     },
     handleCurrentChange(val) {
       console.log(val)
-      console.log(this.currentPage)
+      console.log(this.pageNum)
       // 查询数据
+      this.getListData()
     },
     async getListData() {
-
+      let val
+      if (this.inQuery) {
+        val = {
+          checkCode: this.checkCode,
+          pageNum: this.pageNum,
+          pageSize: this.pageSize,
+          taskOrderNo: this.taskOrderNo
+        }
+      } else {
+        val = {
+          checkCode: this.checkCode,
+          pageNum: this.pageNum,
+          pageSize: this.pageSize,
+          taskOrderNo: this.taskOrderNo,
+          status: this.status
+        }
+      }
+      let url = '/task/task/list?'
+      url += getReq(val)
+      let res = await this.$axios.get(url)
+      console.log(res)
+      // this.checkboxValueList = []
+      // this.listData.forEach(item => {
+      //   this.checkboxValueList.push(false)
+      // })
     },
     copy(value) {
       var currentFocus = document.activeElement;// 保存当前活动节点
@@ -333,11 +365,12 @@ export default {
   },
   async created() {
     this.getListData()
-    // 初始化 checkboxValueList
+    // 暂时 初始化 checkboxValueList
     this.listData.forEach(item => {
       this.checkboxValueList.push(false)
     })
   },
+
 }
 </script>
 
@@ -366,9 +399,6 @@ export default {
         width: 120px;
       }
       .c-rwgl-header-btns {
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap;
         .left {
           margin-bottom: 20px;
         }
@@ -383,11 +413,12 @@ export default {
         flex-wrap: wrap;
         .task-li {
           width: 180px;
-          margin-bottom: 20px;
+          margin-bottom: 40px;
           .task-li-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 10px;
             img {
               width: 35px;
               height: 35px;
@@ -403,9 +434,13 @@ export default {
           }
           .task-li-mid {
             text-align: center;
+            p {
+              margin-bottom: 10px;
+            }
           }
           .task-li-btm {
             text-align: center;
+            margin-bottom: 10px;
           }
           .task-li-img {
             width: 100%;
@@ -503,7 +538,7 @@ export default {
               }
               .down {
                 position: relative;
-                top:-22px;
+                top: -22px;
                 left: -5px;
               }
             }

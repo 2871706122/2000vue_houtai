@@ -24,7 +24,7 @@
           <el-button
             type="text"
             size="small"
-            @click="approval({ id: scope.row.openid, type: 2 })"
+            @click="approval({ id: scope.row.id, type: 2 })"
             >批准</el-button
           >
         </template>
@@ -68,7 +68,7 @@ export default {
       console.log(val)
       this.pageSize = val
       this.$bus.$emit('tz_sqshTableUpdate', {
-        businessType: 1,
+        businessType: 2,
         pageSize: this.pageSize,
         pageNum: this.pageNum
       })
@@ -77,7 +77,7 @@ export default {
       console.log(val)
       console.log(this.pageNum)
       this.$bus.$emit('tz_sqshTableUpdate', {
-        businessType: 1,
+        businessType: 2,
         pageSize: this.pageSize,
         pageNum: this.pageNum
       })

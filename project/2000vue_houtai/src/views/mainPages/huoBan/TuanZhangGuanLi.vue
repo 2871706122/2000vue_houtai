@@ -47,13 +47,15 @@ export default {
         console.log(val)
         if (val === 'first') {
           this.getsqshTableData({
-            businessType: 1,
+            businessType: 2,
             pageNum: 1,
             pageSize: 5
           })
         } else if (val === 'second') {
-          this.getyjcxTableData({
-            businessType: 1,
+          console.log(999)
+          this.$bus.$emit('tz_initData')
+          this.getyjckTableData({
+            businessType: 2,
             pageNum: 1,
             pageSize: 5
           })
@@ -71,7 +73,7 @@ export default {
       this.sqshTableData = res.data.data.resultList
       this.total1 = res.data.data.count
     },
-  async  getyjcxTableData(val) {
+  async  getyjckTableData(val) {
       console.log('>>>>', val)
       let url = '/business/perfor/list?'
       url += getReq(val)
@@ -84,18 +86,18 @@ export default {
   created() {
     // 获取申请审核的数据
     this.getsqshTableData({
-      businessType: 1,
+      businessType: 2,
       pageNum: 1,
       pageSize: 5
     })
   },
   mounted() {
     this.$bus.$on('tz_sqshTableUpdate', this.getsqshTableData)
-    this.$bus.$on('tz_yjckTableUpdate', this.getyjcxTableData)
+    this.$bus.$on('tz_yjckTableUpdate', this.getyjckTableData)
   },
   beforeDestroy() {
     this.$bus.$off('tz_sqshTableUpdate')
-    this.$bus.$on('tz_yjckTableUpdate')
+    this.$bus.$off('tz_yjckTableUpdate')
   }
 }
 </script>
