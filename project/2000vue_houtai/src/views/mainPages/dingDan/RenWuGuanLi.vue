@@ -11,44 +11,45 @@
             <span style='margin:0 10px 0 10px'>粉丝openid:</span>
             <el-input v-model='searchValue_openid' style='width:200px'></el-input>
             <span style='margin:0 0px 0 10px'>
+              <el-radio v-model="status" label="">所有</el-radio>
               <el-radio v-model="status" :label="0">合格</el-radio>
               <el-radio v-model="status" :label="1">不合格</el-radio>
               <el-radio v-model="status" :label="2">未审核</el-radio>
             </span>
-            <el-button v-show='!inQuery' type="primary" style="margin: 0px 0 0 40px" @click="search">查询</el-button>
-            <el-button v-show='inQuery' type="primary" style="margin: 0px 0 0 40px" @click="cancelSearch">取消查询</el-button>
-            <el-button @click="reset" type="primary">重置</el-button>
+            <el-button type="primary" style="margin: 0px 0 0 40px" @click="search">查询</el-button>
+            <el-button @click="reset">重置</el-button>
           </div>
           <div class="right">
-            <el-button type="primary" @click="focusMode">聚焦模式</el-button>
-            <el-button type="primary" @click="selectAll" v-show="btnVisible">本页全选</el-button>
-            <el-button type="danger" @click="cancelSelectAll" v-show="!btnVisible">取消全选</el-button>
-            <el-button type="primary" @click='approvalSelectedListData'>审核通过</el-button>
-            <el-button type="primary">释放</el-button>
+            <el-button type="primary" @click="focusMode(-1)">聚焦模式</el-button>
+            <el-button type="primary" :disabled="who===0" @click="selectAll" v-show="btnVisible">本页全选</el-button>
+            <el-button type="danger" :disabled="who===0" @click="cancelSelectAll" v-show="!btnVisible">取消全选</el-button>
+            <el-button type="primary" :disabled="selectedListData.length&&who===1?false:true" @click='approvalSelectedListData'>审核通过</el-button>
+            <el-button type="primary" :disabled="who===0">释放</el-button>
           </div>
         </div>
         <ul class="task-ui">
           <li class="task-li" v-for="(item, index) in listData" :key="index">
-            <div class="task-li-top" style="marginbottom: 10px">
-              <el-checkbox :disabled="item.status===1?true:false" @change="(a) => checkboxChange(a, index)" v-model="checkboxValueList[index]"></el-checkbox>
-              <img @click='focusMode(index)' :src="item.t_img" />
+            <div class="task-li-top">
+              <!-- 状态为不合格并且身份是审核员 -->
+              <el-checkbox :disabled="item.status===2&&who===1?false:true" @change="(a) => checkboxChange(a, index)" v-model="checkboxValueList[index]"></el-checkbox>
+              <img :src="item.t_img" />
               <div class="task-li-top-right">
                 <p>{{ item.name }}</p>
                 <el-button type="primary" size="small" @click="copy(item.openid)">复制openid</el-button>
               </div>
             </div>
-            <div class="task-li-mid" style="marginbottom: 10px">
+            <div class="task-li-mid">
               <p>提交：{{ item.time.start }}</p>
               <p>审核：{{ item.time.end }}</p>
             </div>
-            <div class="task-li-btm" style="marginbottom: 10px">
+            <div class="task-li-btm">
               <el-button-group>
-                <el-button size="small" round @click='approval(2,item)'>合格</el-button>
-                <el-button size="small" round @click='approval(1,item)'>不合格</el-button>
+                <el-button size="small" :disabled="who===0" round @click='approval(2,item)'>合格</el-button>
+                <el-button size="small" :disabled="who===0" round @click='approval(1,item)'>不合格</el-button>
               </el-button-group>
             </div>
             <div class="task-li-img">
-              <img src="../../../assets/imgs/a.jpg" alt />
+              <img @click='focusMode(index)' src="../../../assets/imgs/a.jpg" alt />
             </div>
           </li>
         </ul>
@@ -92,7 +93,8 @@
                 </div>
               </div>
               <div class="operate-btm-right">
-                <el-button size="big" type="danger">不合格</el-button>
+                <el-button :disabled="who===0" v-show='listData[focusModeDisplayIndex].status===2' size="big" type="success">合格</el-button>
+                <el-button :disabled="who===0" v-show='listData[focusModeDisplayIndex].status===1' size="big" type="danger">不合格</el-button>
               </div>
             </div>
           </div>
@@ -109,12 +111,14 @@ export default {
   name: "renWuGuanLi",
   data() {
     return {
+      who: 1,  // 0 管理员  1 审核员
+      // 
       checkCode: 123,
       taskOrderNo: 456,
       // 
       inQuery: false,
 
-      status: 0,
+      status: '',
       searchValue_fans: '',
       searchValue_openid: '',
 
@@ -132,7 +136,7 @@ export default {
             start: '2020-10-10 20:03:04',
             end: '2020-10-10 20:03:04'
           },
-          status: 1,
+          status: 1, // 1合格  2不合格
         },
         {
           id: 2,
@@ -211,19 +215,33 @@ export default {
     }
   },
   methods: {
+    closeModal(e) {
+      if (e.keyCode === 27) {
+        this.modalVisible = false
+      }
+
+    },
     // 查询
     search() {
       this.inQuery = true
+      this.pageNum = 1
+      this.pageSize = 5
       this.getListData()
     },
     cancelSearch() {
       this.inQuery = false
+      this.pageNum = 1
+      this.pageSize = 5
       this.getListData()
     },
     reset() {
       this.searchValue_fans = ''
       this.searchValue_openid = ''
-      this.radio = 0
+      this.radio = ''
+      this.pageNum = 1
+      this.pageSize = 5
+      this.inQuery = false
+      this.getListData()
     },
     // 全选
     selectAll() {
@@ -252,6 +270,7 @@ export default {
     },
     // 审核任务
     async approval(type, item) {
+      console.log(999)
       let val = {}
       val.checkCode = this.checkCode
       val.taskNo = item.taskNo
@@ -263,20 +282,19 @@ export default {
     },
     // 开启聚焦模式
     focusMode(num) {
-      if(num) {
+      if (num !== -1) {
         this.focusModeDisplayIndex = num
       }
       this.modalVisible = true
     },
     PageUp() {
-      if (this.focusModeDisplayIndex < this.listData.length-1) {
-        this.focusModeDisplayIndex += 1
+      if (this.focusModeDisplayIndex >= 1) {
+        this.focusModeDisplayIndex -= 1
       }
     },
     PageDown() {
-      console.log(666)
-      if (this.focusModeDisplayIndex > 1) {
-        this.focusModeDisplayIndex -= 1
+      if (this.focusModeDisplayIndex < this.listData.length - 1) {
+        this.focusModeDisplayIndex += 1
       }
     },
     checkboxChange(val, index) {
@@ -313,23 +331,27 @@ export default {
       if (this.inQuery) {
         val = {
           checkCode: this.checkCode,
+          taskOrderNo: this.taskOrderNo,
           pageNum: this.pageNum,
           pageSize: this.pageSize,
-          taskOrderNo: this.taskOrderNo
+          status: this.status,
+          searchValue_fans: this.searchValue_fans,
+          searchValue_openid: this.searchValue_openid
         }
       } else {
         val = {
           checkCode: this.checkCode,
+          taskOrderNo: this.taskOrderNo,
           pageNum: this.pageNum,
           pageSize: this.pageSize,
-          taskOrderNo: this.taskOrderNo,
-          status: this.status
         }
       }
       let url = '/task/task/list?'
       url += getReq(val)
       let res = await this.$axios.get(url)
       console.log(res)
+      // this.selectedListData = []
+      // this.listData =
       // this.checkboxValueList = []
       // this.listData.forEach(item => {
       //   this.checkboxValueList.push(false)
@@ -370,6 +392,12 @@ export default {
       this.checkboxValueList.push(false)
     })
   },
+  mounted() {
+    document.addEventListener('keydown', this.closeModal)
+  },
+  beforeDestroy() {
+    document.removeEventListener('keydown', this.closeModal)
+  }
 
 }
 </script>
@@ -526,6 +554,7 @@ export default {
             justify-content: space-between;
             align-items: center;
             .operate-btm-left {
+              width: 106px;
               img {
                 width: 60px;
                 height: 60px;
