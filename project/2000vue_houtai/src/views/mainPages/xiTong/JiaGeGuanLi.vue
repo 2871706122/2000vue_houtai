@@ -311,7 +311,7 @@
       //获取数据
       getData() {
         let url = "/price/list?pageNum="+this.pageNum+"&pageSize="+this.pageSize
-        this.$axios.post(url).then(res => {
+        this.$axios.get(url).then(res => {
           //console.log(res);
           if(res.data.status == 200 && res.data.message == "成功"){
             this.total = res.data.data.count

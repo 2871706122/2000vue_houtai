@@ -113,6 +113,18 @@
         </div>
       </div>
     </div>
+
+    <div class="fen-ye-qi-box">
+      <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page="pageNum"
+          :page-sizes="[8,10,15,20]"
+          :page-size="pageSize"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total">
+      </el-pagination>
+    </div>
   </div>
 </template>
 
@@ -143,6 +155,9 @@
         ],
         inputValue: "",//
         list:[],
+        pageNum: 1,
+        pageSize:10,
+        total:0,
       }
     },
     created() {
@@ -243,7 +258,46 @@
             type:1,//1代表可以领取审核，2代表
           }
         ]
-      }
+
+        let url = "/taskorder/taskorder/list?pageNum="+this.pageNum+"&pageSize="+this.pageSize
+        // if(this.num1){
+        //   url += ("&nickname=" + this.num1)
+        // }
+        //
+        // if(this.num2){
+        //   url += ("&merchantCode=" + this.num2)
+        // }
+        //
+        // if(this.num3){
+        //   url += ("&mobile=" + this.num3)
+        // }
+
+        this.$axios.get(url).then(res => {
+          console.log(res);
+          if(res.data.status == 200 && res.data.message == "成功"){
+            this.total = res.data.data.count
+            this.list = res.data.data.resultList
+          }else {
+            alert(res.data.message)
+          }
+        }).catch((err)=>{
+          console.log(err);
+        })
+      },
+
+      //改变每一页的条数
+      handleSizeChange(val) {
+        //console.log(`每页 ${val} 条`);
+        this.pageSize = val
+        this.getData()
+      },
+
+      //改变页码
+      handleCurrentChange(val) {
+        //console.log(`当前页: ${val}`);
+        this.pageNum = val
+        this.getData()
+      },
     },
     beforeDestroy() {
     }
@@ -436,6 +490,11 @@
         }
       }
     }
+  }
+
+  .fen-ye-qi-box {
+    margin-top: 20px;
+    text-align: right;
   }
 }
 </style>

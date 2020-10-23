@@ -151,6 +151,12 @@ export default {
       }
 
       if(this.num3){
+        var myreg = /^1[0-9]{10}$/;
+        if (!myreg.test(this.num3)) {
+          this.num3 = ""
+          this.$message.error('手机号码有误，请重填');
+          return
+        }
         url += ("&mobile=" + this.num3)
       }
 

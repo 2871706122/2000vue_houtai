@@ -93,12 +93,12 @@
           </el-table-column>
           <el-table-column
               prop="fansCount"
-              sortable
+              sortable="custom"
               label="下级人数">
           </el-table-column>
           <el-table-column
               prop="caAmount"
-              sortable
+              sortable="custom"
               label="本月收益">
           </el-table-column>
         </el-table>
@@ -195,11 +195,11 @@
         }
 
         if(this.num2){
-          url += ("&merchantCode=" + this.num2)
+          url += ("&openid=" + this.num2)
         }
 
         if(this.num3){
-          url += ("&mobile=" + this.num3)
+          url += ("&captain=" + this.num3)
         }
 
         if(this.time && this.time.length == 2){

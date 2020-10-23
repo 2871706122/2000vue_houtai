@@ -228,19 +228,19 @@ export default {
       this.$axios.get(url).then(res => {
         //console.log(res);
         if (res.data.status == 200 && res.data.message == "成功") {
-          this.num1 = res.data.data.充值.today
-          this.per1 = res.data.data.充值.percent
-          let list = res.data.data.充值.list
+          this.num1 = res.data.data.recharge.today
+          this.per1 = res.data.data.recharge.percent
+          let list = res.data.data.recharge.list
           this.renderEcharts(0, list)
 
-          this.num2 = res.data.data.消耗.today
-          this.per2 = res.data.data.消耗.percent
-          let list2 = res.data.data.消耗.list
+          this.num2 = res.data.data.consume.today
+          this.per2 = res.data.data.consume.percent
+          let list2 = res.data.data.consume.list
           this.renderEcharts(1, list2)
 
-          this.num3 = res.data.data.利润.today
-          this.per3 = res.data.data.利润.percent
-          let list3 = res.data.data.利润.list
+          this.num3 = res.data.data.profit.today
+          this.per3 = res.data.data.profit.percent
+          let list3 = res.data.data.profit.list
           this.renderEcharts(2, list3)
         } else {
           alert(res.data.message)
@@ -249,7 +249,6 @@ export default {
         console.log(err);
         alert("请求失败")
       })
-
       //粉丝统计
       let url2 = "/stat/fans"
       this.$axios.get(url2).then(res => {
@@ -324,7 +323,7 @@ export default {
               name: '今日充值',
               type: 'bar',
               barWidth: '60%',
-              data: [10, 52, 200, 334, 390, 330, 220]
+              data: data1
             }
           ]
         }
@@ -369,7 +368,7 @@ export default {
               name: '今日消耗',
               type: 'bar',
               barWidth: '60%',
-              data: [10, 52, 200, 334, 390, 330, 220]
+              data: data1
             }
           ]
         }
@@ -414,7 +413,7 @@ export default {
               name: '今日利润',
               type: 'bar',
               barWidth: '60%',
-              data: [10, 52, 200, 334, 390, 330, 220]
+              data: data1
             }
           ]
         }
@@ -459,7 +458,7 @@ export default {
               name: '昨日执行',
               type: 'bar',
               barWidth: '60%',
-              data: [10, 52, 200, 334, 390, 330, 220]
+              data: data1
             }
           ]
         }
@@ -504,7 +503,7 @@ export default {
               name: '昨日审核',
               type: 'bar',
               barWidth: '60%',
-              data: [10, 52, 200, 334, 390, 330, 220]
+              data: data1
             }
           ]
         }
@@ -549,7 +548,7 @@ export default {
               name: '昨日合格',
               type: 'bar',
               barWidth: '60%',
-              data: [10, 52, 200, 334, 390, 330, 220]
+              data: data1
             }
           ]
         }
@@ -655,7 +654,7 @@ export default {
               name: '昨日订单数',
               type: 'bar',
               barWidth: '60%',
-              data: [10, 52, 200, 334, 390, 330, 220]
+              data: data1
             }
           ]
         }
@@ -700,7 +699,7 @@ export default {
               name: '昨日订单量',
               type: 'bar',
               barWidth: '60%',
-              data: [10, 52, 200, 334, 390, 330, 220]
+              data: data1
             }
           ]
         }
@@ -708,8 +707,7 @@ export default {
         myChart9.setOption(option8);
       }
     }
-  }
-  ,
+  },
   beforeDestroy() {
   }
 }
