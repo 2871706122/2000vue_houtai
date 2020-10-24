@@ -15,11 +15,11 @@
             :data="tableData"
             style="width: 100%">
           <el-table-column
-              prop="name2"
+              prop="createTime"
               label="创建日期">
           </el-table-column>
           <el-table-column
-              prop="name2"
+              prop="username"
               label="账号">
           </el-table-column>
           <el-table-column
@@ -27,14 +27,19 @@
               label="密码">
           </el-table-column>
           <el-table-column
-              prop="address2"
+              prop="nickname"
               label="姓名">
           </el-table-column>
           <el-table-column
               label="操作">
             <template slot-scope="scope">
               <span @click="handleEdit(scope.$index, scope.row)" class="table-btn table-btn1">编辑</span>
-              <span @click="handleEdit(scope.$index, scope.row)" class="table-btn">删除</span>
+              <el-popconfirm
+                  title="确定删除？"
+                  @onConfirm="del(scope.row)"
+              >
+                <span class="table-btn" slot="reference">删除</span>
+              </el-popconfirm>
             </template>
           </el-table-column>
         </el-table>
@@ -43,11 +48,11 @@
         <el-pagination
             @size-change="handleSizeChange"
             @current-change="handleCurrentChange"
-            :current-page="currentPage"
+            :current-page="pageNum"
             :page-sizes="[8,10,15,20]"
-            :page-size="100"
+            :page-size="pageSize"
             layout="total, sizes, prev, pager, next, jumper"
-            :total="400">
+            :total="total">
         </el-pagination>
       </div>
     </div>
@@ -63,26 +68,10 @@
     watch: {},
     data() {
       return {
-        tableData: [
-          {
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-          }, {
-            date: '2016-05-01',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1519 弄'
-          }, {
-            date: '2016-05-03',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1516 弄'
-          }
-        ],
-        currentPage: 5,
+        tableData: [],
+        pageNum: 1,
+        pageSize:10,
+        total:0,
       }
     },
     created() {
@@ -110,7 +99,37 @@
 
       //获取数据
       getData() {
+        let url = "/user/list?pageNum="+this.pageNum+"&pageSize="+this.pageSize
+        this.$axios.post(url).then(res => {
+          if(res.data.status == 200 && res.data.message == "成功"){
+            this.total = res.data.data.count
+            this.tableData = res.data.data.resultList
+          }else {
+            alert(res.data.message)
+          }
+        }).catch((err)=>{
+          console.log(err);
+          alert("请求失败")
+        })
+      },
 
+      //确认删除
+      del(item) {
+        let url = "/price/remove?priceType=" + item.priceType
+        this.$axios.get(url).then(res => {
+          if (res.data.status == 200 && res.data.message == "成功") {
+            this.$message({
+              message: '删除成功！',
+              type: 'success'
+            });
+            this.getData()
+          } else {
+            alert(res.data.message)
+          }
+        }).catch((err) => {
+          console.log(err);
+          alert("请求失败")
+        })
       },
 
       //查询
@@ -118,11 +137,18 @@
 
       },
 
+      //改变每一页的条数
       handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
+        //console.log(`每页 ${val} 条`);
+        this.pageSize = val
+        this.getData()
       },
+
+      //改变页码
       handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+        //console.log(`当前页: ${val}`);
+        this.pageNum = val
+        this.getData()
       }
     },
     beforeDestroy() {

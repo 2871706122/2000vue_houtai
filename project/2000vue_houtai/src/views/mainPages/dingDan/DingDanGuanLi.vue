@@ -259,7 +259,7 @@
           }
         ]
 
-        let url = "/taskorder/taskorder/list?pageNum="+this.pageNum+"&pageSize="+this.pageSize
+        let url = "/taskorder/taskorder/status/list?pageNum="+this.pageNum+"&pageSize="+this.pageSize
         // if(this.num1){
         //   url += ("&nickname=" + this.num1)
         // }
@@ -276,7 +276,7 @@
           console.log(res);
           if(res.data.status == 200 && res.data.message == "成功"){
             this.total = res.data.data.count
-            this.list = res.data.data.resultList
+            // this.list = res.data.data.resultList
           }else {
             alert(res.data.message)
           }

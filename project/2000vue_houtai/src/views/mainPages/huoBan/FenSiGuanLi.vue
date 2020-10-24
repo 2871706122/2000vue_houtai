@@ -57,7 +57,7 @@
           </div>
 
           <div class="btn-box">
-            <el-button @click="search" type="primary">查询</el-button>
+            <el-button @click="search('btn')" type="primary">查询</el-button>
           </div>
         </div>
       </div>
@@ -138,7 +138,7 @@
         pageSize:10,
         total:0,
         orderBy:0,//以什么排序
-        desc:-1,//-1代表默认，true代表升序，false代表降序
+        desc:-1,//-1代表默认，true代表升序，false代表降序  //垃圾后端，让我改代码来配合他那边的错误排序，改为了true代表降序，false代表升序
 
       }
     },
@@ -188,7 +188,10 @@
       },
 
       //查询
-      search() {
+      search(type) {
+        if(type=='btn') {
+          this.pageNum = 1
+        }
         let url = "/fs/perfor/list?pageNum="+this.pageNum+"&pageSize="+this.pageSize
         if(this.num1){
           url += ("&nickname=" + this.num1)
@@ -244,9 +247,9 @@
       sortChange(column, prop, order) {
         //console.log(column, prop, order);
         if(column.order == "ascending"){//升序
-          this.desc = true
-        }else if(column.order == "descending"){//降序
           this.desc = false
+        }else if(column.order == "descending"){//降序
+          this.desc = true
         }else {//默认
           this.desc = -1
         }

@@ -231,17 +231,45 @@ export default {
           this.num1 = res.data.data.recharge.today
           this.per1 = res.data.data.recharge.percent
           let list = res.data.data.recharge.list
-          this.renderEcharts(0, list)
+          let days = this.days
+          let list01 = []
+          for(let i=0;i<days.length;i++){
+            for(let j=0;j<list.length;j++){
+              if(days[i] == list[j].dayTime){
+                list01.push(list[j].count)
+                break
+              }
+            }
+          }
+          this.renderEcharts(0, list01)
 
           this.num2 = res.data.data.consume.today
           this.per2 = res.data.data.consume.percent
           let list2 = res.data.data.consume.list
-          this.renderEcharts(1, list2)
+          let list02 = []
+          for(let i=0;i<days.length;i++){
+            for(let j=0;j<list2.length;j++){
+              if(days[i] == list2[j].dayTime){
+                list02.push(list2[j].count)
+                break
+              }
+            }
+          }
+          this.renderEcharts(1, list02)
 
           this.num3 = res.data.data.profit.today
           this.per3 = res.data.data.profit.percent
           let list3 = res.data.data.profit.list
-          this.renderEcharts(2, list3)
+          let list03 = []
+          for(let i=0;i<days.length;i++){
+            for(let j=0;j<list3.length;j++){
+              if(days[i] == list3[j].dayTime){
+                list03.push(list3[j].count)
+                break
+              }
+            }
+          }
+          this.renderEcharts(2, list03)
         } else {
           alert(res.data.message)
         }
@@ -276,6 +304,84 @@ export default {
             }
           }
           this.renderEcharts(6,list1,list2)
+        } else {
+          alert(res.data.message)
+        }
+      }).catch((err) => {
+        console.log(err);
+        alert("请求失败")
+      })
+
+      //昨日任务统计
+      let url3 = "/stat/task"
+      this.$axios.get(url3).then(res => {
+        console.log(res);
+        if (res.data.status == 200 && res.data.message == "成功") {
+          // this.num1 = res.data.data.充值.today
+          // let aliveFsCount = res.data.data.aliveFsCount
+          // let allFsCount = res.data.data.allFsCount
+          // let days2 = this.days2
+          // let list1 = []
+          // let list2 = []
+          // for(let i=0;i<days2.length;i++){
+          //   for(let j=0;j<allFsCount.length;j++){
+          //     if(days2[i] == allFsCount[j].dayTime){
+          //       list1.push(allFsCount[j].count)
+          //       break
+          //     }
+          //   }
+          //
+          //   for(let j=0;j<aliveFsCount.length;j++){
+          //     if(days2[i] == aliveFsCount[j].dayTime){
+          //       list2.push(aliveFsCount[j].count)
+          //       break
+          //     }
+          //   }
+          // }
+          // this.renderEcharts(6,list1,list2)
+        } else {
+          alert(res.data.message)
+        }
+      }).catch((err) => {
+        console.log(err);
+        alert("请求失败")
+      })
+
+      //订单统计
+      let url4 = "/stat/taskOrder"
+      this.$axios.get(url4).then(res => {
+        //console.log(res);
+        if (res.data.status == 200 && res.data.message == "成功") {
+          this.num1 = res.data.data.taskNum.today
+          this.per1 = res.data.data.taskNum.percent
+          let list = res.data.data.taskNum.list
+          let days = this.days
+          let list1 = []
+          for(let i=0;i<days.length;i++){
+            for(let j=0;j<list.length;j++){
+              if(days[i] == list[j].dayTime){
+                list1.push(list[j].count)
+                break
+              }
+            }
+          }
+          //console.log(list1);
+          this.renderEcharts(8, list1)
+
+          this.num2 = res.data.data.taskOrderNum.today
+          this.per2 = res.data.data.taskOrderNum.percent
+          let list2 = res.data.data.taskOrderNum.list
+          let list3 = []
+          for(let i=0;i<days.length;i++){
+            for(let j=0;j<list2.length;j++){
+              if(days[i] == list2[j].dayTime){
+                list3.push(list2[j].count)
+                break
+              }
+            }
+          }
+          //console.log(list3);
+          this.renderEcharts(7, list3)
         } else {
           alert(res.data.message)
         }

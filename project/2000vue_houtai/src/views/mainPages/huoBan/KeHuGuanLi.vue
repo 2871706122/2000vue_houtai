@@ -39,7 +39,7 @@
           </div>
 
           <div class="btn-box">
-            <el-button @click="search" type="primary">查询</el-button>
+            <el-button @click="search('btn')" type="primary">查询</el-button>
           </div>
         </div>
         <div class="right">
@@ -140,7 +140,10 @@ export default {
     },
 
     //查询
-    search() {
+    search(type) {
+      if(type=='btn') {
+        this.pageNum = 1
+      }
       let url = "/merchant/list?pageNum="+this.pageNum+"&pageSize="+this.pageSize
       if(this.num1){
         url += ("&nickname=" + this.num1)

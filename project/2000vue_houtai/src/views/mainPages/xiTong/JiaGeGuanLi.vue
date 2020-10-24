@@ -6,7 +6,7 @@
       <div class="row1">
         <div class="left">
           <div class="btn-box">
-            <el-button @click="dialogFormVisible = true" type="primary">创建</el-button>
+            <el-button @click="create" type="primary">创建</el-button>
           </div>
         </div>
       </div>
@@ -19,11 +19,11 @@
               label="创建日期">
           </el-table-column>
           <el-table-column
-              prop="platformName"
+              prop="priceCategoryName"
               label="名称">
           </el-table-column>
           <el-table-column
-              prop="designation"
+              prop="remark"
               label="备注">
           </el-table-column>
           <el-table-column
@@ -53,15 +53,14 @@
       </div>
     </div>
 
-    <el-dialog title="新建" :visible.sync="dialogFormVisible">
+    <el-dialog :title="title" :visible.sync="dialogFormVisible">
       <div class="row">
         <div class="item">
           <span class="key">价格表名称：</span>
           <div class="input-box">
             <el-input
                 placeholder="请输入价格表名称"
-                v-model="num1"
-                clearable>
+                v-model="num1">
             </el-input>
           </div>
         </div>
@@ -74,9 +73,13 @@
           <span class="key">关注：</span>
           <div class="input-box">
             <el-input
+                class="number-input"
+                type="number"
+                min="0"
+                step="0.01"
+                @blur="lengthTest('num2')"
                 placeholder="请输入金额"
-                v-model="num2"
-                clearable>
+                v-model="num2">
             </el-input>
           </div>
         </div>
@@ -85,9 +88,13 @@
           <span class="key">点赞20：</span>
           <div class="input-box">
             <el-input
+                class="number-input"
+                type="number"
+                min="0"
+                step="0.01"
+                @blur="lengthTest('num3')"
                 placeholder="请输入金额"
-                v-model="num3"
-                clearable>
+                v-model="num3">
             </el-input>
           </div>
         </div>
@@ -96,9 +103,13 @@
           <span class="key">马上抢：</span>
           <div class="input-box">
             <el-input
+                class="number-input"
+                type="number"
+                min="0"
+                step="0.01"
+                @blur="lengthTest('num4')"
                 placeholder="请输入金额"
-                v-model="num4"
-                clearable>
+                v-model="num4">
             </el-input>
           </div>
         </div>
@@ -111,9 +122,13 @@
           <span class="key">关注：</span>
           <div class="input-box">
             <el-input
+                class="number-input"
+                type="number"
+                min="0"
+                step="0.01"
+                @blur="lengthTest('num5')"
                 placeholder="请输入金额"
-                v-model="num5"
-                clearable>
+                v-model="num5">
             </el-input>
           </div>
         </div>
@@ -122,9 +137,13 @@
           <span class="key">评论互动20秒：</span>
           <div class="input-box">
             <el-input
+                class="number-input"
+                type="number"
+                min="0"
+                step="0.01"
+                @blur="lengthTest('num6')"
                 placeholder="请输入金额"
-                v-model="num6"
-                clearable>
+                v-model="num6">
             </el-input>
           </div>
         </div>
@@ -137,9 +156,13 @@
           <span class="key">关注：</span>
           <div class="input-box">
             <el-input
+                class="number-input"
+                type="number"
+                min="0"
+                step="0.01"
+                @blur="lengthTest('num7')"
                 placeholder="请输入金额"
-                v-model="num7"
-                clearable>
+                v-model="num7">
             </el-input>
           </div>
         </div>
@@ -148,9 +171,13 @@
           <span class="key">点赞：</span>
           <div class="input-box">
             <el-input
+                class="number-input"
+                type="number"
+                min="0"
+                step="0.01"
+                @blur="lengthTest('num9')"
                 placeholder="请输入金额"
-                v-model="num9"
-                clearable>
+                v-model="num9">
             </el-input>
           </div>
         </div>
@@ -159,9 +186,13 @@
           <span class="key">评论：</span>
           <div class="input-box">
             <el-input
+                class="number-input"
+                type="number"
+                min="0"
+                step="0.01"
+                @blur="lengthTest('num10')"
                 placeholder="请输入金额"
-                v-model="num10"
-                clearable>
+                v-model="num10">
             </el-input>
           </div>
         </div>
@@ -174,9 +205,13 @@
           <span class="key">关注：</span>
           <div class="input-box">
             <el-input
+                class="number-input"
+                type="number"
+                min="0"
+                step="0.01"
+                @blur="lengthTest('num11')"
                 placeholder="请输入金额"
-                v-model="num11"
-                clearable>
+                v-model="num11">
             </el-input>
           </div>
         </div>
@@ -185,9 +220,13 @@
           <span class="key">评论互动20秒：</span>
           <div class="input-box">
             <el-input
+                class="number-input"
+                type="number"
+                min="0"
+                step="0.01"
+                @blur="lengthTest('num12')"
                 placeholder="请输入金额"
-                v-model="num12"
-                clearable>
+                v-model="num12">
             </el-input>
           </div>
         </div>
@@ -200,9 +239,13 @@
           <span class="key">关注：</span>
           <div class="input-box">
             <el-input
+                class="number-input"
+                type="number"
+                min="0"
+                step="0.01"
+                @blur="lengthTest('num13')"
                 placeholder="请输入金额"
-                v-model="num13"
-                clearable>
+                v-model="num13">
             </el-input>
           </div>
         </div>
@@ -211,9 +254,13 @@
           <span class="key">点赞：</span>
           <div class="input-box">
             <el-input
+                class="number-input"
+                type="number"
+                min="0"
+                step="0.01"
+                @blur="lengthTest('num14')"
                 placeholder="请输入金额"
-                v-model="num14"
-                clearable>
+                v-model="num14">
             </el-input>
           </div>
         </div>
@@ -222,9 +269,13 @@
           <span class="key">评论：</span>
           <div class="input-box">
             <el-input
+                class="number-input"
+                type="number"
+                min="0"
+                step="0.01"
+                @blur="lengthTest('num15')"
                 placeholder="请输入金额"
-                v-model="num15"
-                clearable>
+                v-model="num15">
             </el-input>
           </div>
         </div>
@@ -246,109 +297,318 @@
 
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary" @click="dialogFormVisible = false">确 认</el-button>
+        <el-button type="primary" @click="sure">确 认</el-button>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-  export default {
-    name: "JiaGeGuanLi",
-    props: [],
-    components: {},
-    computed: {},
-    watch: {},
-    data() {
-      return {
-        tableData: [],
-        pageNum: 1,
-        pageSize:10,
-        total:0,
-        dialogFormVisible:false,
+export default {
+  name: "JiaGeGuanLi",
+  props: [],
+  components: {},
+  computed: {},
+  watch: {},
+  data() {
+    return {
+      tableData: [],
+      pageNum: 1,
+      pageSize: 10,
+      total: 0,
+      dialogFormVisible: false,//弹窗显示开关
+      title:"新建",//弹窗标题
 
-        num1:"",
-        num2:"",
-        num3:"",
-        num4:"",
-        num5:"",
-        num6:"",
-        num7:"",
-        num8:"",
-        num9:"",
-        num10:"",
-        num11:"",
-        num12:"",
-        num13:"",
-        num14:"",
-        num15:"",
-        num16:"",
+      isCreate: true,//是在创建还是在编辑
+      editItem: "",//当前编辑的对象
+
+      num1: "",
+      num2: "",
+      num3: "",
+      num4: "",
+      num5: "",
+      num6: "",
+      num7: "",
+      num9: "",
+      num10: "",
+      num11: "",
+      num12: "",
+      num13: "",
+      num14: "",
+      num15: "",
+      num16: "",
+    }
+  },
+  created() {
+  },
+  mounted() {
+    this.init()
+    this.getData()
+  },
+  methods: {
+    //点击创建按钮
+    create() {
+      this.inputsInit()
+      this.isCreate = true
+      this.title = "新建"
+      this.dialogFormVisible = true
+    },
+
+    //确认创建或者确认编辑
+    sure() {
+      let flag = this.inputsTest()
+      if (flag == true) {
+        if (this.isCreate == true) {//是新建
+          let url = "/price/add?"
+          url += ("douyinCommunicateTwenty=" + this.num6*100)
+          url += ("&douyinLiveAttention=" + this.num5*100)
+          url += ("&douyinShortLiveAttention=" + this.num7*100)
+          url += ("&douyinShortLiveCommunicate=" + this.num10*100)
+          url += ("&douyinShortLiveLike=" + this.num9*100)
+
+          url += ("&kuaishouLiveAttention=" + this.num11*100)
+          url += ("&kuaishouLiveCommunicateTwenty=" + this.num12*100)
+          url += ("&kuaishouShortLiveAttention=" + this.num13*100)
+          url += ("&kuaishouShortLiveCommunicate=" + this.num15*100)
+          url += ("&kuaishouShortLiveLike=" + this.num14*100)
+
+          url += ("&name=" + this.num1)
+
+          url += ("&remark=" + this.num16)
+
+          url += ("&taobaoLiveAttention=" + this.num2*100)
+          url += ("&taobaoLiveBuyImmediately=" + this.num4*100)
+          url += ("&taobaoLiveLike=" + this.num3*100)
+          this.$axios.post(url).then(res => {
+            //console.log(res);
+            if (res.data.status == 200 && res.data.message == "成功") {
+              this.$message({
+                message: '创建成功!',
+                type: 'success'
+              });
+              this.getData()
+            } else {
+              alert(res.data.message)
+            }
+          }).catch((err) => {
+            console.log(err);
+            alert("请求失败")
+          })
+        } else if (this.isCreate == false) {//是编辑
+          let url = "/price/modify?"
+          url += ("douyinCommunicateTwenty=" + this.num6*100)
+          url += ("&douyinLiveAttention=" + this.num5*100)
+          url += ("&douyinShortLiveAttention=" + this.num7*100)
+          url += ("&douyinShortLiveCommunicate=" + this.num10*100)
+          url += ("&douyinShortLiveLike=" + this.num9*100)
+
+          url += ("&kuaishouLiveAttention=" + this.num11*100)
+          url += ("&kuaishouLiveCommunicateTwenty=" + this.num12*100)
+          url += ("&kuaishouShortLiveAttention=" + this.num13*100)
+          url += ("&kuaishouShortLiveCommunicate=" + this.num15*100)
+          url += ("&kuaishouShortLiveLike=" + this.num14*100)
+
+          url += ("&name=" + this.num1)
+
+          url += ("&priceType=" + this.editItem.priceType)
+
+          url += ("&remark=" + this.num16)
+
+          url += ("&taobaoLiveAttention=" + this.num2*100)
+          url += ("&taobaoLiveBuyImmediately=" + this.num4*100)
+          url += ("&taobaoLiveLike=" + this.num3*100)
+          this.$axios.post(url).then(res => {
+            //console.log(res);
+            if (res.data.status == 200 && res.data.message == "成功") {
+              this.$message({
+                message: '修改成功!',
+                type: 'success'
+              });
+              this.getData()
+            } else {
+              alert(res.data.message)
+            }
+          }).catch((err) => {
+            console.log(err);
+            alert("请求失败")
+          })
+        }
+        //关闭弹窗
+        this.dialogFormVisible = false
       }
     },
-    created() {
+
+    //点击编辑按钮
+    handleEdit(index, item) {
+      let url = "/price/detail?priceType=" + item.priceType
+      this.$axios.get(url).then(res => {
+        if (res.data.status == 200 && res.data.message == "成功") {
+          this.isCreate = false
+          this.editItem = item
+          this.title = "编辑"
+          let data = res.data.data
+          //console.log(data);
+          this.num1 = data.name
+          this.num2 = (data.taobaoLiveAttention/100).toFixed(2)
+          this.num3 = (data.taobaoLiveLike/100).toFixed(2)
+          this.num4 = (data.taobaoLiveBuyImmediately/100).toFixed(2)
+          this.num5 = (data.douyinLiveAttention/100).toFixed(2)
+          this.num6 = (data.douyinCommunicateTwenty/100).toFixed(2)
+          this.num7 = (data.douyinShortLiveAttention/100).toFixed(2)
+          this.num9 = (data.douyinShortLiveLike/100).toFixed(2)
+          this.num10 = (data.douyinShortLiveCommunicate/100).toFixed(2)
+          this.num11 = (data.kuaishouLiveAttention/100).toFixed(2)
+          this.num12 = (data.kuaishouLiveCommunicateTwenty/100).toFixed(2)
+          this.num13 = (data.kuaishouShortLiveAttention/100).toFixed(2)
+          this.num14 = (data.kuaishouShortLiveLike/100).toFixed(2)
+          this.num15 = (data.kuaishouShortLiveCommunicate/100).toFixed(2)
+          this.num16 = data.remark
+          this.dialogFormVisible = true
+        } else {
+          alert(res.data.message)
+        }
+      }).catch((err) => {
+        console.log(err);
+        alert("请求失败")
+      })
     },
-    mounted() {
-      this.init()
+
+    //金额小数位数控制
+    lengthTest(num) {
+      let value = this[num]
+      value = value*1
+      if (value) {
+        this[num] = this.formatMoney(value)
+      }
+    },
+
+    //输入框数据验证
+    inputsTest() {
+      if (!this.num1 || !this.num2 || !this.num3 || !this.num4 || !this.num5 || !this.num6 || !this.num7 || !this.num9 || !this.num10 || !this.num11 || !this.num12 || !this.num13 || !this.num14 || !this.num15 || !this.num16) {
+        this.$message({
+          message: '当前弹窗页面还有数据未完善！请完善后再提交。',
+          type: 'warning'
+        });
+        return false
+      } else {
+        return true
+      }
+    },
+
+    //输入框数据初始化
+    inputsInit() {
+      this.num1 = ""
+      this.num2 = ""
+      this.num3 = ""
+      this.num4 = ""
+      this.num5 = ""
+      this.num6 = ""
+      this.num7 = ""
+      this.num9 = ""
+      this.num10 = ""
+      this.num11 = ""
+      this.num12 = ""
+      this.num13 = ""
+      this.num14 = ""
+      this.num15 = ""
+      this.num16 = ""
+    },
+
+
+    //初始化界面
+    init() {
+
+    },
+
+    //获取数据
+    getData() {
+      let url = "/price/list?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize
+      this.$axios.get(url).then(res => {
+        //console.log(res);
+        if (res.data.status == 200 && res.data.message == "成功") {
+          this.total = res.data.data.count
+          this.tableData = res.data.data.resultList
+        } else {
+          alert(res.data.message)
+        }
+      }).catch((err) => {
+        console.log(err);
+        alert("请求失败")
+      })
+    },
+
+    //查询
+    search() {
+
+    },
+
+    //确认删除
+    del(item) {
+      let url = "/price/remove?priceType=" + item.priceType
+      this.$axios.get(url).then(res => {
+        if (res.data.status == 200 && res.data.message == "成功") {
+          this.$message({
+            message: '删除成功！',
+            type: 'success'
+          });
+          this.getData()
+        } else {
+          alert(res.data.message)
+        }
+      }).catch((err) => {
+        console.log(err);
+        alert("请求失败")
+      })
+    },
+
+    //改变每一页的条数
+    handleSizeChange(val) {
+      //console.log(`每页 ${val} 条`);
+      this.pageSize = val
       this.getData()
     },
-    methods: {
-      //点击创建按钮
-      create(){
 
-      },
+    //改变页码
+    handleCurrentChange(val) {
+      //console.log(`当前页: ${val}`);
+      this.pageNum = val
+      this.getData()
+    },
 
-      //点击table中的按钮
-      handleEdit(a,b) {
-        console.log(a,b);
-      },
-
-
-      //初始化界面
-      init() {
-
-      },
-
-      //获取数据
-      getData() {
-        let url = "/price/list?pageNum="+this.pageNum+"&pageSize="+this.pageSize
-        this.$axios.get(url).then(res => {
-          //console.log(res);
-          if(res.data.status == 200 && res.data.message == "成功"){
-            this.total = res.data.data.count
-            this.tableData = res.data.data.resultList
-          }else {
-            alert(res.data.message)
-          }
-        }).catch((err)=>{
-          console.log(err);
-          alert("请求失败")
-        })
-      },
-
-      //查询
-      search() {
-
-      },
-
-      //确认删除
-      del(item) {
-        console.log(item);
-        this.$message({
-          message: '删除完成！',
-          type: 'success'
-        });
-      },
-
-      handleSizeChange(val) {
-        console.log(`每页 ${val} 条`);
-      },
-      handleCurrentChange(val) {
-        console.log(`当前页: ${val}`);
+    //格式化金额1
+    formatMoney(money) {
+      try {
+        var money =
+            money &&
+            (money.toString().indexOf(".") != -1
+                ? money.toString().replace(/(\d)(?=(\d{3})+\.)/g, "$1,")
+                : money.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,"));
+        return this.Getamount(money);
+      } catch {
+        return this.Getamount(money);
       }
     },
-    beforeDestroy() {
+
+    //格式化金额1.1
+    Getamount(str) {
+      try {
+        if (-1 != str.indexOf(".")) {
+          let result = str.substring(0, str.indexOf(".") + 3);
+          if (result.indexOf(".") == result.length - 2) {
+            result += "0"
+          }
+          return result;
+        } else {
+          return str + ".00";
+        }
+      } catch {
+        return str;
+      }
     }
+  },
+  beforeDestroy() {
   }
+}
 </script>
 
 <style scoped lang="scss">
@@ -378,13 +638,13 @@
       margin-top: 20px;
 
       /deep/ .table-btn {
-        color: rgba(22,155,213,1);
+        color: rgba(22, 155, 213, 1);
         cursor: pointer;
       }
 
       /deep/ .table-btn1 {
         margin: 0 20px 0 0;
-        color: rgba(22,155,213,1);
+        color: rgba(22, 155, 213, 1);
         cursor: pointer;
       }
     }
@@ -403,7 +663,7 @@
       .item {
         display: flex;
         align-items: center;
-        
+
         .key {
           margin-right: 20px;
           min-width: 100px;
@@ -416,7 +676,7 @@
       margin-top: 30px;
       display: flex;
       align-items: center;
-      white-space:nowrap;
+      white-space: nowrap;
 
       .type {
         margin-right: 20px;
@@ -462,6 +722,10 @@
           flex: 1;
         }
       }
+    }
+
+    /deep/ .number-input .el-input__inner {
+      padding-right: 5px;
     }
   }
 }
