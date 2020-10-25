@@ -157,7 +157,10 @@ export default {
         var myreg = /^1[0-9]{10}$/;
         if (!myreg.test(this.num3)) {
           this.num3 = ""
-          this.$message.error('手机号码有误，请重填');
+          this.$message({
+            message: '手机号码有误，请重填',
+            type: 'warning'
+          });
           return
         }
         url += ("&mobile=" + this.num3)
@@ -234,7 +237,7 @@ export default {
         }
 
         .btn-box {
-          margin-left: 20px;
+
         }
       }
 

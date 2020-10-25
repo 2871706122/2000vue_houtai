@@ -20,8 +20,8 @@
     name: "Login",
     data() {
       return {
-        phone: "",//手机号
-        pwd: "",//密码
+        phone: "techServer",//账号 admin   123456   type=0 / techServer  qwe123!@#   type=9 /  SH0001   123456  type=5
+        pwd: "qwe123!@#",//密码
       }
     },
     mounted() {
@@ -35,16 +35,28 @@
 
       //登录
       login() {
-        let data = {
-          username:this.phone,
-          password:this.pwd
+        let config = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
         }
-        let url = "/user/login?username="+this.phone+"&password="+this.pwd
-        this.$axios.post(url, data).then(res => {
-          console.log(res);
+        let fromData = new FormData()
+        fromData.append('username', this.phone)
+        fromData.append('password', this.pwd)
+        let url = "/user/login"
+        this.$axios.post(url,fromData,config).then(res => {
           if(res.data.status == 200 && res.data.message == "成功"){
-            localStorage.setItem("code",res.data.data)
-            this.$router.push("/mainPage")
+            localStorage.setItem("code",res.data.data.token)
+            localStorage.setItem("name",this.phone)
+            localStorage.setItem("userType",res.data.data.type)
+            if(res.data.data.type*1 == 0){
+              this.$router.push("/mainPage")
+            }else if(res.data.data.type*1 == 9){
+              this.$router.push("/mainPage")
+            }else if(res.data.data.type*1 == 5){
+              this.$router.push("/dingDan/dingDanGuanLi")
+            }
+
           }else {
             alert(res.data.message)
           }

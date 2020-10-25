@@ -5,20 +5,41 @@
     <div class="content">
       <div class="row1">
         <div class="part1">
-          <el-button @click="shaiXuan(1)">进行中</el-button>
-          <el-button @click="shaiXuan(2)">已结束</el-button>
-          <el-button @click="shaiXuan(3)">已结算</el-button>
+          <div class="item">
+            <span>进行状态：</span>
+            <el-select v-model="num1" clearable placeholder="请选择订单进行状态">
+              <el-option label="未开始" value="NotStart"></el-option>
+              <el-option label="进行中" value="Running"></el-option>
+              <el-option label="已结束" value="Ending"></el-option>
+            </el-select>
+          </div>
+        </div>
+
+        <div class="part1">
+          <div class="item">
+            <span>结算状态：</span>
+            <el-select v-model="num2" clearable placeholder="请选择订单结算状态">
+              <el-option label="未结算" value="NotClear"></el-option>
+              <el-option label="已结算" value="Clear"></el-option>
+            </el-select>
+          </div>
+        </div>
+
+        <div class="part1">
+          <div class="item">
+            <span>审核状态：</span>
+            <el-select v-model="num3" clearable placeholder="请选择订单审核状态">
+              <el-option label="已审核" value="NotNeedCheck"></el-option>
+              <el-option label="未审核" value="NeedCheck"></el-option>
+              <el-option label="审核中" value="Checking"></el-option>
+            </el-select>
+          </div>
         </div>
 
         <div class="part2">
-          <el-button @click="shaiXuan(4)">无需审核</el-button>
-          <el-button @click="shaiXuan(5)">需审核</el-button>
-          <el-button @click="shaiXuan(6)">审核中</el-button>
-        </div>
-
-        <div class="part3">
           <div class="select-box">
-            <el-select v-model="selectVlaue" placeholder="请选择">
+            <span>其他类型筛选：</span>
+            <el-select v-model="num4" clearable placeholder="请选择">
               <el-option
                   v-for="item in selectOptions"
                   :key="item.value"
@@ -27,29 +48,27 @@
               </el-option>
             </el-select>
           </div>
-          <div class="input-box">
+          <div class="input-box" style="margin-right: 10px;">
             <el-input
                 placeholder="请输入内容"
-                v-model="inputValue"
+                v-model="num5"
                 clearable>
             </el-input>
           </div>
-          <el-button @click="shaiXuan(7)" type="primary">查询</el-button>
-          <el-button @click="shaiXuan(8)">重置</el-button>
+          <el-button @click="getData" type="primary">查询</el-button>
         </div>
-
       </div>
 
       <div class="row2" v-for="(item,index) in list" :key="index">
         <div class="li1">
           <div class="part1">
-            <img class="img" :src="item.img" alt="">
-            <span>{{item.name}}</span>
+            <img class="img" :src="item.wxPictureUrl" alt="">
+            <span>{{item.wxNickname}}</span>
           </div>
-          <div class="part2">{{item.phone + "/" + item.openid}}</div>
+          <div class="part2">{{item.merchantMobile + "/" + item.merchantCode}}</div>
           <div class="part3">业务员：{{item.yeWuYuan}}</div>
-          <div class="part4">业务员手机号：{{item.yeWuYuanPhone}}</div>
-          <div class="part5">订单编号：{{item.dingDanBianHao}}</div>
+          <div class="part4">业务员手机号：{{item.businessMobile}}</div>
+          <div class="part5">订单编号：{{item.taskOrderNo}}</div>
         </div>
 
         <div class="li2">
@@ -59,12 +78,12 @@
           </div>
 
           <div class="part2">{{item.link}}</div>
-          <div class="part3">复制链接</div>
+          <div class="part3"><span class="copy-text">复制链接</span></div>
         </div>
 
         <div class="li3">
           <div class="part1">
-            <div class="key-value">订单数量：{{item.num1}}</div>
+            <div class="key-value">订单数量：{{item.taskNum}}</div>
             <div class="key-value">订单金额：{{item.num2}}</div>
             <div class="key-value">订单消耗：{{item.num3}}</div>
             <div class="key-value">预扣退回：{{item.num4}}</div>
@@ -77,7 +96,7 @@
                 <div :style="'width:'+item.num5" class="line1-jin-du"></div>
               </div>
               <span class="per">{{item.num5}}</span>
-              <span class="num">已执行：{{item.num8}}</span>
+              <span class="num"><span style="min-width: 56px;text-align:right;display: inline-block">已执行：</span>{{item.num8}}</span>
             </div>
 
             <div class="jin-du">
@@ -86,7 +105,7 @@
                 <div :style="'width:'+item.num6" class="line2-jin-du"></div>
               </div>
               <span class="per">{{item.num6}}</span>
-              <span class="num">已执行：{{item.num9}}</span>
+              <span class="num"><span style="min-width: 56px;text-align:right;display: inline-block">已审核：</span>{{item.num9}}</span>
             </div>
 
             <div class="jin-du">
@@ -95,15 +114,15 @@
                 <div :style="'width:'+item.num7" class="line3-jin-du"></div>
               </div>
               <span class="per">{{item.num7}}</span>
-              <span class="num">已执行：{{item.num10}}</span>
+              <span class="num"><span style="min-width: 56px;text-align:right;display: inline-block">合格：</span>{{item.num10}}</span>
             </div>
           </div>
 
           <div class="part3">
             <div class="key-value">创建时间：{{item.createTime}}</div>
-            <div class="key-value">开始时间：{{item.startTime}}</div>
+            <div class="key-value">开始时间：{{item.endTime}}</div>
             <div class="key-value">结束时间：{{item.endTime}}</div>
-            <div class="key-value">结算时间：{{item.jieSuanTime}}</div>
+            <div class="key-value">结算时间：{{item.pubTime}}</div>
           </div>
 
           <div class="part4">
@@ -137,23 +156,38 @@
     watch: {},
     data() {
       return {
-        selectVlaue: "1",
+        num1:"",
+        num2:"",
+        num3:"",
+        num4:"",
+        num5:"",
+
         selectOptions: [
           {
             value: '1',
             label: '商户昵称'
-          }, {
+          },
+          {
             value: '2',
-            label: '商户手机号/编号'
-          }, {
+            label: '商户手机号'
+          },
+          {
             value: '3',
-            label: '业务员昵称/手机号'
-          }, {
+            label: '商户编号'
+          },
+          {
             value: '4',
+            label: '业务员昵称'
+          },
+          {
+            value: '5',
+            label: '业务员手机号'
+          },
+          {
+            value: '6',
             label: '订单编号'
           }
         ],
-        inputValue: "",//
         list:[],
         pageNum: 1,
         pageSize:10,
@@ -167,10 +201,6 @@
       this.getData()
     },
     methods: {
-      //筛选
-      shaiXuan(index) {
-        console.log(index);
-      },
       //初始化界面
       init() {
 
@@ -178,7 +208,7 @@
 
       //获取数据
       getData() {
-        this.list = [
+        let testList = [
           {
             img:require("@/assets/imgs/u107.svg"),
             name:"阿木",
@@ -189,16 +219,16 @@
             dingDanBianHao:"SA0015165165165",
             title:"观看2/3进度+点赞+评论",
             link:"来看什么后来",
-            num1:1000,
-            num2:2000,
+            num1:10,
+            num2:200,
             num3:2000,
-            num4:200,
+            num4:20000,
             num5:"20%",
             num6:"20%",
             num7:"20%",
             num8:2000,
-            num9:2000,
-            num10:2000,
+            num9:20005,
+            num10:200066,
             createTime:"2020-09-25 15:02:50",
             startTime:"2020-09-25 15:02:50",
             endTime:"2020-09-25 15:02:50",
@@ -260,23 +290,78 @@
         ]
 
         let url = "/taskorder/taskorder/status/list?pageNum="+this.pageNum+"&pageSize="+this.pageSize
-        // if(this.num1){
-        //   url += ("&nickname=" + this.num1)
-        // }
-        //
-        // if(this.num2){
-        //   url += ("&merchantCode=" + this.num2)
-        // }
-        //
-        // if(this.num3){
-        //   url += ("&mobile=" + this.num3)
-        // }
+        if(this.num1){
+          url += ("&runingStatus=" + this.num1)
+        }
+
+        if(this.num2){
+          url += ("&clearStatus=" + this.num2)
+        }
+
+        if(this.num3){
+          url += ("&checkStatus=" + this.num3)
+        }
+
+        if(this.num4){
+          if(this.num4*1 == 2 || this.num4*1 == 5) {
+            let myreg = /^1[0-9]{10}$/;
+            if (!myreg.test(this.num5)) {
+              this.num5 = ""
+              this.$message({
+                message: '手机号码有误，请重填',
+                type: 'warning'
+              });
+              return
+            }
+          }
+
+          if(this.num4*1 == 1){
+            if(!this.num5){
+              this.$message({
+                message: '商户昵称不能为空！',
+                type: 'warning'
+              });
+              return
+            }
+            url += ("&merchantNickname=" + this.num5)
+          }else if(this.num4*1 == 2){
+            url += ("&merchantMobile=" + this.num5)
+          }else if(this.num4*1 == 3){
+            if(!this.num5){
+              this.$message({
+                message: '商户编号不能为空！',
+                type: 'warning'
+              });
+              return
+            }
+            url += ("&merchantCode=" + this.num5)
+          }else if(this.num4*1 == 4){
+            if(!this.num5){
+              this.$message({
+                message: '业务员昵称不能为空！',
+                type: 'warning'
+              });
+              return
+            }
+            url += ("&businessNickname=" + this.num5)
+          }else if(this.num4*1 == 5){
+            url += ("&businessMobile=" + this.num5)
+          }else if(this.num4*1 == 6){
+            if(!this.num5){
+              this.$message({
+                message: '订单编号不能为空！',
+                type: 'warning'
+              });
+              return
+            }
+            url += ("&taskOrderNo=" + this.num5)
+          }
+        }
 
         this.$axios.get(url).then(res => {
-          console.log(res);
           if(res.data.status == 200 && res.data.message == "成功"){
             this.total = res.data.data.count
-            // this.list = res.data.data.resultList
+            this.list = res.data.data.resultList
           }else {
             alert(res.data.message)
           }
@@ -323,22 +408,31 @@
     border: 5px solid rgb(245, 247, 250);
 
     .row1 {
-      margin-bottom: 20px;
       display: flex;
       align-items: center;
+      flex-wrap: wrap;
 
-      .part1,.part2,.part3 {
+      .part1 {
+        margin-bottom: 20px;
+        margin-right: 10px;
         display: flex;
         align-items: center;
+        white-space:nowrap;
       }
 
-      .part2,.part3 {
-        margin-left: 40px;
+      .part2 {
+        margin-bottom: 20px;
+        display: flex;
+        align-items: center;
+
+        .select-box {
+          white-space:nowrap;
+        }
       }
     }
 
     .row2 {
-      margin-top: 20px;
+      margin-bottom: 20px;
       border: 1px solid #ccc;
 
       .li1 {
@@ -350,6 +444,7 @@
         .part1 {
           display: flex;
           align-items: center;
+          white-space:nowrap;
 
           .img {
             margin: 0 10px;
@@ -360,13 +455,15 @@
         }
 
         .part2,.part3,.part4 {
-          margin-left: 80px;
+          margin-left: 10%;
+          white-space:nowrap;
         }
         
         .part5 {
           padding-right: 10px;
           flex: 1;
           text-align: right;
+          white-space:nowrap;
         }
       }
 
@@ -399,22 +496,30 @@
         .part3 {
           flex: 1;
           text-align: right;
+          
+          .copy-text {
+            cursor: pointer;
+            color: rgba(22,155,213,1);
+          }
         }
       }
 
       .li3 {
         display: flex;
+        justify-content: space-between;
         padding: 10px 10px 10px 40px;
 
         .part1 {
-          margin-right: 150px;
           display: flex;
           flex-direction: column;
           justify-content: space-evenly;
+          white-space:nowrap;
         }
 
         .part2 {
-          flex: 1;
+          min-width: 200px;
+          max-width: 600px;
+          width: 45%;
           display: flex;
           flex-direction: column;
           justify-content: space-evenly;
@@ -422,6 +527,7 @@
           .jin-du {
             display: flex;
             align-items: center;
+            white-space:nowrap;
 
             .key {
               margin-right: 10px;
@@ -434,7 +540,8 @@
             }
 
             .line1 {
-              flex: 1;
+              display: inline-block;
+              width: 60%;
               height: 8px;
               background-color: rgb(235,238,245);
               border-radius: 4px;
@@ -471,7 +578,6 @@
         }
 
         .part3 {
-          margin: 0 150px;
           display: flex;
           flex-direction: column;
           justify-content: space-evenly;

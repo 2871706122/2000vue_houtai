@@ -10,14 +10,14 @@
             :default-openeds="openeds"
             @open="handleOpen"
             @select="handleSelect">
-          <el-submenu index="0">
+          <el-submenu v-show="userType!=5" index="0">
             <template slot="title">
               <i class="el-icon-location"></i>概览
             </template>
             <el-menu-item index="0-0"><i class="el-icon-location"></i>数据统计</el-menu-item>
           </el-submenu>
 
-          <el-submenu index="1">
+          <el-submenu v-show="userType!=5" index="1">
             <template slot="title">
               <i class="el-icon-location"></i>伙伴
             </template>
@@ -35,7 +35,7 @@
             <el-menu-item index="2-1"><i class="el-icon-location"></i>任务管理</el-menu-item>
           </el-submenu>
 
-          <el-submenu index="3">
+          <el-submenu v-show="userType!=5" index="3">
             <template slot="title">
               <i class="el-icon-location"></i>系统
             </template>
@@ -65,13 +65,14 @@ export default {
     return {
       active:"0-0",//当前选择导航
       openeds:["0"],//当前打开的导航组
+      userType:5,
     }
   },
   created() {
     this.init()
   },
   mounted() {
-
+    this.userType = localStorage.getItem("userType")
   },
   methods:{
     //初始化导航栏

@@ -113,6 +113,16 @@
             </div>
           </div>
           <div class="echart" id="echart7"></div>
+          <div class="tips-box">
+            <div class="part1">
+              <span class="kuai1"></span>
+              <span class="key">粉丝总数</span>
+            </div>
+            <div class="part2">
+              <span class="kuai2"></span>
+              <span class="key">活跃粉丝数量</span>
+            </div>
+          </div>
         </div>
         <div class="right">
           <div class="item">
@@ -667,12 +677,13 @@ export default {
           tooltip: {
             trigger: 'axis',
             backgroundColor:"#fff",
-            textStyle:{color:"#000"}
+            textStyle:{color:"#000"},
+            formatter: '{b0}: {c0}<br />{b1}: {c1}'
           },
           grid: {
             left: '3%',
             right: '4%',
-            bottom: '3%',
+            bottom: '0%',
             top: 20,
             containLabel: true
           },
@@ -979,6 +990,33 @@ export default {
 
       .item2 {
         width: calc(65% - 10px);
+
+        .tips-box {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+
+          .part1 {
+            .kuai1 {
+              margin-right: 5px;
+              display: inline-block;
+              width: 15px;
+              height: 8px;
+              background-color: rgb(27,145,254);
+            }
+          }
+
+          .part2 {
+            margin-left: 15px;
+            .kuai2 {
+              margin-right: 5px;
+              display: inline-block;
+              width: 15px;
+              height: 8px;
+              background-color: rgb(47,194,91);
+            }
+          }
+        }
       }
 
       .right {

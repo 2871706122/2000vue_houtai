@@ -58,6 +58,7 @@
 
           <div class="btn-box">
             <el-button @click="search('btn')" type="primary">查询</el-button>
+            <el-button @click="exporting" type="primary">导出</el-button>
           </div>
         </div>
       </div>
@@ -230,6 +231,11 @@
         })
       },
 
+      //导出数据
+      exporting() {
+
+      },
+
       //改变每一页的条数
       handleSizeChange(val) {
         //console.log(`每页 ${val} 条`);
@@ -306,7 +312,7 @@
         }
 
         .btn-box {
-          margin-left: 20px;
+
         }
       }
 
