@@ -23,7 +23,7 @@
             <el-button type="primary" @click="focusMode(-1)">聚焦模式</el-button>
             <el-button type="primary" :disabled="who===0" @click="selectAll" v-show="btnVisible">本页全选</el-button>
             <el-button type="danger" :disabled="who===0" @click="cancelSelectAll" v-show="!btnVisible">取消全选</el-button>
-            <el-button type="primary" :disabled="selectedListData.length&&who===1?false:true" @click='approvalSelectedListData'>审核通过</el-button>
+            <el-button type="primary" :disabled="selectedListData.length&&who===1?false:true" @click='approval(2,selectedListData)'>审核通过</el-button>
             <el-button type="primary" :disabled="who===0">释放</el-button>
           </div>
         </div>
@@ -44,8 +44,8 @@
             </div>
             <div class="task-li-btm">
               <el-button-group>
-                <el-button size="small" :disabled="who===0" round @click='approval(2,item)'>合格</el-button>
-                <el-button size="small" :disabled="who===0" round @click='approval(1,item)'>不合格</el-button>
+                <el-button size="small" :disabled="who===0" round @click='approval(2,[item])'>合格</el-button>
+                <el-button size="small" :disabled="who===0" round @click='approval(1,[item])'>不合格</el-button>
               </el-button-group>
             </div>
             <div class="task-li-img">
@@ -68,7 +68,7 @@
               <img src="../../../assets/imgs/a.jpg" alt="" />
               <div class="info-top-right">
                 <p>{{listData[focusModeDisplayIndex].name}}</p>
-                <el-button size="small">复制openid</el-button>
+                <el-button size="small" @click='copy(listData[focusModeDisplayIndex].openid)'>复制openid</el-button>
               </div>
             </div>
             <div class="info-btm">
@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import { remove, cloneDeep } from 'lodash'
+import { remove } from 'lodash'
 import getReq from '@/utils/getReq.js'
 export default {
   name: "renWuGuanLi",
@@ -208,7 +208,7 @@ export default {
       checkboxValueList: [],
       // 选中的数据
       selectedListData: [],
-      focusModeDisplayIndex: 0, // 聚焦模式展示的数据
+      focusModeDisplayIndex: 0, // 聚焦模式展示的数据的下标
       // ui
       btnVisible: true,
       modalVisible: false
@@ -219,17 +219,10 @@ export default {
       if (e.keyCode === 27) {
         this.modalVisible = false
       }
-
     },
     // 查询
     search() {
       this.inQuery = true
-      this.pageNum = 1
-      this.pageSize = 5
-      this.getListData()
-    },
-    cancelSearch() {
-      this.inQuery = false
       this.pageNum = 1
       this.pageSize = 5
       this.getListData()
@@ -264,21 +257,20 @@ export default {
       this.selectedListData = []
       this.btnVisible = true
     },
-    // 批量审核通过
-    approvalSelectedListData() {
-
-    },
     // 审核任务
-    async approval(type, item) {
-      console.log(999)
-      let val = {}
-      val.checkCode = this.checkCode
-      val.taskNo = item.taskNo
-      val.type = type
-      let url = '/task/task/check?'
-      url += getReq(val)
-      let res = await this.$axios.post(url)
-      console.log(res)
+    async approval(type, taskArr) {
+      let promiseArr = []
+      taskArr.forEach(item => {
+        let val = {}
+        val.checkCode = this.checkCode
+        val.taskNo = item.taskNo
+        val.type = type
+        let url = '/task/task/check?'
+        url += getReq(val)
+        promiseArr.push(this.$axios.post(url))
+      })
+      let res = await Promise.all([promiseArr])
+      //   更新table数据
     },
     // 开启聚焦模式
     focusMode(num) {

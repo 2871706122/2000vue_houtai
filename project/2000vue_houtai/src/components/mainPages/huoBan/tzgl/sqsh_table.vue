@@ -21,25 +21,12 @@
       <el-table-column prop="applyTime" label="申请时间"></el-table-column>
       <el-table-column label="操作" width="100">
         <template slot-scope="scope">
-          <el-button
-            type="text"
-            size="small"
-            @click="approval({ id: scope.row.id, type: 2 })"
-            >批准</el-button
-          >
+          <el-button type="text" size="small" @click="approval({ id: scope.row.id, type: 2 })">批准</el-button>
         </template>
       </el-table-column>
     </el-table>
     <div class="c-pagination">
-      <el-pagination
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
-        :current-page.sync="pageNum"
-        :page-sizes="[5, 10, 20]"
-        :page-size="pageSize"
-        layout="sizes, prev, pager, next,jumper"
-        :total="total"
-      ></el-pagination>
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-sizes="[5, 10, 20]" :page-size="pageSize" layout="sizes, prev, pager, next,jumper" :total="total"></el-pagination>
     </div>
   </div>
 </template>
@@ -64,6 +51,10 @@ export default {
     }
   },
   methods: {
+    init() {
+      this.pageNum = 1
+      this.pageSize = 5
+    },
     handleSizeChange(val) {
       console.log(val)
       this.pageSize = val
@@ -91,6 +82,12 @@ export default {
 
     }
   },
+  mounted() {
+    this.$bus.$on('tz_initsqshData', this.init)
+  },
+  beforeDestroy() {
+    this.$bus.$off('tz_initsqshData')
+  }
 }
 </script>
 <style lang="scss" scoped>

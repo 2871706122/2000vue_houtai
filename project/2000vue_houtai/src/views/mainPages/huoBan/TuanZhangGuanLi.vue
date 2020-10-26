@@ -51,9 +51,9 @@ export default {
             pageNum: 1,
             pageSize: 5
           })
+          this.$bus.$emit('tz_initSqshData')
         } else if (val === 'second') {
-          console.log(999)
-          this.$bus.$emit('tz_initData')
+          this.$bus.$emit('tz_initYjckData')
           this.getyjckTableData({
             businessType: 2,
             pageNum: 1,

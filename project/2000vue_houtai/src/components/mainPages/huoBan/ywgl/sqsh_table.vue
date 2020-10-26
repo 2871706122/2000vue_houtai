@@ -50,6 +50,10 @@ export default {
     }
   },
   methods: {
+    init() {
+      this.pageNum = 1
+      this.pageSize = 5
+    },
     handleSizeChange(val) {
       console.log(val)
       this.pageSize = val
@@ -77,6 +81,12 @@ export default {
 
     }
   },
+  mounted() {
+    this.$bus.$on('yw_initsqshData', this.init)
+  },
+  beforeDestroy() {
+    this.$bus.$off('yw_initsqshData')
+  }
 }
 </script>
 <style lang="scss" scoped>
