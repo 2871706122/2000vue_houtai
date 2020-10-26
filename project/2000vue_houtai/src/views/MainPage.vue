@@ -61,6 +61,11 @@ export default {
   components: {
     Top
   },
+  watch:{
+    $route() {
+      this.init()
+    }
+  },
   data(){
     return {
       active:"0-0",//当前选择导航

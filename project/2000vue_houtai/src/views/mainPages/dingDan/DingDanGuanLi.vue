@@ -55,7 +55,7 @@
                 clearable>
             </el-input>
           </div>
-          <el-button @click="getData" type="primary">查询</el-button>
+          <el-button @click="getData('btn')" type="primary">查询</el-button>
         </div>
       </div>
 
@@ -74,60 +74,85 @@
         <div class="li2">
           <div class="part1">
             <img class="img" :src="item.img" alt="">
-            <span class="my-title">{{item.title}}</span>
+            <span class="my-title">{{item.platformName}}</span>
           </div>
 
-          <div class="part2">{{item.link}}</div>
-          <div class="part3"><span class="copy-text">复制链接</span></div>
+          <div class="part2">{{item.taskName}}</div>
+          <div class="part3"><span class="copy-text" @click="copy(item.taskName)">复制链接</span></div>
         </div>
 
         <div class="li3">
           <div class="part1">
             <div class="key-value">订单数量：{{item.taskNum}}</div>
-            <div class="key-value">订单金额：{{item.num2}}</div>
-            <div class="key-value">订单消耗：{{item.num3}}</div>
-            <div class="key-value">预扣退回：{{item.num4}}</div>
+            <div class="key-value">订单金额：{{item.price}}</div>
+            <div class="key-value">订单消耗：{{item.usedFund}}</div>
+            <div class="key-value">预扣退回：{{item.repayFund}}</div>
           </div>
 
           <div class="part2">
             <div class="jin-du">
               <span class="key">执行进度</span>
               <div class="line1">
-                <div :style="'width:'+item.num5" class="line1-jin-du"></div>
+                <div :style="'width:'+item.zhiXingJinDu" class="line1-jin-du"></div>
               </div>
-              <span class="per">{{item.num5}}</span>
-              <span class="num"><span style="min-width: 56px;text-align:right;display: inline-block">已执行：</span>{{item.num8}}</span>
+              <span class="per">{{item.zhiXingJinDu}}</span>
+              <span class="num"><span style="min-width: 56px;text-align:right;display: inline-block">已执行：</span>{{item.taskPassNum+item.taskNotPassNum}}</span>
             </div>
 
             <div class="jin-du">
               <span class="key">审核进度</span>
               <div class="line1">
-                <div :style="'width:'+item.num6" class="line2-jin-du"></div>
+                <div :style="'width:'+item.shenHeJinDu" class="line2-jin-du"></div>
               </div>
-              <span class="per">{{item.num6}}</span>
-              <span class="num"><span style="min-width: 56px;text-align:right;display: inline-block">已审核：</span>{{item.num9}}</span>
+              <span class="per">{{item.shenHeJinDu}}</span>
+              <span class="num"><span style="min-width: 56px;text-align:right;display: inline-block">已审核：</span>{{item.taskPassNum+item.taskNotPassNum}}</span>
             </div>
 
             <div class="jin-du">
               <span class="key">合格率</span>
               <div class="line1">
-                <div :style="'width:'+item.num7" class="line3-jin-du"></div>
+                <div :style="'width:'+item.heGeLv" class="line3-jin-du"></div>
               </div>
-              <span class="per">{{item.num7}}</span>
-              <span class="num"><span style="min-width: 56px;text-align:right;display: inline-block">合格：</span>{{item.num10}}</span>
+              <span class="per">{{item.heGeLv}}</span>
+              <span class="num"><span style="min-width: 56px;text-align:right;display: inline-block">合格：</span>{{item.taskPassNum}}</span>
             </div>
           </div>
 
           <div class="part3">
             <div class="key-value">创建时间：{{item.createTime}}</div>
-            <div class="key-value">开始时间：{{item.endTime}}</div>
+            <div class="key-value">开始时间：{{item.pubTime}}</div>
             <div class="key-value">结束时间：{{item.endTime}}</div>
-            <div class="key-value">结算时间：{{item.pubTime}}</div>
+            <div class="key-value">结算时间：{{item.clearTime}}</div>
           </div>
 
           <div class="part4">
-            <el-button type="primary" size="small">领取审核</el-button>
-            <el-button type="primary" size="small">全部通过</el-button>
+            <!--      上键      -->
+            <!--      审核员      -->
+            <el-button @click="checkBtn(1,item)" v-if="item.btnType*1 == 31" type="primary" size="small">领取审核</el-button>
+            <!--      管理员      -->
+            <el-button v-if="item.btnType*1 == 32" type="info" size="small">领取审核</el-button>
+
+            <!--      审核员      -->
+            <el-button v-if="item.btnType*1 == 21 && username == item.checkCode" type="danger" size="small">{{ item.checkCode }}</el-button>
+            <!--      管理员      -->
+            <el-button v-if="item.btnType*1 == 22" type="danger" size="small">{{ item.checkCode }}</el-button>
+
+            <!--      审核员      -->
+            <el-button v-if="item.btnType*1 == 11" type="info" size="small">已审核</el-button>
+            <!--      管理员      -->
+            <el-button v-if="item.btnType*1 == 12" type="info" size="small">已审核</el-button>
+
+            <!--      下键      -->
+            <!--       领取审核情况下   审核员||管理员  -->
+            <el-button v-if="item.btnType*1 == 31 || item.btnType*1 == 32" type="info" size="small">全部通过</el-button>
+
+            <!--      工号情况下  审核员    -->
+            <el-button @click="checkBtn(2,item)" v-if="item.btnType*1 == 21" type="primary" size="small">全部通过</el-button>
+            <!--      工号情况下  管理员    -->
+            <el-button v-if="item.btnType*1 == 22" type="info" size="small">全部通过</el-button>
+
+            <!--       已审核情况下  审核员||管理员   -->
+            <el-button v-if="item.btnType*1 == 11 || item.btnType*1 == 12" type="info" size="small">全部通过</el-button>
           </div>
         </div>
       </div>
@@ -156,6 +181,9 @@
     watch: {},
     data() {
       return {
+        userType:"",
+        username:"",
+
         num1:"",
         num2:"",
         num3:"",
@@ -203,11 +231,15 @@
     methods: {
       //初始化界面
       init() {
-
+        this.userType = localStorage.getItem("userType")
+        this.userName = localStorage.getItem("name")
       },
 
       //获取数据
-      getData() {
+      getData(type) {
+        if(type=='btn'){
+          this.pageNum = 1
+        }
         let testList = [
           {
             img:require("@/assets/imgs/u107.svg"),
@@ -361,13 +393,121 @@
         this.$axios.get(url).then(res => {
           if(res.data.status == 200 && res.data.message == "成功"){
             this.total = res.data.data.count
-            this.list = res.data.data.resultList
+            let list = res.data.data.resultList
+            let userType = this.userType
+            for(let i=0;i<list.length;i++){
+              if((list[i].taskNum*1 - list[i].taskPassNum*1 - list[i].taskNotPassNum*1) == 0){//已审核 即无需审核
+                list[i].btnType = "1"
+                if(userType*1 == 5){//审核员
+                  list[i].btnType = "11"
+                }else if(userType*1 == 9 || userType*1 == 0){//管理员
+                  list[i].btnType = "12"
+                }
+              }
+              else {//待审核 和 审核中(审核员工号)
+                  if(list[i].checkCode){//有工号就是审核中
+                    list[i].btnType = "2"
+                    if(userType*1 == 5){//审核员
+                      list[i].btnType = "21"
+                    }else if(userType*1 == 9 || userType*1 == 0){//管理员
+                      list[i].btnType = "22"
+                    }
+                  }else {//待审核
+                    list[i].btnType = "3"
+                    if(userType*1 == 5){//审核员
+                      list[i].btnType = "31"
+                    }else if(userType*1 == 9 || userType*1 == 0){//管理员
+                      list[i].btnType = "32"
+                    }
+                  }
+                }
+
+              if(list[i].taskNum*1==0){
+                list[i].zhiXingJinDu = "0%"
+              }else {
+                list[i].zhiXingJinDu = ((list[i].taskPassNum+list[i].taskNotPassNum)/list[i].taskNum*100)+'%'
+              }
+
+              if(list[i].taskNum*1==0){
+                list[i].shenHeJinDu = "0%"
+              }else {
+                list[i].shenHeJinDu = ((list[i].taskPassNum+list[i].taskNotPassNum)/list[i].taskNum*100)+'%'
+              }
+
+              if(list[i].taskPassNum*1+list[i].taskNotPassNum*1 == 0){
+                list[i].heGeLv = "0%"
+              }else {
+                list[i].heGeLv = list[i].taskPassNum/(list[i].taskPassNum+list[i].taskNotPassNum)*100+'%'
+              }
+            }
+            this.list = list
           }else {
             alert(res.data.message)
           }
         }).catch((err)=>{
           console.log(err);
         })
+      },
+
+      //点击按钮
+      checkBtn(type,item) {
+        if(type*1 == 1) {//审核员点击领取审核
+          let url = "/taskorder/taskorder/check/binding?checkCode=" + item.checkCode + "&taskOrderNo=" + item.taskOrderNo
+          this.$axios.post(url).then(res => {
+            if(res.data.status == 200 && res.data.message == "成功"){
+              this.$message({
+                message: '领取成功！',
+                type: 'success'
+              });
+              if(this.list.length>1){
+                this.getData()
+              }else {
+                this.getData('btn')
+              }
+            }else {
+              alert(res.data.message)
+            }
+          }).catch((err)=>{
+            console.log(err);
+          })
+        }else if(type*1 == 2){//审核员点击全部通过
+          let url = "/taskorder/taskorder/check/release?checkCode=" + item.checkCode + "&taskOrderNo=" + item.taskOrderNo
+          this.$axios.post(url).then(res => {
+            if(res.data.status == 200 && res.data.message == "成功"){
+              this.$message({
+                message: '设置成功！',
+                type: 'success'
+              });
+              if(this.list.length>1){
+                this.getData()
+              }else {
+                this.getData('btn')
+              }
+            }else {
+              alert(res.data.message)
+            }
+          }).catch((err)=>{
+            console.log(err);
+          })
+        }
+      },
+
+      //复制链接
+      copy(text,res) {
+        var aux = document.createElement("input");
+        aux.setAttribute("value",text);
+        document.body.appendChild(aux);
+        aux.select();
+        document.execCommand("copy");
+        document.body.removeChild(aux);
+        if (res == null) {
+          this.$message({
+            message: '复制成功',
+            type: 'success'
+          });
+        } else{
+          this.$message.error('复制失败');
+        }
       },
 
       //改变每一页的条数

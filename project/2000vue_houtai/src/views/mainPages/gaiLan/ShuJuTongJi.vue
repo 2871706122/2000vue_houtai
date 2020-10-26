@@ -678,7 +678,7 @@ export default {
             trigger: 'axis',
             backgroundColor:"#fff",
             textStyle:{color:"#000"},
-            formatter: '{b0}: {c0}<br />{b1}: {c1}'
+            //formatter: '{b0}: {c0}<br />{b1}: {c1}'
           },
           grid: {
             left: '3%',
