@@ -51,13 +51,14 @@ export default {
             pageNum: 1,
             pageSize: 5
           })
+          this.$bus.$emit('yw_initSqshData')
         } else if (val === 'second') {
           this.getyjckTableData({
             businessType: 1,
             pageNum: 1,
             pageSize: 5
           })
-          this.$bus.$emit('yw_initData')
+          this.$bus.$emit('yw_initYjckData')
         }
       }
     }

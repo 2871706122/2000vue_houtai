@@ -19,8 +19,7 @@
         <el-date-picker v-model="time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
         </el-date-picker>
         <span style="margin: 0 0 0 10px">
-          <el-button v-show='!inQuery' type="primary" @click="query">查询</el-button>
-          <el-button v-show='inQuery' type="primary" @click="cancelQuery">取消查询</el-button>
+          <el-button type="primary" @click="query">查询</el-button>
         </span>
         <span style="margin: 0 0 0 10px">
           <el-button type='primary' @click='downLoad'>导出</el-button>
@@ -43,8 +42,8 @@
             <p>审核时间: {{ scope.row.passTime }}</p>
           </template>
         </el-table-column>
-        <el-table-column prop="fansCount" sortable label="下级人数"></el-table-column>
-        <el-table-column prop="caAmount" sortable label="本月收益"></el-table-column>
+        <el-table-column prop="fansCount"  sortable="custom" label="下级人数"></el-table-column>
+        <el-table-column prop="caAmount" sortable="custom" label="本月收益"></el-table-column>
       </el-table>
       <div class="c-pagination">
         <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-sizes="[5, 10, 20]" :page-size="pageSize" layout="sizes, prev, pager, next,jumper" :total="total"></el-pagination>
@@ -78,13 +77,6 @@ export default {
       orderBy: '',
       inQuery: false
       // data
-    }
-  },
-  watch: {
-    time: {
-      handler(val) {
-        console.log(val)
-      }
     }
   },
   methods: {
@@ -133,10 +125,8 @@ export default {
     },
     query() {
       this.inQuery = true
-      this.updateTable()
-    },
-    cancelQuery() {
-      this.inQuery = false
+      this.pageNum = 1
+      this.pageSize = 5
       this.updateTable()
     },
     updateTable() {
@@ -164,17 +154,16 @@ export default {
       }
     },
     init() {
-      this.$refs.tz_yjck_table.clearSort()
-      // 
-      this.time = '',
-        this.pageNum = 1,
-        this.pageSize = 5,
-        this.wxNickname = '',
-        this.mobile = '',
-        this.channelCode = '',
-        this.desc = '',
-        this.orderBy = '',
-        this.inQuery = false
+      this.$refs.tz_yjck_table.clearSort();
+      this.time = '';
+      this.pageNum = 1;
+      this.pageSize = 5;
+      this.wxNickname = '';
+      this.mobile = '';
+      this.channelCode = '';
+      this.desc = '';
+      this.orderBy = '';
+      this.inQuery = false
       // 
       this.time = []
       //获取月初和当前的日期
@@ -203,10 +192,10 @@ export default {
   },
   mounted() {
     this.init()
-    this.$bus.$on('tz_initData', this.init)
+    this.$bus.$on('tz_initYjckData', this.init)
   },
   beforeDestroy() {
-    this.$bus.$off('tz_initData')
+    this.$bus.$off('tz_initYjckData')
   }
 }
 </script>
