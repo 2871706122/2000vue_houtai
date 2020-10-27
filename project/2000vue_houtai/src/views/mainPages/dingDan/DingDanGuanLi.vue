@@ -96,7 +96,7 @@
                 <div :style="'width:'+item.zhiXingJinDu" class="line1-jin-du"></div>
               </div>
               <span class="per">{{item.zhiXingJinDu}}</span>
-              <span class="num"><span style="min-width: 56px;text-align:right;display: inline-block">已执行：</span>{{item.taskPassNum+item.taskNotPassNum}}</span>
+              <span class="num"><span style="min-width: 56px;text-align:right;display: inline-block">已执行：</span>{{item.taskCommitNum}}</span>
             </div>
 
             <div class="jin-du">
@@ -133,7 +133,7 @@
             <el-button v-if="item.btnType*1 == 32" type="info" size="small">领取审核</el-button>
 
             <!--      审核员      -->
-            <el-button v-if="item.btnType*1 == 21 && username == item.checkCode" type="danger" size="small">{{ item.checkCode }}</el-button>
+            <el-button v-if="item.btnType*1 == 21" type="danger" size="small">{{ item.checkCode }}</el-button>
             <!--      管理员      -->
             <el-button v-if="item.btnType*1 == 22" type="danger" size="small">{{ item.checkCode }}</el-button>
 
@@ -322,6 +322,9 @@
         ]
 
         let url = "/taskorder/taskorder/status/list?pageNum="+this.pageNum+"&pageSize="+this.pageSize
+        if(this.userType*1 == 5){
+          url += ("&checkCode=" + this.userName)
+        }
         if(this.num1){
           url += ("&runingStatus=" + this.num1)
         }
@@ -396,7 +399,7 @@
             let list = res.data.data.resultList
             let userType = this.userType
             for(let i=0;i<list.length;i++){
-              if((list[i].taskNum*1 - list[i].taskPassNum*1 - list[i].taskNotPassNum*1) == 0){//已审核 即无需审核
+              if((list[i].taskCommitNum*1 - list[i].taskPassNum*1 - list[i].taskNotPassNum*1) == 0){//已审核 即无需审核
                 list[i].btnType = "1"
                 if(userType*1 == 5){//审核员
                   list[i].btnType = "11"
@@ -423,21 +426,21 @@
                 }
 
               if(list[i].taskNum*1==0){
-                list[i].zhiXingJinDu = "0%"
+                list[i].zhiXingJinDu = "0.00%"
               }else {
-                list[i].zhiXingJinDu = ((list[i].taskPassNum+list[i].taskNotPassNum)/list[i].taskNum*100)+'%'
+                list[i].zhiXingJinDu = (list[i].taskCommitNum/list[i].taskNum*100).toFixed(2)+'%'
               }
 
-              if(list[i].taskNum*1==0){
-                list[i].shenHeJinDu = "0%"
+              if(list[i].taskCommitNum*1==0){
+                list[i].shenHeJinDu = "0.00%"
               }else {
-                list[i].shenHeJinDu = ((list[i].taskPassNum+list[i].taskNotPassNum)/list[i].taskNum*100)+'%'
+                list[i].shenHeJinDu = ((list[i].taskPassNum+list[i].taskNotPassNum)/list[i].taskCommitNum*100).toFixed(2)+'%'
               }
 
               if(list[i].taskPassNum*1+list[i].taskNotPassNum*1 == 0){
-                list[i].heGeLv = "0%"
+                list[i].heGeLv = "0.00%"
               }else {
-                list[i].heGeLv = list[i].taskPassNum/(list[i].taskPassNum+list[i].taskNotPassNum)*100+'%'
+                list[i].heGeLv = (list[i].taskPassNum/(list[i].taskPassNum+list[i].taskNotPassNum)*100).toFixed(2)+'%'
               }
             }
             this.list = list
@@ -452,7 +455,7 @@
       //点击按钮
       checkBtn(type,item) {
         if(type*1 == 1) {//审核员点击领取审核
-          let url = "/taskorder/taskorder/check/binding?checkCode=" + item.checkCode + "&taskOrderNo=" + item.taskOrderNo
+          let url = "/taskorder/taskorder/check/binding?checkCode=" + this.userName + "&taskOrderNo=" + item.taskOrderNo
           this.$axios.post(url).then(res => {
             if(res.data.status == 200 && res.data.message == "成功"){
               this.$message({
@@ -471,7 +474,7 @@
             console.log(err);
           })
         }else if(type*1 == 2){//审核员点击全部通过
-          let url = "/taskorder/taskorder/check/release?checkCode=" + item.checkCode + "&taskOrderNo=" + item.taskOrderNo
+          let url = "/task/task/allcheck?checkCode=" + this.userName + "&taskOrderNo=" + item.taskOrderNo
           this.$axios.post(url).then(res => {
             if(res.data.status == 200 && res.data.message == "成功"){
               this.$message({
@@ -676,6 +679,8 @@
             }
 
             .per {
+              display: inline-block;
+              width: 56px;
               margin: 0 15px;
             }
 
