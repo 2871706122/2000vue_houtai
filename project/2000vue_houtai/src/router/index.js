@@ -61,14 +61,22 @@ const routes = [
         path: '/dingDan/dingDanGuanLi',
         name: '订单管理',
         meta:[2,0],
-        component: ()=> import('@/views/mainPages/dingDan/DingDanGuanLi')
+        component: ()=> import('@/views/mainPages/dingDan/DingDanGuanLi'),
+        children: [
+          {
+            path: '/dingDan/dingDanGuanLi/renWuGuanLi',
+            name: '任务管理',
+            meta:[2,0,0],
+            component: ()=> import('@/views/mainPages/dingDan/RenWuGuanLi')
+          },
+        ]
       },
-      {
-        path: '/dingDan/renWuGuanLi',
-        name: '任务管理',
-        meta:[2,1],
-        component: ()=> import('@/views/mainPages/dingDan/RenWuGuanLi')
-      },
+      // {
+      //   path: '/dingDan/renWuGuanLi',
+      //   name: '任务管理',
+      //   meta:[2,1],
+      //   component: ()=> import('@/views/mainPages/dingDan/RenWuGuanLi')
+      // },
 
       //系统
       {

@@ -32,7 +32,7 @@
               <i class="el-icon-location"></i>订单
             </template>
             <el-menu-item index="2-0"><i class="el-icon-location"></i>订单管理</el-menu-item>
-            <el-menu-item index="2-1"><i class="el-icon-location"></i>任务管理</el-menu-item>
+<!--            <el-menu-item index="2-1"><i class="el-icon-location"></i>任务管理</el-menu-item>-->
           </el-submenu>
 
           <el-submenu v-show="userType!=5" index="3">

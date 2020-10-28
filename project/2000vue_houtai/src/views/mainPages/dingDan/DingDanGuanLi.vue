@@ -1,8 +1,8 @@
 <template>
   <!-- 订单管理 -->
   <div class="DingDanGuanLi">
-    <div class="top-title">订单管理</div>
-    <div class="content">
+    <div v-show="page==1" class="top-title">订单管理</div>
+    <div v-show="page==1" class="content">
       <div class="row1">
         <div class="part1">
           <div class="item">
@@ -130,17 +130,17 @@
             <!--      审核员      -->
             <el-button @click="checkBtn(1,item)" v-if="item.btnType*1 == 31" type="primary" size="small">领取审核</el-button>
             <!--      管理员      -->
-            <el-button v-if="item.btnType*1 == 32" type="info" size="small">领取审核</el-button>
+            <el-button v-if="item.btnType*1 == 32" @click="toRenWuGuanLiPage(item)" type="info" size="small">领取审核</el-button>
 
             <!--      审核员      -->
-            <el-button v-if="item.btnType*1 == 21" type="danger" size="small">{{ item.checkCode }}</el-button>
+            <el-button @click="toRenWuGuanLiPage(item)" v-if="item.btnType*1 == 21" type="danger" size="small">{{ item.checkCode }}</el-button>
             <!--      管理员      -->
-            <el-button v-if="item.btnType*1 == 22" type="danger" size="small">{{ item.checkCode }}</el-button>
+            <el-button @click="toRenWuGuanLiPage(item)" v-if="item.btnType*1 == 22" type="danger" size="small">{{ item.checkCode }}</el-button>
 
             <!--      审核员      -->
             <el-button v-if="item.btnType*1 == 11" type="info" size="small">已审核</el-button>
             <!--      管理员      -->
-            <el-button v-if="item.btnType*1 == 12" type="info" size="small">已审核</el-button>
+            <el-button @click="toRenWuGuanLiPage(item)" v-if="item.btnType*1 == 12" type="info" size="small">已审核</el-button>
 
             <!--      下键      -->
             <!--       领取审核情况下   审核员||管理员  -->
@@ -158,7 +158,7 @@
       </div>
     </div>
 
-    <div class="fen-ye-qi-box">
+    <div v-show="page==1" class="fen-ye-qi-box">
       <el-pagination
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
@@ -169,6 +169,8 @@
           :total="total">
       </el-pagination>
     </div>
+
+    <router-view v-show="page==2"/>
   </div>
 </template>
 
@@ -178,9 +180,18 @@
     props: [],
     components: {},
     computed: {},
-    watch: {},
+    watch: {
+      $route: {
+        handler: function(val,oldVal){
+          this.init(val)
+        },
+        deep: true
+      }
+    },
     data() {
       return {
+        page:1,
+
         userType:"",
         username:"",
 
@@ -225,14 +236,24 @@
     created() {
     },
     mounted() {
-      this.init()
+      this.init(this.$route)
       this.getData()
     },
     methods: {
       //初始化界面
-      init() {
+      init(val) {
         this.userType = localStorage.getItem("userType")
         this.userName = localStorage.getItem("name")
+
+        //console.log(val);
+        if(val){
+          if(val.path.indexOf("renWuGuanLi")>0) {//在任务管理下
+            this.page = 2
+          }else {//在订单管理下
+            this.page = 1
+          }
+        }
+        console.log(this.page);
       },
 
       //获取数据
@@ -467,6 +488,8 @@
               }else {
                 this.getData('btn')
               }
+
+              this.$router.push("/dingDan/dingDanGuanLi/renWuGuanLi?taskOrderNo=" + item.taskOrderNo)
             }else {
               alert(res.data.message)
             }
@@ -493,6 +516,11 @@
             console.log(err);
           })
         }
+      },
+
+      //点击上键 管理员（领取审核、工号、已审核）都可以进去，审核员（领取审核、工号）
+      toRenWuGuanLiPage(item) {
+        this.$router.push("/dingDan/dingDanGuanLi/renWuGuanLi?taskOrderNo=" + item.taskOrderNo)
       },
 
       //复制链接
