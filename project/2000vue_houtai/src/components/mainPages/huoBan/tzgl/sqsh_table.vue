@@ -9,7 +9,6 @@
       <el-table-column prop="wxNickname" label="昵称"></el-table-column>
       <el-table-column prop="mobile" label="手机号"></el-table-column>
       <el-table-column prop="channelCode" label="工号"></el-table-column>
-      <el-table-column prop="status" label="状态"></el-table-column>
       <el-table-column label="状态">
         <template slot-scope="scope">
           <span v-if="scope.row.status === 0">初始化</span>
@@ -61,7 +60,8 @@ export default {
       this.$bus.$emit('tz_sqshTableUpdate', {
         businessType: 2,
         pageSize: this.pageSize,
-        pageNum: this.pageNum
+        pageNum: this.pageNum,
+        status: 1
       })
     },
     handleCurrentChange(val) {
@@ -70,7 +70,8 @@ export default {
       this.$bus.$emit('tz_sqshTableUpdate', {
         businessType: 2,
         pageSize: this.pageSize,
-        pageNum: this.pageNum
+        pageNum: this.pageNum,
+        status: 1
       })
     },
     async approval(val) {
@@ -79,6 +80,17 @@ export default {
       console.log(url)
       let res = await this.$axios.post(url)
       console.log(res)
+      if (res.data.code === 200) {
+        this.$message.success('操作成功')
+        this.$bus.$emit('tz_sqshTableUpdate', {
+          businessType: 2,
+          pageSize: this.pageSize,
+          pageNum: this.pageNum,
+          status: 1
+        })
+      } else {
+        this.$message.error('操作失败')
+      }
 
     }
   },

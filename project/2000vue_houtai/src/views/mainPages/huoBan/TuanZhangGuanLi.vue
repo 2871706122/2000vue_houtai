@@ -49,7 +49,8 @@ export default {
           this.getsqshTableData({
             businessType: 2,
             pageNum: 1,
-            pageSize: 5
+            pageSize: 5,
+            status: 1
           })
           this.$bus.$emit('tz_initSqshData')
         } else if (val === 'second') {
@@ -78,9 +79,10 @@ export default {
       let url = '/business/perfor/list?'
       url += getReq(val)
       let res = await this.$axios.post(url)
+            console.log(res)
       this.yjckTableData = res.data.data.resultList
       this.total2 = res.data.data.count
-      console.log(res)
+
     },
   },
   created() {
@@ -88,7 +90,8 @@ export default {
     this.getsqshTableData({
       businessType: 2,
       pageNum: 1,
-      pageSize: 5
+      pageSize: 5,
+      status: 1
     })
   },
   mounted() {

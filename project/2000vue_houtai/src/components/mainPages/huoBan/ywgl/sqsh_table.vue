@@ -60,7 +60,8 @@ export default {
       this.$bus.$emit('yw_sqshTableUpdate', {
         businessType: 1,
         pageSize: this.pageSize,
-        pageNum: this.pageNum
+        pageNum: this.pageNum,
+        status: 1
       })
     },
     handleCurrentChange(val) {
@@ -69,7 +70,8 @@ export default {
       this.$bus.$emit('yw_sqshTableUpdate', {
         businessType: 1,
         pageSize: this.pageSize,
-        pageNum: this.pageNum
+        pageNum: this.pageNum,
+        status: 1
       })
     },
     async approval(val) {
@@ -78,7 +80,17 @@ export default {
       console.log(url)
       let res = await this.$axios.post(url)
       console.log(res)
-
+      if (res.data.code === 200) {
+        this.$message.success('操作成功')
+        this.$bus.$emit('yw_sqshTableUpdate', {
+          businessType: 2,
+          pageSize: this.pageSize,
+          pageNum: this.pageNum,
+          status: 1
+        })
+      } else {
+        this.$message.error('操作失败')
+      }
     }
   },
   mounted() {

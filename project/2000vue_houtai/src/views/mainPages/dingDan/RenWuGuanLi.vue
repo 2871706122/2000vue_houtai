@@ -7,9 +7,9 @@
         <div class="c-rwgl-header-btns">
           <div class="left">
             <span style='margin:0 10px 0 0'>粉丝昵称:</span>
-            <el-input v-model='searchValue_fans' style='width:200px'></el-input>
+            <el-input v-model='nickname' style='width:200px'></el-input>
             <span style='margin:0 10px 0 10px'>粉丝openid:</span>
-            <el-input v-model='searchValue_openid' style='width:200px'></el-input>
+            <el-input v-model='openid' style='width:200px'></el-input>
             <span style='margin:0 0px 0 10px'>
               <el-radio v-model="status" label="">所有</el-radio>
               <el-radio v-model="status" :label="0">合格</el-radio>
@@ -21,35 +21,35 @@
           </div>
           <div class="right">
             <el-button type="primary" @click="focusMode(-1)">聚焦模式</el-button>
-            <el-button type="primary" :disabled="who===0" @click="selectAll" v-show="btnVisible">本页全选</el-button>
-            <el-button type="danger" :disabled="who===0" @click="cancelSelectAll" v-show="!btnVisible">取消全选</el-button>
-            <el-button type="primary" :disabled="selectedListData.length&&who===1?false:true" @click='approval(2,selectedListData)'>审核通过</el-button>
-            <el-button type="primary" :disabled="who===0">释放</el-button>
+            <el-button type="primary" :disabled="userType!==5" @click="selectAll" v-show="btnVisible">本页全选</el-button>
+            <el-button type="danger" :disabled="userType!==5" @click="cancelSelectAll" v-show="!btnVisible">取消全选</el-button>
+            <el-button type="primary" :disabled="selectedListData.length&&userType===5?false:true" @click='approvalList(selectedListData)'>审核通过</el-button>
+            <el-button type="primary" :disabled="userType!==5">释放</el-button>
           </div>
         </div>
-        <ul class="task-ui">
+        <ul class="task-ui" v-if='listData.length'>
           <li class="task-li" v-for="(item, index) in listData" :key="index">
             <div class="task-li-top">
               <!-- 状态为不合格并且身份是审核员 -->
-              <el-checkbox :disabled="item.status===2&&who===1?false:true" @change="(a) => checkboxChange(a, index)" v-model="checkboxValueList[index]"></el-checkbox>
-              <img :src="item.t_img" />
+              <el-checkbox :disabled="item.status!==2&&userType===5?false:true" @change="(a) => checkboxChange(a, index)" v-model="checkboxValueList[index]"></el-checkbox>
+              <img :src="item.headPictureUrl" />
               <div class="task-li-top-right">
                 <p>{{ item.name }}</p>
                 <el-button type="primary" size="small" @click="copy(item.openid)">复制openid</el-button>
               </div>
             </div>
             <div class="task-li-mid">
-              <p>提交：{{ item.time.start }}</p>
-              <p>审核：{{ item.time.end }}</p>
+              <p>提交：{{ item.createTime }}</p>
+              <p>审核：{{ item.updateTime }}</p>
             </div>
             <div class="task-li-btm">
               <el-button-group>
-                <el-button size="small" :disabled="who===0" round @click='approval(2,[item])'>合格</el-button>
-                <el-button size="small" :disabled="who===0" round @click='approval(1,[item])'>不合格</el-button>
+                <el-button size="small" :disabled="userType!==5" round @click='approval(2,item)'>合格</el-button>
+                <el-button size="small" :disabled="userType!==5" round @click='approval(1,item)'>不合格</el-button>
               </el-button-group>
             </div>
-            <div class="task-li-img">
-              <img @click='focusMode(index)' src="../../../assets/imgs/a.jpg" alt />
+            <div @click='focusMode(index)' class="task-li-img">
+              <img :src="item.taskPictureUrl" alt />
             </div>
           </li>
         </ul>
@@ -58,28 +58,30 @@
         </div>
       </div>
     </div>
-    <div class="modalPage" v-show="modalVisible">
+    <div class="modalPage" v-if="modalVisible&&listData.length">
       <img class="close-img" @click='modalVisible=false' src="../../../assets/imgs/close.png" alt="" />
       <div class="c-display">
-        <img class="display-img" src="../../../assets/imgs/a.jpg" alt="" />
+        <img class="display-img" :src="listData[focusModeDisplayIndex].taskPictureUrl" alt="" />
         <div class="info-and-operate">
           <div class="info">
             <div class="info-top">
-              <img src="../../../assets/imgs/a.jpg" alt="" />
+              <img :src="listData[focusModeDisplayIndex].headPictureUrl" alt="" />
               <div class="info-top-right">
                 <p>{{listData[focusModeDisplayIndex].name}}</p>
                 <el-button size="small" @click='copy(listData[focusModeDisplayIndex].openid)'>复制openid</el-button>
               </div>
             </div>
             <div class="info-btm">
-              <p>提交时间：{{listData[focusModeDisplayIndex].time.start}}</p>
-              <p>审核时间：{{listData[focusModeDisplayIndex].time.end}}</p>
-              <p>审核状态：合格/不合格/--</p>
+              <p>提交时间：{{listData[focusModeDisplayIndex].createTime}}</p>
+              <p>审核时间：{{listData[focusModeDisplayIndex].updateTime}}</p>
+              <p v-show='+listData[focusModeDisplayIndex].status===0'>审核状态：待审核</p>
+              <p v-show='+listData[focusModeDisplayIndex].status===1'>审核状态：不合格</p>
+              <p v-show='+listData[focusModeDisplayIndex].status===2'>审核状态：合格</p>
             </div>
           </div>
           <div class="operate">
             <h2>第{{focusModeDisplayIndex+1}}个/本页共{{listData.length}}个</h2>
-            <el-button type="success">本页全合格</el-button>
+            <el-button type="success" @click='approvalList(unqualifiedArr)' :disabled="userType!==5">本页全合格</el-button>
             <div class="operate-btm">
               <div class="operate-btm-left">
                 <div>
@@ -88,13 +90,12 @@
                 </div>
                 <div>
                   <img @click='PageDown' class="wow" src="../../../assets/imgs/arrow.png" alt="" />
-                  <!-- <span class="span2"></span> -->
                   <p @click='PageDown' class="down">Page Down</p>
                 </div>
               </div>
               <div class="operate-btm-right">
-                <el-button :disabled="who===0" v-show='listData[focusModeDisplayIndex].status===2' size="big" type="success">合格</el-button>
-                <el-button :disabled="who===0" v-show='listData[focusModeDisplayIndex].status===1' size="big" type="danger">不合格</el-button>
+                <el-button :disabled="userType!==5" @click='approval(2,listData[focusModeDisplayIndex])' v-show='listData[focusModeDisplayIndex].status!==2' size="big" type="success">合格</el-button>
+                <el-button :disabled="userType!==5" @click='approval(2,listData[focusModeDisplayIndex])' v-show='listData[focusModeDisplayIndex].status!==1' size="big" type="danger">不合格</el-button>
               </div>
             </div>
           </div>
@@ -111,16 +112,16 @@ export default {
   name: "renWuGuanLi",
   data() {
     return {
-      who: 1,  // 0 管理员  1 审核员
+      userType: 5,  // 0,1 管理员  5 审核员
       // 
-      checkCode: 123,
-      taskOrderNo: 456,
+      checkCode: 123, // 审核员的名字 (登录的这个人)
+      taskOrderNo: '', // 订单号
       // 
       inQuery: false,
 
       status: '',
-      searchValue_fans: '',
-      searchValue_openid: '',
+      nickname: '',
+      openid: '',
 
       pageNum: 1,
       pageSize: 5,
@@ -214,6 +215,17 @@ export default {
       modalVisible: false
     }
   },
+  computed: {
+    unqualifiedArr () {
+      let arr = []
+      this.listData.forEach(item=>{
+        if(+item.status!==2) {
+          arr.push(item)
+        }
+      })
+      return arr
+    }
+  },
   methods: {
     closeModal(e) {
       if (e.keyCode === 27) {
@@ -228,8 +240,8 @@ export default {
       this.getListData()
     },
     reset() {
-      this.searchValue_fans = ''
-      this.searchValue_openid = ''
+      this.nickname = ''
+      this.openid = ''
       this.radio = ''
       this.pageNum = 1
       this.pageSize = 5
@@ -240,7 +252,7 @@ export default {
     selectAll() {
       this.selectedListData = []
       this.listData.forEach((item, index) => {
-        if (item.status === 1) {  // 暂时认为审核通过
+        if (item.status === 2) {  // 审核通过
 
         } else {
           this.$set(this.checkboxValueList, index, true)
@@ -248,6 +260,7 @@ export default {
         }
       })
       this.btnVisible = false
+      console.log(this.selectedListData)
     },
     // 取消全选
     cancelSelectAll() {
@@ -257,20 +270,43 @@ export default {
       this.selectedListData = []
       this.btnVisible = true
     },
-    // 审核任务
-    async approval(type, taskArr) {
-      let promiseArr = []
+    async approval(type, item) {
+      let val = {}
+      val.checkCode = this.checkCode
+      val.taskNo = item.taskNo
+      val.type = type
+      let url = '/task/task/check?'
+      url += getReq(val)
+      let res = await this.$axios.post(url)
+      console.log(res)
+      if (res.data.code === 200) {
+        this.$message.success('操作成功')
+        //   更新table数据
+        this.getListData()
+      } else {
+        this.$message.error(res.data.message)
+      }
+    },
+    // 审核任务(多个批量通过)
+    async approvalList(taskArr) {
+      let arr = []
       taskArr.forEach(item => {
-        let val = {}
-        val.checkCode = this.checkCode
-        val.taskNo = item.taskNo
-        val.type = type
-        let url = '/task/task/check?'
-        url += getReq(val)
-        promiseArr.push(this.$axios.post(url))
+        arr.push(item.taskNo)
       })
-      let res = await Promise.all([promiseArr])
-      //   更新table数据
+      let val = {}
+      val.checkCode = this.checkCode
+      val.taskNoStrs = arr.toString()
+      let url = '/task/task/checkList?'
+      url += getReq(val)
+      let res = await this.$axios.post(url)
+      console.log(res)
+      if (res.data.code === 200) {
+        this.$message.success('操作成功')
+        //   更新table数据
+        this.getListData()
+      } else {
+        this.$message.error(res.data.message)
+      }
     },
     // 开启聚焦模式
     focusMode(num) {
@@ -322,17 +358,15 @@ export default {
       let val
       if (this.inQuery) {
         val = {
-          checkCode: this.checkCode,
           taskOrderNo: this.taskOrderNo,
           pageNum: this.pageNum,
           pageSize: this.pageSize,
           status: this.status,
-          searchValue_fans: this.searchValue_fans,
-          searchValue_openid: this.searchValue_openid
+          nickname: this.nickname,
+          openid: this.openid
         }
       } else {
         val = {
-          checkCode: this.checkCode,
           taskOrderNo: this.taskOrderNo,
           pageNum: this.pageNum,
           pageSize: this.pageSize,
@@ -342,12 +376,13 @@ export default {
       url += getReq(val)
       let res = await this.$axios.get(url)
       console.log(res)
-      // this.selectedListData = []
-      // this.listData =
-      // this.checkboxValueList = []
-      // this.listData.forEach(item => {
-      //   this.checkboxValueList.push(false)
-      // })
+      this.total = res.data.data.count
+      this.selectedListData = []
+      this.listData = res.data.data.resultList
+      this.checkboxValueList = []
+      this.listData.forEach(item => {
+        this.checkboxValueList.push(false)
+      })
     },
     copy(value) {
       var currentFocus = document.activeElement;// 保存当前活动节点
@@ -378,11 +413,13 @@ export default {
     }
   },
   async created() {
+    console.log(localStorage.getItem("name"))
+    console.log(this.userType)
+    console.log(this.$route.query.taskOrderNo)
+    this.userType = +localStorage.getItem("userType")
+    this.taskOrderNo = this.$route.query.taskOrderNo
+    this.checkCode = localStorage.getItem("name")
     this.getListData()
-    // 暂时 初始化 checkboxValueList
-    this.listData.forEach(item => {
-      this.checkboxValueList.push(false)
-    })
   },
   mounted() {
     document.addEventListener('keydown', this.closeModal)
@@ -429,11 +466,12 @@ export default {
       .task-ui {
         list-style: none;
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-start;
         flex-wrap: wrap;
         .task-li {
           width: 180px;
           margin-bottom: 40px;
+          padding: 38px;
           .task-li-top {
             display: flex;
             justify-content: space-between;
