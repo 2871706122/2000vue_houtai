@@ -3,14 +3,14 @@
     <header class="yjck-table-header">
       <div class="yjck-header-left">
         <span style='margin: 0 10px 0 0'>姓名:</span>
-        <el-input v-model='wxNickname' style="width: 200px;" placeholder="请输入内容"></el-input>
+        <el-input @change='inputChange' v-model='wxNickname' style="width: 200px;" placeholder="请输入内容"></el-input>
         <span style='margin: 0px 10px 0 16px'>工号:</span>
-        <el-input v-model='channelCode' style="width: 200px;" placeholder="请输入内容"></el-input>
+        <el-input @change='inputChange' v-model='channelCode' style="width: 200px;" placeholder="请输入内容"></el-input>
         <span style='margin: 16px 10px 0 16px'>手机号:</span>
-        <el-input v-model='mobile' style="width: 200px;" placeholder="请输入内容"></el-input>
+        <el-input @change='inputChange' v-model='mobile' style="width: 200px;" placeholder="请输入内容"></el-input>
       </div>
       <div class="yjck-header-right">
-        <span>团长总数：123</span>
+        <span>团长总数：{{total}}</span>
       </div>
     </header>
     <div style="margin: 10px 0 10px 0">
@@ -21,9 +21,9 @@
         <span style="margin: 0 0 0 10px">
           <el-button type="primary" @click="query">查询</el-button>
         </span>
-        <span style="margin: 0 0 0 10px">
+        <!-- <span style="margin: 0 0 0 10px">
           <el-button type='primary' @click='downLoad'>导出</el-button>
-        </span>
+        </span> -->
       </div>
     </div>
     <div class="yjck-table">
@@ -96,6 +96,11 @@ export default {
       console.log(url)
       let res = await this.$axios.get(url)
       console.log(res)
+    },
+    inputChange() {
+      if(!this.wxNickname&&!this.channelCode&&!this.mobile) {
+        this.inQuery = false
+      }
     },
     handleSizeChange(val) {
       console.log(val)
