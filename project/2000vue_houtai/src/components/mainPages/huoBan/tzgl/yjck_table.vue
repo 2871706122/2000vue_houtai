@@ -36,7 +36,7 @@
         <el-table-column prop="wxNickname" label="昵称"></el-table-column>
         <el-table-column prop="mobile" label="手机号"></el-table-column>
         <el-table-column prop="channelCode" label="工号"></el-table-column>
-        <el-table-column label="时间" width="200">
+        <el-table-column label="时间" width="250">
           <template slot-scope="scope">
             <p>注册时间: {{ scope.row.applyTime }}</p>
             <p>审核时间: {{ scope.row.passTime }}</p>
@@ -98,9 +98,9 @@ export default {
       console.log(res)
     },
     inputChange() {
-      if(!this.wxNickname&&!this.channelCode&&!this.mobile) {
-        this.inQuery = false
-      }
+      // if(!this.wxNickname&&!this.channelCode&&!this.mobile) {
+      //   this.inQuery = false
+      // }
     },
     handleSizeChange(val) {
       console.log(val)

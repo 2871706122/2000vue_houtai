@@ -2,21 +2,42 @@
   <div class="yjck-table-content">
     <header class="yjck-table-header">
       <div class="yjck-header-left">
-        <span style='margin: 0 10px 0 0'>姓名:</span>
-        <el-input @change='inputChange' v-model='wxNickname' style="width: 200px;" placeholder="请输入内容"></el-input>
-        <span style='margin: 0px 10px 0 16px'>工号:</span>
-        <el-input @change='inputChange' v-model='channelCode' style="width: 200px;" placeholder="请输入内容"></el-input>
-        <span style='margin: 16px 10px 0 16px'>手机号:</span>
-        <el-input @change='inputChange' v-model='mobile' style="width: 200px;" placeholder="请输入内容"></el-input>
+        <span style="margin: 0 10px 0 0">姓名:</span>
+        <el-input
+          @change="inputChange"
+          v-model="wxNickname"
+          style="width: 200px"
+          placeholder="请输入内容"
+        ></el-input>
+        <span style="margin: 0px 10px 0 16px">工号:</span>
+        <el-input
+          @change="inputChange"
+          v-model="channelCode"
+          style="width: 200px"
+          placeholder="请输入内容"
+        ></el-input>
+        <span style="margin: 16px 10px 0 16px">手机号:</span>
+        <el-input
+          @change="inputChange"
+          v-model="mobile"
+          style="width: 200px"
+          placeholder="请输入内容"
+        ></el-input>
       </div>
       <div class="yjck-header-right">
-        <span>业务员总数：{{total}}</span>
+        <span>业务员总数：{{ total }}</span>
       </div>
     </header>
     <div style="margin: 10px 0 10px 0">
       <div>
         <span>时间段:</span>&nbsp;&nbsp;
-        <el-date-picker v-model="time" type="datetimerange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+        <el-date-picker
+          v-model="time"
+          type="datetimerange"
+          range-separator="至"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        >
         </el-date-picker>
         <span style="margin: 0 0 0 10px">
           <el-button type="primary" @click="query">查询</el-button>
@@ -27,7 +48,12 @@
       </div>
     </div>
     <div class="yjck-table">
-      <el-table ref='yw_yjck_table' @sort-change="sortChange" :data="tableData" style="width: 100%">
+      <el-table
+        ref="yw_yjck_table"
+        @sort-change="sortChange"
+        :data="tableData"
+        style="width: 100%"
+      >
         <el-table-column width="50">
           <template slot-scope="scope">
             <el-avatar :src="scope.row.wxPictureUrl"></el-avatar>
@@ -36,23 +62,58 @@
         <el-table-column prop="wxNickname" label="昵称"></el-table-column>
         <el-table-column label="手机号/工号">
           <template slot-scope="scope">
-            <p>{{scope.row.mobile}}</p>
-            <p>{{scope.row.channelCode}}</p>
+            <p>{{ scope.row.mobile }}</p>
+            <p>{{ scope.row.channelCode }}</p>
           </template>
         </el-table-column>
-        <el-table-column prop="priceName" label="价格表"></el-table-column>
-
-        <el-table-column label="时间" width="200">
+        <el-table-column label="价格表">
           <template slot-scope="scope">
+            <el-select
+              @change="
+                (val) => {
+                  priceChange(val, scope.row.id, scope.$index);
+                }
+              "
+              :value="scope.row.priceName"
+              placeholder="请选择"
+            >
+              <el-option
+                v-for="item in priceList"
+                :key="item.value"
+                :label="item.label"
+                :value="item.label"
+              >
+              </el-option>
+            </el-select>
+          </template>
+        </el-table-column>
+        <el-table-column label="时间" width="250">
+          <template slot-scope="scope" >
             <p>注册时间: {{ scope.row.applyTime }}</p>
             <p>审核时间: {{ scope.row.passTime }}</p>
           </template>
         </el-table-column>
-        <el-table-column sortable="custom" prop="fansCount" label="客户数量"></el-table-column>
-        <el-table-column sortable="custom" prop="caAmount" label="本月收益"></el-table-column>
+        <el-table-column
+          sortable="custom"
+          prop="fansCount"
+          label="客户数量"
+        ></el-table-column>
+        <el-table-column
+          sortable="custom"
+          prop="caAmount"
+          label="本月收益"
+        ></el-table-column>
       </el-table>
       <div class="c-pagination">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-sizes="[5, 10, 20]" :page-size="pageSize" layout="sizes, prev, pager, next,jumper" :total="total"></el-pagination>
+        <el-pagination
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
+          :current-page.sync="pageNum"
+          :page-sizes="[5, 10, 20]"
+          :page-size="pageSize"
+          layout="sizes, prev, pager, next,jumper"
+          :total="total"
+        ></el-pagination>
       </div>
     </div>
   </div>
@@ -81,8 +142,9 @@ export default {
       channelCode: '',
       desc: '',
       orderBy: '',
-      inQuery: false
+      inQuery: false,
       // data
+      priceList: []
     }
   },
   watch: {
@@ -112,9 +174,9 @@ export default {
       console.log(res)
     },
     inputChange() {
-      if(!this.wxNickname&&!this.channelCode&&!this.mobile) {
-        this.inQuery = false
-      }
+      // if (!this.wxNickname && !this.channelCode && !this.mobile) {
+      //   this.inQuery = false
+      // }
     },
     handleSizeChange(val) {
       console.log(val)
@@ -142,6 +204,28 @@ export default {
         this.orderBy = ""
       }
       this.updateTable()
+    },
+    async priceChange(val, id, index) {
+      console.log(val, id, index)
+
+      let url = '/business/price?'
+      let obj = {}
+      obj.id = id
+      this.priceList.forEach(item => {
+        if (item.label === val) {
+          obj.priceType = item.value
+        }
+      })
+      console.log(obj)
+      url += getReq(obj)
+      let res = await this.$axios.post(url)
+      console.log(res)
+      if(res.data.code==200) {
+        this.$message.success('修改成功')
+        this.updateTable()
+      } else {
+        this.$message.danger(res.data.message)
+      }
     },
     query() {
       this.inQuery = true
@@ -211,9 +295,17 @@ export default {
       this.time.push(time2)
     }
   },
-  mounted() {
+  async mounted() {
     this.init()
     this.$bus.$on('yw_initYjckData', this.init)
+    let res = await this.$axios.get('/price/list?pageNum=1&pageSize=1000')
+    console.log(res)
+    res.data.data.resultList.forEach(item => {
+      let obj = {}
+      obj.label = item.priceCategoryName
+      obj.value = item.priceType
+      this.priceList.push(obj)
+    })
   },
   beforeDestroy() {
     this.$bus.$off('yw_initYjckData')
