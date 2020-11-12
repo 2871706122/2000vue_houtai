@@ -136,6 +136,8 @@
             <el-button @click="toRenWuGuanLiPage(item)" v-if="item.btnType*1 == 21" type="danger" size="small">{{ item.checkCode }}</el-button>
             <!--      管理员      -->
             <el-button @click="toRenWuGuanLiPage(item)" v-if="item.btnType*1 == 22" type="danger" size="small">{{ item.checkCode }}</el-button>
+            <!--      审核员 不是自己      -->
+            <el-button v-if="item.btnType*1 == 23" type="info" size="small">{{ item.checkCode }}</el-button>
 
             <!--      审核员      -->
             <el-button v-if="item.btnType*1 == 11" type="info" size="small">已审核</el-button>
@@ -148,8 +150,8 @@
 
             <!--      工号情况下  审核员    -->
             <el-button @click="checkBtn(2,item)" v-if="item.btnType*1 == 21" type="primary" size="small">全部通过</el-button>
-            <!--      工号情况下  管理员    -->
-            <el-button v-if="item.btnType*1 == 22" type="info" size="small">全部通过</el-button>
+            <!--      工号情况下  管理员  或者不是审核员自己的时候   -->
+            <el-button v-if="item.btnType*1 == 22 || item.btnType*1 == 23" type="info" size="small">全部通过</el-button>
 
             <!--       已审核情况下  审核员||管理员   -->
             <el-button v-if="item.btnType*1 == 11 || item.btnType*1 == 12" type="info" size="small">全部通过</el-button>
@@ -432,7 +434,11 @@
                   if(list[i].checkCode){//有工号就是审核中
                     list[i].btnType = "2"
                     if(userType*1 == 5){//审核员
-                      list[i].btnType = "21"
+                      if(this.userName == list[i].checkCode) {//如果是审核员自己那么就可以点击
+                        list[i].btnType = "21"
+                      }else {//不是他自己就置灰
+                        list[i].btnType = "23"
+                      }
                     }else if(userType*1 == 9 || userType*1 == 0){//管理员
                       list[i].btnType = "22"
                     }
