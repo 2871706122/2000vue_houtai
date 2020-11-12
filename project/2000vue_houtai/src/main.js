@@ -5,7 +5,7 @@ import store from './store'
 
 var echarts = require('echarts');
 import axios from 'axios'
-axios.defaults.baseURL = "http://red.zudo.pw:8080/redpoint/"
+axios.defaults.baseURL = "http://red.zudo.pw:8081/redpoint/"
 
 // 首先对拦截器的请求进行设置，并在方法中return config，此处为固定格式
 axios.interceptors.request.use(config => {
