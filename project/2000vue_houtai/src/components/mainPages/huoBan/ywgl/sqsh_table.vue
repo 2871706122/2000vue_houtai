@@ -83,7 +83,7 @@ export default {
       if (res.data.code === 200) {
         this.$message.success('操作成功')
         this.$bus.$emit('yw_sqshTableUpdate', {
-          businessType: 2,
+          businessType: 1,
           pageSize: this.pageSize,
           pageNum: this.pageNum,
           status: 1

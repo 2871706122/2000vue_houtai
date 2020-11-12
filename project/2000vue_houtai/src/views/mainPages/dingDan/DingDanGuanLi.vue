@@ -344,7 +344,7 @@
 
         let url = "/taskorder/taskorder/status/list?pageNum="+this.pageNum+"&pageSize="+this.pageSize
         if(this.userType*1 == 5){
-          url += ("&checkCode=" + this.userName)
+          // url += ("&checkCode=" + this.userName)
         }
         if(this.num1){
           url += ("&runingStatus=" + this.num1)
