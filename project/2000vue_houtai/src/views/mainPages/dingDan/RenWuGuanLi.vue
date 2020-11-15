@@ -1,7 +1,7 @@
 <template>
   <!-- 任务管理 -->
   <div class="ren-wu-guan-li">
-    <header class="rwgl-header">订单管理 \ 任务审核</header>
+    <header class="rwgl-header"><span @click='back'>订单管理</span> \ <span>任务审核</span></header>
     <div class="ul-outer">
       <div class="c-ul">
         <div class="c-rwgl-header-btns">
@@ -24,14 +24,14 @@
             <el-button type="primary" :disabled="userType!==5" @click="selectAll" v-show="btnVisible">本页全选</el-button>
             <el-button type="danger" :disabled="userType!==5" @click="cancelSelectAll" v-show="!btnVisible">取消全选</el-button>
             <el-button type="primary" :disabled="selectedListData.length&&userType===5?false:true" @click='approvalList(selectedListData)'>审核通过</el-button>
-            <el-button type="primary" :disabled="userType!==5">释放</el-button>
+            <el-button type="primary" @click='back' :disabled="userType!==5">释放任务</el-button>
           </div>
         </div>
         <ul class="task-ui" v-if='listData.length'>
           <li class="task-li" v-for="(item, index) in listData" :key="index">
             <div class="task-li-top">
-              <!-- 状态为不合格并且身份是审核员 -->
-              <el-checkbox :disabled="item.status!==2&&userType===5?false:true" @change="(a) => checkboxChange(a, index)" v-model="checkboxValueList[index]"></el-checkbox>
+              <!-- 状态为不合格或者未审核并且身份是审核员 -->
+              <el-checkbox :disabled="[0,1].indexOf(item.status)!==-1&&userType===5?false:true" @change="(a) => checkboxChange(a, index)" v-model="checkboxValueList[index]"></el-checkbox>
               <img :src="item.headPictureUrl" />
               <div class="task-li-top-right">
                 <p>{{ item.name }}</p>
@@ -94,8 +94,8 @@
                 </div>
               </div>
               <div class="operate-btm-right">
-                <el-button :disabled="userType!==5" @click='approval(2,listData[focusModeDisplayIndex])' v-show='listData[focusModeDisplayIndex].status!==2' size="big" type="success">合格</el-button>
-                <el-button :disabled="userType!==5" @click='approval(2,listData[focusModeDisplayIndex])' v-show='listData[focusModeDisplayIndex].status!==1' size="big" type="danger">不合格</el-button>
+                <el-button :disabled="userType!==5" @click='approval(2,listData[focusModeDisplayIndex])' v-show='listData[focusModeDisplayIndex].status===1 || listData[focusModeDisplayIndex].status===0' size="big" type="success">合格</el-button>
+                <el-button class="aaa" :disabled="userType!==5" @click='approval(1,listData[focusModeDisplayIndex])' v-show='listData[focusModeDisplayIndex].status===2 || listData[focusModeDisplayIndex].status===0' size="big" type="danger">不合格</el-button>
               </div>
             </div>
           </div>
@@ -227,6 +227,9 @@ export default {
     }
   },
   methods: {
+    back() {
+      this.$router.go(-1)
+    },
     closeModal(e) {
       if (e.keyCode === 27) {
         this.modalVisible = false
@@ -439,6 +442,9 @@ export default {
     height: 40px;
     line-height: 40px;
     padding-left: 15px;
+    span {
+      cursor: pointer;
+    }
   }
   .ul-outer {
     background-color: rgb(245, 247, 240);
@@ -494,6 +500,7 @@ export default {
             text-align: center;
             p {
               margin-bottom: 10px;
+              text-align: left;
             }
           }
           .task-li-btm {
@@ -600,6 +607,12 @@ export default {
                 top: -22px;
                 left: -5px;
               }
+            }
+            .operate-btm-right {
+                .aaa {
+                  margin-left: 0 !important;
+                  margin-top: 20px;
+                }
             }
           }
         }

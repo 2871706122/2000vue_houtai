@@ -109,7 +109,7 @@
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page.sync="pageNum"
-          :page-sizes="[5, 10, 20]"
+          :page-sizes="[10, 15, 20]"
           :page-size="pageSize"
           layout="sizes, prev, pager, next,jumper"
           :total="total"
@@ -136,7 +136,7 @@ export default {
     return {
       time: '',
       pageNum: 1,
-      pageSize: 5,
+      pageSize: 10,
       wxNickname: '',
       mobile: '',
       channelCode: '',
@@ -230,7 +230,7 @@ export default {
     query() {
       this.inQuery = true
       this.pageNum = 1
-      this.pageSize = 5
+      this.pageSize = 10
       this.updateTable()
     },
     updateTable() {
@@ -262,7 +262,7 @@ export default {
       // 
       this.time = ''
       this.pageNum = 1
-      this.pageSize = 5
+      this.pageSize = 10
       this.wxNickname = ''
       this.mobile = ''
       this.channelCode = ''

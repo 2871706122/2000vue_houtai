@@ -46,7 +46,7 @@
         <el-table-column prop="caAmount" sortable="custom" label="本月收益"></el-table-column>
       </el-table>
       <div class="c-pagination">
-        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-sizes="[5, 10, 20]" :page-size="pageSize" layout="sizes, prev, pager, next,jumper" :total="total"></el-pagination>
+        <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-sizes="[10, 15, 20]" :page-size="pageSize" layout="sizes, prev, pager, next,jumper" :total="total"></el-pagination>
       </div>
     </div>
   </div>
@@ -69,7 +69,7 @@ export default {
     return {
       time: '',
       pageNum: 1,
-      pageSize: 5,
+      pageSize: 10,
       wxNickname: '',
       mobile: '',
       channelCode: '',
@@ -131,7 +131,7 @@ export default {
     query() {
       this.inQuery = true
       this.pageNum = 1
-      this.pageSize = 5
+      this.pageSize = 10
       this.updateTable()
     },
     updateTable() {
@@ -162,7 +162,7 @@ export default {
       this.$refs.tz_yjck_table.clearSort();
       this.time = '';
       this.pageNum = 1;
-      this.pageSize = 5;
+      this.pageSize = 10;
       this.wxNickname = '';
       this.mobile = '';
       this.channelCode = '';

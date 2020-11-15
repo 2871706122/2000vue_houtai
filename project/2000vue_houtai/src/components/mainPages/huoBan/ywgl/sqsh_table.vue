@@ -25,7 +25,7 @@
       </el-table-column>
     </el-table>
     <div class="c-pagination">
-      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-sizes="[5, 10, 20]" :page-size="pageSize" layout="sizes, prev, pager, next,jumper" :total="total"></el-pagination>
+      <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-sizes="[10, 15, 20]" :page-size="pageSize" layout="sizes, prev, pager, next,jumper" :total="total"></el-pagination>
     </div>
   </div>
 </template>
@@ -46,13 +46,13 @@ export default {
   data() {
     return {
       pageNum: 1,
-      pageSize: 5,
+      pageSize: 10,
     }
   },
   methods: {
     init() {
       this.pageNum = 1
-      this.pageSize = 5
+      this.pageSize = 10
     },
     handleSizeChange(val) {
       console.log(val)
