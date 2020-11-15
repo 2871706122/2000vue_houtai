@@ -54,7 +54,7 @@
           </li>
         </ul>
         <div class="c-pagination">
-          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-sizes="[5, 10, 20]" :page-size="pageSize" layout="sizes, prev, pager, next,jumper" :total="total"></el-pagination>
+          <el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="pageNum" :page-sizes="[10, 15, 20]" :page-size="pageSize" layout="sizes, prev, pager, next,jumper" :total="total"></el-pagination>
         </div>
       </div>
     </div>
@@ -124,7 +124,7 @@ export default {
       openid: '',
 
       pageNum: 1,
-      pageSize: 5,
+      pageSize: 10,
       total: 10,
 
       listData: [
@@ -239,7 +239,7 @@ export default {
     search() {
       this.inQuery = true
       this.pageNum = 1
-      this.pageSize = 5
+      this.pageSize = 10
       this.getListData()
     },
     reset() {
@@ -247,7 +247,7 @@ export default {
       this.openid = ''
       this.radio = ''
       this.pageNum = 1
-      this.pageSize = 5
+      this.pageSize = 10
       this.inQuery = false
       this.getListData()
     },
