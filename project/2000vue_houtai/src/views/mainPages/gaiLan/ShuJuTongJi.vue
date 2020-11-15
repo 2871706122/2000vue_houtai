@@ -281,11 +281,11 @@ export default {
           }
           this.renderEcharts(2, list03)
         } else {
-          alert(res.data.message)
+          this.$message.error(res.data.message)
         }
       }).catch((err) => {
         console.log(err);
-        alert("请求失败")
+        this.$message.error("请求失败")
       })
       //粉丝统计
       let url2 = "/stat/fans"
@@ -315,11 +315,11 @@ export default {
           }
           this.renderEcharts(6,list1,list2)
         } else {
-          alert(res.data.message)
+          this.$message.error(res.data.message)
         }
       }).catch((err) => {
         console.log(err);
-        alert("请求失败")
+        this.$message.error("请求失败")
       })
 
       //昨日任务统计
@@ -350,11 +350,11 @@ export default {
           // }
           // this.renderEcharts(6,list1,list2)
         } else {
-          alert(res.data.message)
+          this.$message.error(res.data.message)
         }
       }).catch((err) => {
         console.log(err);
-        alert("请求失败")
+        this.$message.error("请求失败")
       })
 
       //订单统计
@@ -393,11 +393,11 @@ export default {
           //console.log(list3);
           this.renderEcharts(7, list3)
         } else {
-          alert(res.data.message)
+          this.$message.error(res.data.message)
         }
       }).catch((err) => {
         console.log(err);
-        alert("请求失败")
+        this.$message.error("请求失败")
       })
     },
 

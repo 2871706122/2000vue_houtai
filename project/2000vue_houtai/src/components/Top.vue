@@ -2,7 +2,7 @@
   <div class="top">
     <div class="left">
       <div class="part1">
-        <img class="logo" src="" alt="">
+        <img class="logo" src="@/assets/imgs/logo.png" alt="">
         <span class="my-title">后台管理系统</span>
       </div>
 
@@ -124,7 +124,7 @@
         }
 
         .my-title {
-          margin-left: 15px;
+          margin-left: 10px;
           font-size: 18px;
           font-weight: bold;
         }

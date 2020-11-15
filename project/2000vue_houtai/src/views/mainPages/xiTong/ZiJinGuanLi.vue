@@ -43,7 +43,7 @@
                 label="操作">
               <template slot-scope="scope">
                 <el-popconfirm
-                    title="确定删除？"
+                    title="确定发放？"
                     @onConfirm="faFang(scope.$index, scope.row)"
                 >
                   <span v-if="scope.row.status==0" class="table-btn table-btn1" slot="reference">发放</span>
