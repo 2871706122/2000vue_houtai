@@ -5,7 +5,7 @@ import store from './store'
 
 var echarts = require('echarts');
 import axios from 'axios'
-axios.defaults.baseURL = "http://red.zudo.pw:8081/redpoint/"
+axios.defaults.baseURL = "http://172.27.0.3:8081/redpoint/"
 
 
 Vue.prototype.$axios = axios

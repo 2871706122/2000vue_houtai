@@ -84,9 +84,9 @@
         <div class="li3">
           <div class="part1">
             <div class="key-value">订单数量：{{item.taskNum}}</div>
-            <div class="key-value">订单金额：{{item.price}}</div>
-            <div class="key-value">订单消耗：{{item.usedFund}}</div>
-            <div class="key-value">预扣退回：{{item.repayFund}}</div>
+            <div class="key-value">订单金额：{{item.price/100*item.taskNum}}</div>
+            <div class="key-value">订单消耗：{{item.usedFund/100}}</div>
+            <div class="key-value">预扣退回：{{item.repayFund/100}}</div>
           </div>
 
           <div class="part2">
