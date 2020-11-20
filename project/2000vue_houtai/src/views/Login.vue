@@ -7,7 +7,7 @@
     <div class="content">
       <div class="row1">账号密码登录</div>
 
-      <el-input v-model="phone" placeholder="请输入手机号"></el-input>
+      <el-input v-model="phone" placeholder="请输入工号"></el-input>
       <el-input v-model="pwd" type="password" placeholder="请输入密码"></el-input>
 
       <el-button @click="login" type="primary">登录</el-button>
