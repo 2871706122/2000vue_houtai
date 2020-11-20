@@ -8,7 +8,7 @@
       <div class="row1">账号密码登录</div>
 
       <el-input v-model="phone" placeholder="请输入手机号"></el-input>
-      <el-input v-model="pwd" placeholder="请输入密码"></el-input>
+      <el-input v-model="pwd" type="password" placeholder="请输入密码"></el-input>
 
       <el-button @click="login" type="primary">登录</el-button>
     </div>
@@ -20,8 +20,8 @@
     name: "Login",
     data() {
       return {
-        phone: "techServer",//账号 admin   123456   type=0 / techServer  qwe123!@#   type=9 /  SH0001   123456  type=5
-        pwd: "qwe123!@#",//密码
+        phone: "",//账号 admin   123456   type=0 / techServer  qwe123!@#   type=9 /  SH0001   123456  type=5
+        pwd: "",//密码
       }
     },
     mounted() {
