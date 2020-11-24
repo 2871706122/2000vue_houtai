@@ -36,7 +36,7 @@ axios.interceptors.response.use(function (response) {
   //console.log(response);
   if(response.data.message.indexOf("Token无效") >= 0){
     if(window.location.href.indexOf("login") < 0){//不在登录界面
-      Message.error(response.data.message)
+      //Message.error(response.data.message)
       router.push("/login")
     }
   }

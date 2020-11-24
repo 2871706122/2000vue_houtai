@@ -223,6 +223,10 @@
           if(res.data.status == 200 && res.data.message == "成功"){
             this.total = res.data.data.count
             this.tableData = res.data.data.resultList
+            for(let i=0;i<this.tableData.length;i++) {
+              this.tableData[i].caAmount = this.tableData[i].caAmount/100
+            }
+
           }else {
             alert(res.data.message)
           }

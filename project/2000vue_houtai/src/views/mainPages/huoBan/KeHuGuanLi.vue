@@ -54,10 +54,16 @@
             :data="tableData"
             style="width: 100%">
           <el-table-column
-              prop="nickname"
               label="昵称"
           >
+            <template slot-scope="scope">
+              <div style="display: flex;align-items: center;">
+                <img :src="scope.row.wxPictureUrl" alt="" style="display: inline-block;width: 30px;height: 30px;margin-right: 20px;">
+                <span>{{scope.row.wechat}}</span>
+              </div>
+            </template>
           </el-table-column>
+
           <el-table-column
               prop="createTime"
               label="注册时间">
@@ -72,10 +78,22 @@
               prop="transacterCode"
               label="业务员">
           </el-table-column>
+<!--          <el-table-column-->
+<!--              label="累计充值">-->
+<!--            <template slot-scope="scope">-->
+<!--              <span>{{scope.row.rechargeAmount/100}}</span>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
           <el-table-column
               prop="rechargeAmount"
               label="累计充值">
           </el-table-column>
+<!--          <el-table-column-->
+<!--              label="累计消耗">-->
+<!--            <template slot-scope="scope">-->
+<!--              <span>{{scope.row.consumeAmount/100}}</span>-->
+<!--            </template>-->
+<!--          </el-table-column>-->
           <el-table-column
               prop="consumeAmount"
               label="累计消耗">
@@ -171,6 +189,10 @@ export default {
         if(res.data.status == 200 && res.data.message == "成功"){
           this.total = res.data.data.count
           this.tableData = res.data.data.resultList
+          for(let i=0;i<this.tableData.length;i++) {
+            this.tableData[i].rechargeAmount = this.tableData[i].rechargeAmount/100
+            this.tableData[i].consumeAmount = this.tableData[i].consumeAmount/100
+          }
         }else {
           alert(res.data.message)
         }

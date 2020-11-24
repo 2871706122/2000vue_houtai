@@ -382,8 +382,18 @@ export default {
           if (res.data.status == 200 && res.data.message == "成功") {
             this.total = res.data.data.count
             this.tableData = res.data.data.resultList
+            for(let i=0;i<this.tableData.length;i++) {
+              this.tableData[i].rechargeAmount = this.tableData[i].rechargeAmount/100
+              this.tableData[i].consumeAmount = this.tableData[i].consumeAmount/100
+
+              this.tableData[i].perparePay = this.tableData[i].perparePay/100
+              this.tableData[i].payAlready = this.tableData[i].payAlready/100
+
+              this.tableData[i].balance = this.tableData[i].balance/100
+            }
           } else {
-            alert(res.data.message)
+            this.$message.error(res.data.message)
+            //alert(res.data.message)
           }
         }).catch((err) => {
           console.log(err);
@@ -417,8 +427,11 @@ export default {
           if (res.data.status == 200 && res.data.message == "成功") {
             this.total = res.data.data.count
             this.tableData = res.data.data.resultList
+            for(let i=0;i<this.tableData.length;i++) {
+              this.tableData[i].amount = this.tableData[i].amount/100
+            }
           } else {
-            alert(res.data.message)
+            this.$message.error(res.data.message)
           }
         }).catch((err) => {
           console.log(err);
@@ -447,8 +460,11 @@ export default {
           if (res.data.status == 200 && res.data.message == "成功") {
             this.total = res.data.data.count
             this.tableData = res.data.data.resultList
+            for(let i=0;i<this.tableData.length;i++) {
+              this.tableData[i].amount = this.tableData[i].amount/100
+            }
           } else {
-            alert(res.data.message)
+            this.$message.error(res.data.message)
           }
         }).catch((err) => {
           console.log(err);
