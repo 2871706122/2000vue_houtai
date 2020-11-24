@@ -6,10 +6,10 @@
       <div class="c-table">
         <el-tabs v-model="activeName">
           <el-tab-pane label="申请审核" name="first">
-            <SqshTable :tableData="sqshTableData" :total='total1'/>
+            <SqshTable :tableData="sqshTableData" :total="total1" />
           </el-tab-pane>
           <el-tab-pane label="业绩查看" name="second">
-            <YjckTale :tableData="yjckTableData" :total='total2'/>
+            <YjckTale :tableData="yjckTableData" :total="total2" />
           </el-tab-pane>
         </el-tabs>
       </div>
@@ -74,12 +74,15 @@ export default {
       this.sqshTableData = res.data.data.resultList
       this.total1 = res.data.data.count
     },
-  async  getyjckTableData(val) {
+    async getyjckTableData(val) {
       console.log('>>>>', val)
       let url = '/business/perfor/list?'
       url += getReq(val)
       let res = await this.$axios.post(url)
-            console.log(res)
+      console.log(res)
+      res.data.data.resultList.map(item => {
+        return item.caAmount = +item.caAmount / 100
+      })
       this.yjckTableData = res.data.data.resultList
       this.total2 = res.data.data.count
 
