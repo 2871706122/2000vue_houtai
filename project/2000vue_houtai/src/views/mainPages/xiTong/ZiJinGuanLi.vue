@@ -220,23 +220,23 @@
               :data="tableData"
               style="width: 100%">
             <el-table-column
-                prop="name2"
+                prop="nickname"
                 label="昵称">
             </el-table-column>
             <el-table-column
-                prop="name2"
+                prop="userOpenid"
                 label="openid">
             </el-table-column>
             <el-table-column
-                prop="address"
+                prop="amount"
                 label="金额">
             </el-table-column>
             <el-table-column
-                prop="address2"
+                prop="type"
                 label="身份">
             </el-table-column>
             <el-table-column
-                prop="address6"
+                prop="createTime"
                 label="发放时间">
             </el-table-column>
             <el-table-column
@@ -399,7 +399,8 @@ export default {
           console.log(err);
           alert("请求失败")
         })
-      } else if (index == 1) {
+      }
+      else if (index == 1) {
         let url = "/trade/list?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize
         if (this.num1) {
           url += ("&nickname=" + this.num1)
@@ -437,7 +438,8 @@ export default {
           console.log(err);
           alert("请求失败")
         })
-      } else if (index == 2) {
+      }
+      else if (index == 2) {
         let url = "/repay/list?pageNum=" + this.pageNum + "&pageSize=" + this.pageSize
         if (this.num1) {
           url += ("&nickname=" + this.num1)
@@ -462,6 +464,16 @@ export default {
             this.tableData = res.data.data.resultList
             for(let i=0;i<this.tableData.length;i++) {
               this.tableData[i].amount = this.tableData[i].amount/100
+
+              if(this.tableData[i].type*1 == 1){//1系统用户，2业务员，3粉丝，4团长
+                this.tableData[i].type = "系统用户"
+              }else if(this.tableData[i].type*1 == 2){
+                this.tableData[i].type = "业务员"
+              }else if(this.tableData[i].type*1 == 3){
+                this.tableData[i].type = "粉丝"
+              }else if(this.tableData[i].type*1 == 4){
+                this.tableData[i].type = "团长"
+              }
             }
           } else {
             this.$message.error(res.data.message)
