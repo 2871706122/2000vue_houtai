@@ -79,7 +79,10 @@ export default {
       let url = '/business/perfor/list?'
       url += getReq(val)
       let res = await this.$axios.post(url)
-            console.log(res)
+      console.log(res)
+      res.data.data.resultList.map(item => {
+        return item.caAmount = +item.caAmount / 100
+      })
       this.yjckTableData = res.data.data.resultList
       this.total2 = res.data.data.count
     },
