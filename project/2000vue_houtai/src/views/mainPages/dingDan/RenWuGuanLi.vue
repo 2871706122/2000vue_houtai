@@ -12,9 +12,9 @@
             <el-input v-model='openid' style='width:200px'></el-input>
             <span style='margin:0 0px 0 10px'>
               <el-radio v-model="status" label="">所有</el-radio>
-              <el-radio v-model="status" :label="0">合格</el-radio>
+              <el-radio v-model="status" :label="'0'">未审核</el-radio>
               <el-radio v-model="status" :label="1">不合格</el-radio>
-              <el-radio v-model="status" :label="2">未审核</el-radio>
+              <el-radio v-model="status" :label="2">合格</el-radio>
             </span>
             <el-button type="primary" style="margin: 0px 0 0 40px" @click="search">查询</el-button>
             <el-button @click="reset">重置</el-button>
@@ -34,7 +34,7 @@
               <el-checkbox :disabled="[0,1].indexOf(item.status)!==-1&&userType===5?false:true" @change="(a) => checkboxChange(a, index)" v-model="checkboxValueList[index]"></el-checkbox>
               <img :src="item.headPictureUrl" />
               <div class="task-li-top-right">
-                <p>{{ item.name }}</p>
+                <p style='margin:0 0 6px 0'>{{ item.nickname }}</p>
                 <el-button type="primary" size="small" @click="copy(item.openid)">复制openid</el-button>
               </div>
             </div>
@@ -44,8 +44,8 @@
             </div>
             <div class="task-li-btm">
               <el-button-group>
-                <el-button size="small" :disabled="userType!==5" round @click='approval(2,item)'>合格</el-button>
-                <el-button size="small" :disabled="userType!==5" round @click='approval(1,item)'>不合格</el-button>
+                <el-button size="small" :class="item.status===2?'active':''" :disabled="userType!==5" round @click='approval(2,item)'>合格</el-button>
+                <el-button size="small" :class="item.status===1?'active':''" :disabled="userType!==5" round @click='approval(1,item)'>不合格</el-button>
               </el-button-group>
             </div>
             <div @click='focusMode(index)' class="task-li-img">
@@ -216,10 +216,10 @@ export default {
     }
   },
   computed: {
-    unqualifiedArr () {
+    unqualifiedArr() {
       let arr = []
-      this.listData.forEach(item=>{
-        if(+item.status!==2) {
+      this.listData.forEach(item => {
+        if (+item.status !== 2) {
           arr.push(item)
         }
       })
@@ -435,6 +435,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.active {
+  color: #fff;
+  border-color: #c6e2ff;
+  background-color: #409EFF;
+}
 .ren-wu-guan-li {
   height: 100%;
   position: relative;
@@ -609,10 +614,10 @@ export default {
               }
             }
             .operate-btm-right {
-                .aaa {
-                  margin-left: 0 !important;
-                  margin-top: 20px;
-                }
+              .aaa {
+                margin-left: 0 !important;
+                margin-top: 20px;
+              }
             }
           }
         }
