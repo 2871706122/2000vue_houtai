@@ -66,7 +66,7 @@
             <span>{{item.wxNickname}}</span>
           </div>
           <div class="part2">{{item.merchantMobile + "/" + item.merchantCode}}</div>
-          <div class="part3">业务员：{{item.yeWuYuan}}</div>
+          <div class="part3">业务员：{{item.channelCode}}</div>
           <div class="part4">业务员手机号：{{item.businessMobile}}</div>
           <div class="part5">订单编号：{{item.taskOrderNo}}</div>
         </div>
@@ -78,7 +78,7 @@
           </div>
 
           <div class="part2">{{item.taskName}}</div>
-          <div class="part3"><span class="copy-text" @click="copy(item.taskName)">复制链接</span></div>
+          <div class="part3"><span class="copy-text" @click="copy(item.orderUrl)">复制链接</span></div>
         </div>
 
         <div class="li3">
@@ -233,6 +233,10 @@
         pageNum: 1,
         pageSize:10,
         total:0,
+
+        taoBaoImg:require("@/assets/imgs/fs015@2x.png"),
+        kuaiShouImg:require("@/assets/imgs/fs016@2x.png"),
+        douYinImg:require("@/assets/imgs/fs014@2x.png"),
       }
     },
     created() {
@@ -468,6 +472,14 @@
                 list[i].heGeLv = "0.00%"
               }else {
                 list[i].heGeLv = (list[i].taskPassNum/(list[i].taskPassNum+list[i].taskNotPassNum)*100).toFixed(2)+'%'
+              }
+
+              if(list[i].platformName == "淘宝"){
+                list[i].img = this.taoBaoImg
+              }else if(list[i].platformName == "抖音"){
+                list[i].img = this.douYinImg
+              }else if(list[i].platformName == "快手"){
+                list[i].img = this.kuaiShouImg
               }
             }
             this.list = list
