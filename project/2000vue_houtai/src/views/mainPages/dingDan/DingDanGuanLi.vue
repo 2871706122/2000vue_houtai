@@ -186,6 +186,7 @@
       $route: {
         handler: function(val,oldVal){
           this.init(val)
+          this.getData()
         },
         deep: true
       }
@@ -580,9 +581,10 @@
 
 <style scoped lang="scss">
 .DingDanGuanLi {
-  height: 100%;
+  min-height: 100%;
   display: flex;
   flex-direction: column;
+  padding-bottom: 30px;
 
   .top-title {
     padding-left: 20px;
@@ -592,7 +594,7 @@
 
   .content {
     flex: 1;
-    padding: 30px 15px 30px 30px;
+    padding: 30px 15px 0px 30px;
     box-sizing: border-box;
     border: 5px solid rgb(245, 247, 250);
 

@@ -47,7 +47,9 @@
         </el-menu>
       </div>
       <div class="right">
-        <router-view/>
+        <div class="right-content">
+          <router-view/>
+        </div>
       </div>
     </div>
   </div>
@@ -187,6 +189,13 @@ export default {
 
       .right {
         flex: 1;
+        height: 100%;
+        overflow: hidden;
+
+        .right-content {
+          height: 100%;
+          overflow: auto;
+        }
       }
     }
   }

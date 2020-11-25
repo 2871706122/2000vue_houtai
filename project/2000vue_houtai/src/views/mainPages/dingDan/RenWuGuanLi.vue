@@ -1,7 +1,7 @@
 <template>
   <!-- 任务管理 -->
   <div class="ren-wu-guan-li">
-    <header class="rwgl-header"><span @click='back'>订单管理</span> \ <span>任务审核</span></header>
+    <header class="rwgl-header"><span @click='back' style="color:#409EFF">订单管理</span> \ <span>任务审核</span></header>
     <div class="ul-outer">
       <div class="c-ul">
         <div class="c-rwgl-header-btns">
@@ -44,8 +44,8 @@
             </div>
             <div class="task-li-btm">
               <el-button-group>
-                <el-button size="small" :class="item.status===2?'active':''" :disabled="userType!==5" round @click='approval(2,item)'>合格</el-button>
-                <el-button size="small" :class="item.status===1?'active':''" :disabled="userType!==5" round @click='approval(1,item)'>不合格</el-button>
+                <el-button size="small" :class="[item.status===2?'active':'','left-btn']" :disabled="userType!==5" round @click='approval(2,item)'>合格</el-button>
+                <el-button size="small" :class="[item.status===1?'active':'']" :disabled="userType!==5" round @click='approval(1,item)'>不合格</el-button>
               </el-button-group>
             </div>
             <div @click='focusMode(index)' class="task-li-img">
@@ -625,4 +625,9 @@ export default {
     }
   }
 }
+
+  /deep/ .left-btn {
+    width: 68px;
+    text-align: center;
+  }
 </style>
