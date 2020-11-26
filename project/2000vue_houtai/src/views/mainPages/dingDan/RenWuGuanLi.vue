@@ -34,7 +34,7 @@
               <el-checkbox :disabled="[0,1].indexOf(item.status)!==-1&&userType===5?false:true" @change="(a) => checkboxChange(a, index)" v-model="checkboxValueList[index]"></el-checkbox>
               <img :src="item.headPictureUrl" />
               <div class="task-li-top-right">
-                <p style='margin:0 0 6px 0'>{{ item.nickname }}</p>
+                <p style='margin:0 0 6px 0;text-align: left'>{{ item.nickname }}</p>
                 <el-button type="primary" size="small" @click="copy(item.openid)">复制openid</el-button>
               </div>
             </div>
@@ -518,8 +518,8 @@ export default {
             background-color: #f2f2f2;
             text-align: center;
             img {
-              height: 100%;
-              width: 96px;
+              max-height: 100%;
+              width: 100%;
             }
           }
         }
