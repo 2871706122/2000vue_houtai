@@ -485,7 +485,7 @@
             }
             this.list = list
           }else {
-            alert(res.data.message)
+            console.log(res.data.message)
           }
         }).catch((err)=>{
           console.log(err);
@@ -510,7 +510,7 @@
 
               this.$router.push("/dingDan/dingDanGuanLi/renWuGuanLi?taskOrderNo=" + item.taskOrderNo)
             }else {
-              alert(res.data.message)
+              console.log(res.data.message)
             }
           }).catch((err)=>{
             console.log(err);
@@ -529,7 +529,7 @@
                 this.getData('btn')
               }
             }else {
-              alert(res.data.message)
+              console.log(res.data.message)
             }
           }).catch((err)=>{
             console.log(err);

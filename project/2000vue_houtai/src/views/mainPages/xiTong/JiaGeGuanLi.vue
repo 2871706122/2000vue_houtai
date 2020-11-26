@@ -388,7 +388,7 @@ export default {
               });
               this.getData()
             } else {
-              alert(res.data.message)
+              console.log(res.data.message)
             }
           }).catch((err) => {
             console.log(err);
@@ -426,7 +426,7 @@ export default {
               });
               this.getData()
             } else {
-              alert(res.data.message)
+              console.log(res.data.message)
             }
           }).catch((err) => {
             console.log(err);
@@ -465,7 +465,7 @@ export default {
           this.num16 = data.remark
           this.dialogFormVisible = true
         } else {
-          alert(res.data.message)
+          console.log(res.data.message)
         }
       }).catch((err) => {
         console.log(err);
@@ -529,7 +529,7 @@ export default {
           this.total = res.data.data.count
           this.tableData = res.data.data.resultList
         } else {
-          alert(res.data.message)
+          console.log(res.data.message)
         }
       }).catch((err) => {
         console.log(err);
@@ -553,7 +553,7 @@ export default {
           });
           this.getData()
         } else {
-          alert(res.data.message)
+          console.log(res.data.message)
         }
       }).catch((err) => {
         console.log(err);

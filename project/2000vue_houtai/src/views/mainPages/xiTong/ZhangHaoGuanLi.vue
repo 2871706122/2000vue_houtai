@@ -158,7 +158,7 @@ export default {
           this.total = res.data.data.count
           this.tableData = res.data.data.resultList
         } else {
-          alert(res.data.message)
+          console.log(res.data.message)
         }
       }).catch((err) => {
         console.log(err);
@@ -177,7 +177,7 @@ export default {
           });
           this.getData()
         } else {
-          alert(res.data.message)
+          console.log(res.data.message)
         }
       }).catch((err) => {
         console.log(err);
@@ -203,7 +203,7 @@ export default {
             this.dialogFormVisible = false
             this.getData()
           } else {
-            alert(res.data.message)
+            console.log(res.data.message)
           }
         }).catch((err) => {
           console.log(err);
@@ -220,7 +220,7 @@ export default {
             this.dialogFormVisible = false
             this.getData()
           } else {
-            alert(res.data.message)
+            console.log(res.data.message)
           }
         }).catch((err) => {
           console.log(err);
