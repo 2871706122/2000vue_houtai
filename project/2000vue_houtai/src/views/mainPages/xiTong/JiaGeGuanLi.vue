@@ -168,7 +168,7 @@
         </div>
 
         <div class="item item2">
-          <span class="key">点赞：</span>
+          <span class="key">完播+点赞：</span>
           <div class="input-box">
             <el-input
                 class="number-input"
@@ -251,7 +251,7 @@
         </div>
 
         <div class="item item2">
-          <span class="key">点赞：</span>
+          <span class="key">完播+点赞：</span>
           <div class="input-box">
             <el-input
                 class="number-input"
