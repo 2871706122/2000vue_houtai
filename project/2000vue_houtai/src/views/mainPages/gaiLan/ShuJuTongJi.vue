@@ -171,27 +171,27 @@ export default {
       days: [],
       days2:[],
 
-      num1: "30,200",
-      num2: "30,200",
-      num3: "30,200",
-      num4: "30,200",
-      num5: "30,200",
-      num6: "30,200",
-      num7: "30,200",
-      num8: "30,200",
-      num9: "30,200",
+      num1: "0",
+      num2: "0",
+      num3: "0",
+      num4: "0",
+      num5: "0",
+      num6: "0",
+      num7: "0",
+      num8: "0",
+      num9: "0",
 
-      per1: "5%",
-      per2: "5%",
-      per3: "5%",
-      per4: "5%",
-      per5: "5%",
-      per6: "5%",
-      per7: "5%",
-      per8: "5%",
-      per9: "5%",
+      per1: "0%",
+      per2: "0%",
+      per3: "0%",
+      per4: "0%",
+      per5: "0%",
+      per6: "0%",
+      per7: "0%",
+      per8: "0%",
+      per9: "0%",
 
-      huoYueFenSi: "阿木"
+      huoYueFenSi: "无"
     }
   },
   created() {
@@ -236,7 +236,8 @@ export default {
       //今日的
       let url = "/stat/amount"
       this.$axios.get(url).then(res => {
-        //console.log(res);
+        console.log(this);
+        console.log(res);
         if (res.data.status == 200 && res.data.message == "成功") {
           this.num1 = res.data.data.recharge.today
           this.per1 = res.data.data.recharge.percent
@@ -287,6 +288,7 @@ export default {
         console.log(err);
         this.$message.error("请求失败")
       })
+
       //粉丝统计
       let url2 = "/stat/fans"
       this.$axios.get(url2).then(res => {
@@ -327,6 +329,65 @@ export default {
       this.$axios.get(url3).then(res => {
         console.log(res);
         if (res.data.status == 200 && res.data.message == "成功") {
+          let checkCount = res.data.data.checkCount //yesterday
+          let commitCount = res.data.data.commitCount
+          let passCount = res.data.data.passCount
+
+          {
+            this.num4 = checkCount.yesterday
+            this.per4 = checkCount.percent
+            let list = checkCount.list
+            let days = this.days
+            let list1 = []
+            for(let i=0;i<days.length;i++){
+              for(let j=0;j<list.length;j++){
+                if(days[i] == list[j].dayTime){
+                  list1.push(list[j].count)
+                  break
+                }
+              }
+            }
+            //console.log(list1);
+            this.renderEcharts(3, list1)
+          }
+
+          {
+            this.num5 = commitCount.yesterday
+            this.per5 = commitCount.percent
+            let list = commitCount.list
+            let days = this.days
+            let list1 = []
+            for(let i=0;i<days.length;i++){
+              for(let j=0;j<list.length;j++){
+                if(days[i] == list[j].dayTime){
+                  list1.push(list[j].count)
+                  break
+                }
+              }
+            }
+            //console.log(list1);
+            this.renderEcharts(4, list1)
+          }
+
+          {
+            this.num6 = passCount.yesterday
+            this.per6 = passCount.percent
+            let list = passCount.list
+            let days = this.days
+            let list1 = []
+            for(let i=0;i<days.length;i++){
+              for(let j=0;j<list.length;j++){
+                if(days[i] == list[j].dayTime){
+                  list1.push(list[j].count)
+                  break
+                }
+              }
+            }
+            //console.log(list1);
+            this.renderEcharts(5, list1)
+          }
+
+
           // this.num1 = res.data.data.充值.today
           // let aliveFsCount = res.data.data.aliveFsCount
           // let allFsCount = res.data.data.allFsCount
@@ -360,10 +421,10 @@ export default {
       //订单统计
       let url4 = "/stat/taskOrder"
       this.$axios.get(url4).then(res => {
-        //console.log(res);
+        console.log(res);
         if (res.data.status == 200 && res.data.message == "成功") {
-          this.num1 = res.data.data.taskNum.today
-          this.per1 = res.data.data.taskNum.percent
+          this.num9 = res.data.data.taskNum.yesterday
+          this.per9 = res.data.data.taskNum.percent
           let list = res.data.data.taskNum.list
           let days = this.days
           let list1 = []
@@ -378,8 +439,8 @@ export default {
           //console.log(list1);
           this.renderEcharts(8, list1)
 
-          this.num2 = res.data.data.taskOrderNum.today
-          this.per2 = res.data.data.taskOrderNum.percent
+          this.num8 = res.data.data.taskOrderNum.yesterday
+          this.per8 = res.data.data.taskOrderNum.percent
           let list2 = res.data.data.taskOrderNum.list
           let list3 = []
           for(let i=0;i<days.length;i++){
